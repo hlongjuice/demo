@@ -1,0 +1,32 @@
+
+<ion-header>
+  <ion-navbar>
+    <button ion-button start menuToggle>
+        <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>production</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <ion-grid>
+    <ion-row>
+      <!--Result-->
+      <ion-col col-6>
+        <button icon-left ion-button block (click)="getResult()">
+          <ion-icon name="home"></ion-icon>
+          สรุปผลการทำงาน
+        </button>
+      </ion-col>
+      <!--Add-->
+      <ion-col col-6>
+        <button icon-left ion-button block (click)="setDate()" >
+          <ion-icon name="home"></ion-icon>
+          บันทึกการทำงาน
+        </button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
