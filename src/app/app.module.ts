@@ -14,6 +14,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { ProductionPage } from "../pages/production/production";
 import { ProductionDatesPage } from "../pages/production-dates/production-dates";
 import { ProductionDatesAddPage } from "../pages/production-dates-add/production-dates-add";
+import { SQLite } from "@ionic-native/sqlite";
 
 @NgModule({
   declarations: [
@@ -45,6 +46,7 @@ import { ProductionDatesAddPage } from "../pages/production-dates-add/production
   providers: [
     StatusBar,
     SplashScreen,
+    SQLite,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })

@@ -6,6 +6,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { TabsPage } from '../pages/tabs/tabs';
 import { ProductionPage } from "../pages/production/production";
 import { HomePage } from "../pages/home/home";
+import { SQLite } from "@ionic-native/sqlite";
 
 @Component({
   templateUrl: 'app.html'
@@ -20,13 +21,15 @@ export class MyApp {
     platform: Platform, 
     statusBar: StatusBar, 
     splashScreen: SplashScreen,
+    private sqlite:SQLite,
     private menuCtrl:MenuController) {
     platform.ready().then(() => {
-      // Okay, so the platform is ready and our plugins are available.
-      // Here you can do any higher level native things you might need.
       statusBar.styleDefault();
       splashScreen.hide();
     });
+  }
+  ngOnInit(){
+    
   }
   openPage(page: any){
       this.nav.setRoot(page);

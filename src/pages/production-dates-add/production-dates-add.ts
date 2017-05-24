@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
 import { NgForm } from "@angular/forms";
-import { Storage } from '@ionic/storage'
+import { SQLite, SQLiteObject } from "@ionic-native/sqlite";
 
 
 /**
@@ -17,20 +17,31 @@ import { Storage } from '@ionic/storage'
 })
 export class ProductionDatesAddPage {
 
+
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
     private viewCtrl: ViewController,
-    private storage: Storage
+    private sqlite: SQLite,
   ) {
+    window.openDatabase("my.db", "1.0", "Cordova Demo", 200000);
   }
 
+  ngOnInit() {
+    
+  }
   onClosed() {
     this.viewCtrl.dismiss();
   }
   addDate(form: NgForm) {
-    this.storage.set('date',form.value.date);
-   this.viewCtrl.dismiss(form.value.date);
+    window.openDatabase("my.db", "1.0", "Cordova Demo", 200000).transaction(
+       (tx)=>{
+          tx.executeSql(
+            "insert into date (id,date) values(null,'2017-05-10')"
+          );
+       }
+     )
+    this.viewCtrl.dismiss();
   }
 
 }
