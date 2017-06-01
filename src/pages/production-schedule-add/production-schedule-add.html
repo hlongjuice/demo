@@ -1,0 +1,59 @@
+
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>production-schedule-add</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+   <form #f="ngForm" (ngSubmit)="onSubmit(f)">
+    <ion-list>
+      <!--Date-->
+      <ion-item>
+        <ion-label>วันที่</ion-label>
+        <ion-datetime displayFormat="DD/MM/YYYY"  name="date" [(ngModel)]="dateInput"></ion-datetime>
+      </ion-item>
+
+      <!--Time Period-->
+      <ion-item>
+        <ion-label>เวลาเริ่ม</ion-label>
+        <ion-datetime displayFormat="HH:mm" name="timeStart" [(ngModel)]="timeStartInput" ngModel></ion-datetime>
+        <!--<ion-input type="time" name="timeStart" ngModel></ion-input>-->
+      </ion-item>
+      <ion-item>
+        <ion-label>เวลาสิ้นสุด</ion-label>
+        <ion-datetime displayFormat="HH:mm" name="timeEnd" [(ngModel)]="timeEndInput" ngModel></ion-datetime>
+        <!--<ion-input type="time" name="timeEnd" ngModel></ion-input>-->
+      </ion-item>
+
+      <!--Activity-->
+      <ion-item>
+        <ion-label>กิจกรรม</ion-label>
+        <ion-input text-right type="text" name="activity" [(ngModel)]="activityInput" ngModel></ion-input>
+      </ion-item>
+
+      <!--Employee ID-->
+      <ion-item>
+        <ion-label>รหัสหนักงาน</ion-label>
+        <ion-input type="text" name="emID" ngModel></ion-input>
+      </ion-item>
+
+      <!--Performance-->
+      <ion-item>
+        <ion-label>น้ำหนักที่ชั่งได้</ion-label>
+        <ion-input type="number" name="weight" ngModel></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <button type="button" (click)="onClosed()" color="danger" item-left ion-button>ย้อนกลับ</button>
+        <button type="submit" ion-button item-right>บึนทึก</button>
+      </ion-item>
+    </ion-list>
+
+
+  </form>
+
+</ion-content>

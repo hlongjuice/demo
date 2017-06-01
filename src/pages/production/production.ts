@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { ProductionDatesPage } from "../production-dates/production-dates";
+import { ProductionSchedulePage } from "../production-schedule/production-schedule";
 
 /**
  * Generated class for the ProductionPage page.
@@ -14,7 +14,8 @@ import { ProductionDatesPage } from "../production-dates/production-dates";
   templateUrl: 'production.html',
 })
 export class ProductionPage {
-  productionDatePage=ProductionDatesPage;
+
+  productionSchedulePage=ProductionSchedulePage;
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
   }
@@ -24,7 +25,7 @@ export class ProductionPage {
   }
 
   setDate(){
-    this.navCtrl.push(this.productionDatePage);
+    this.navCtrl.push(this.productionSchedulePage);
   }
 
 }

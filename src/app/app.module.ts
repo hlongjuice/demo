@@ -8,13 +8,20 @@ import { AboutPage } from '../pages/about/about';
 import { ContactPage } from '../pages/contact/contact';
 import { HomePage } from '../pages/home/home';
 import { TabsPage } from '../pages/tabs/tabs';
+import{Storage} from '@ionic/storage';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { ProductionPage } from "../pages/production/production";
 import { ProductionDatesPage } from "../pages/production-dates/production-dates";
 import { ProductionDatesAddPage } from "../pages/production-dates-add/production-dates-add";
-import { SQLite } from "@ionic-native/sqlite";
+
+import { ProductionSchedulePage } from "../pages/production-schedule/production-schedule";
+import { ProductionScheduleAddPage } from "../pages/production-schedule-add/production-schedule-add";
+import { ProductionScheduleService } from "../services/production-schedule";
+import { ProductionTimeperiodsPage } from "../pages/production-timeperiods/production-timeperiods";
+import { ProductionEmPerformancePage } from "../pages/production-em-performance/production-em-performance";
+
 
 @NgModule({
   declarations: [
@@ -24,13 +31,21 @@ import { SQLite } from "@ionic-native/sqlite";
     HomePage,
     TabsPage,
     ProductionPage,
-    ProductionDatesPage,
-    ProductionDatesAddPage
+    ProductionSchedulePage,
+    ProductionScheduleAddPage,
+    ProductionTimeperiodsPage,
+    ProductionEmPerformancePage
   ],
   imports: [
     BrowserModule,
     IonicModule.forRoot(MyApp),
-    IonicStorageModule.forRoot()
+    IonicStorageModule.forRoot(
+      {
+        name: '__mydb',
+        // driverOrder:['indexeddb']
+        //  driverOrder: ['indexeddb']
+      }
+    )
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -40,14 +55,17 @@ import { SQLite } from "@ionic-native/sqlite";
     HomePage,
     TabsPage,
     ProductionPage,
-    ProductionDatesPage,
-    ProductionDatesAddPage
+    ProductionSchedulePage,
+    ProductionScheduleAddPage,
+    ProductionTimeperiodsPage,
+    ProductionEmPerformancePage
   ],
   providers: [
     StatusBar,
     SplashScreen,
-    SQLite,
-    {provide: ErrorHandler, useClass: IonicErrorHandler}
+    {provide: ErrorHandler, useClass: IonicErrorHandler},
+    ProductionScheduleService
+    // Storage
   ]
 })
 export class AppModule {}

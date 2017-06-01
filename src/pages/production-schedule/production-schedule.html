@@ -1,0 +1,25 @@
+<!--
+  Generated template for the ProductionSchedulePage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>production-schedule</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+ <ion-list >
+    <ion-item *ngFor="let schedule of schedules"  (click)="openSchedule(schedule)">
+      {{schedule[0].date}}
+    </ion-item>
+  </ion-list>
+  <ion-fab right bottom>
+    <button (click)="addSchedule()" ion-fab ><ion-icon name="add"></ion-icon></button>
+  </ion-fab>
+</ion-content>
