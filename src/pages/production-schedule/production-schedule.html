@@ -6,8 +6,8 @@
 -->
 <ion-header>
 
-  <ion-navbar>
-    <ion-title>production-schedule</ion-title>
+  <ion-navbar color="primary">
+    <ion-title>วันที่</ion-title>
   </ion-navbar>
 
 </ion-header>
@@ -15,8 +15,8 @@
 
 <ion-content padding>
  <ion-list >
-    <ion-item *ngFor="let schedule of schedules"  (click)="openSchedule(schedule)">
-      {{schedule[0].date}}
+    <ion-item *ngFor="let date of scheduleDates"  (click)="openSchedule('PR-'+date)">
+      <ion-datetime color="primary" disabled displayFormat="DD-MM-YY" [ngModel]="date"></ion-datetime> 
     </ion-item>
   </ion-list>
   <ion-fab right bottom>

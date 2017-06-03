@@ -1,19 +1,40 @@
 <ion-menu [content]="nav">
     <ion-header>
-        <ion-toolbar>
-            <ion-title></ion-title>
+        <ion-toolbar color="primary">
+            <ion-title text-center>เมนู</ion-title>
         </ion-toolbar>
     </ion-header>
     <ion-content>
-        <ion-list >
+        <ion-list padding-top >
+             <!--Home-->
             <button ion-item (click)="openPage(homePage)">
-                <ion-icon item-left name="home"></ion-icon>
+                <ion-icon color="primary" item-left><i class="fa fa-home" aria-hidden="true"></i></ion-icon>
                 หน้าหลัก
             </button>
-                 
+            <!--Production-->
             <button ion-item (click)="openPage(productionPage)">
-                <ion-icon item-left name="paper"></ion-icon>
+                <ion-icon color="primary" item-left ><i class="fa fa-product-hunt" aria-hidden="true"></i></ion-icon>
                 ฝ่ายการผลิต
+            </button>
+            <!--Engineer-->
+            <button ion-item (click)="openPage(productionPage)">
+                <ion-icon color="primary" item-left><i class="fa fa-thermometer-half" aria-hidden="true"></i></ion-icon>
+                ฝ่ายวิศวกรรม
+            </button>
+            <!--Lab-->
+            <button ion-item (click)="openPage(productionPage)">
+                <ion-icon color="primary" item-left ><i class="fa fa-flask" aria-hidden="true"></i></ion-icon>
+                ฝ่ายห้องแลป
+            </button>
+            <!--Personality-->
+            <button ion-item (click)="openPage(productionPage)">
+                <ion-icon color="primary" item-left ><i class="fa fa-user" aria-hidden="true"></i></ion-icon>
+                ฝ่ายบุคคล
+            </button>
+              <!--QC-->
+            <button ion-item (click)="openPage(productionPage)">
+                <ion-icon color="primary" item-left name="paper"></ion-icon>
+                ฝ่ายคัดกรอกคุณภาพ
             </button>
         </ion-list>
     </ion-content>

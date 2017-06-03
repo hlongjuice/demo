@@ -19,8 +19,9 @@ import { ProductionTimeperiodsPage } from "../production-timeperiods/production-
 export class ProductionSchedulePage {
 
   scheduleAddPage = ProductionScheduleAddPage;
-  productionTimeperiodsPage=ProductionTimeperiodsPage;
-  public schedules: ProductionScheduleModel[]=[];
+  productionTimeperiodsPage = ProductionTimeperiodsPage;
+  public schedules:string;
+  public scheduleDates:string[];
   private timeStartInput: string;
   private timeEndInput: string;
   private activityInput: string;
@@ -32,24 +33,33 @@ export class ProductionSchedulePage {
     public productionScheduleService: ProductionScheduleService
   ) {
   }
-  ngOnInit(){
-    let keys:string;
-    let result:any;
+  ngOnInit() {
+    let keys: string;
+    let result: any;
+    let date:Date;
     /*Get All Schedule*/
-    console.log('ProducitonSchedule OnInit Function Start');
-    this.schedules=this.productionScheduleService.getAllSchedules();
+    this.productionScheduleService.getDates()
+    .then(
+      date=>{
+        this.scheduleDates=date;
+       
+      console.log(this.scheduleDates);
+      }
+    );
+    // this.productionScheduleService.getAllSchedules()
+
     console.log('ProducitonSchedule OnInit Function End');
-    console.log(this.schedules);
+    // console.log(this.schedules);
   }
- 
+
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad ProductionSchedulePage');
   }
 
   /*Open Schedule*/
-  openSchedule(schedule){
-    this.navCtrl.push(this.productionTimeperiodsPage,schedule);
+  openSchedule(schedule) {
+    this.navCtrl.push(this.productionTimeperiodsPage, schedule);
   }
 
   addSchedule() {
@@ -61,14 +71,18 @@ export class ProductionSchedulePage {
     modal.present();
     modal.onDidDismiss(
       (data: any) => {
-        if (data!=null) {
+        if (data != null) {
           this.timeStartInput = data.timeStart;
           this.timeEndInput = data.timeEnd,
             this.activityInput = data.activity;
-            this.schedules=this.productionScheduleService.getAllSchedules();
-            console.log('After Dismiss');
-            console.log(this.schedules);
-            //  this.schedules=this.productionScheduleService.getAllSchedules();
+          this.productionScheduleService.getDates().then(
+            date=>{
+              this.scheduleDates=date;
+            }
+            ).catch(err=>console.log(err));
+          console.log('After Dismiss');
+          console.log(this.schedules);
+          //  this.schedules=this.productionScheduleService.getAllSchedules();
         }
       }
     )

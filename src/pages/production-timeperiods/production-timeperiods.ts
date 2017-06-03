@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { ProductionTimePeriodModel } from "../../models/production-time-period";
 import { ProductionEmPerformancePage } from "../production-em-performance/production-em-performance";
 import { ProductionScheduleService } from "../../services/production-schedule";
+import { ProductionScheduleModel } from "../../models/production-schedule";
 
 /**
  * Generated class for the ProductionTimeperiodsPage page.
@@ -19,15 +20,21 @@ export class ProductionTimeperiodsPage {
 
   productionEmPerformancePage = ProductionEmPerformancePage;
   private scheduleDate: string;
-  private timePeriods: ProductionTimePeriodModel[] = [];
+  private timePeriods:ProductionTimePeriodModel[]=[];
 
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
     private productionScheduleService: ProductionScheduleService) {
   }
   ngOnInit() {
-    this.scheduleDate = this.navParams.get('date')
-    this.timePeriods = this.navParams.get('timePeriod');
+    let date=this.navParams.data;
+    this.productionScheduleService.getSchedule(date)
+    .then(
+      (schedules:ProductionScheduleModel)=>{
+        this.scheduleDate=schedules.date;
+        this.timePeriods=schedules.timePeriod;
+      }
+    ).catch(err=>{console.log(err)});
   }
 
   ionViewDidLoad() {
