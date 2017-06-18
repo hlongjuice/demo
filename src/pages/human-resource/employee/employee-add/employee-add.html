@@ -1,0 +1,59 @@
+<!--
+  Generated template for the EmployeeAddPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>employee-add</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <form #employeeForm="ngForm" (ngSubmit)="onSubmit(employeeForm)">
+    <ion-list>
+      <!--emID-->
+      <ion-item>
+        <ion-label>รหัสพนักงาน</ion-label>
+        <ion-input required text-right type="text" name="em_id" ngModel></ion-input>
+      </ion-item>
+      <!--emName-->
+      <ion-item>
+        <ion-label>ชื่อ</ion-label>
+        <ion-input required text-right type="text" name="name" ngModel></ion-input>
+      </ion-item>
+      <!--emLastName-->
+      <ion-item>
+        <ion-label>ชื่อนามสกุล</ion-label>
+        <ion-input text-right type="text" name="lastname" ngModel></ion-input>
+      </ion-item>
+      <!--emDivision-->
+      <ion-item>
+        <ion-label>แผนก</ion-label>
+        <ion-select text-right name="division_id" ngModel>
+          <ion-option *ngFor="let division of divisionsInput" [value]="division.id">{{division.name}}</ion-option>
+        </ion-select>
+        <!--<ion-input required text-right type="text" name="emDivision" ngModel></ion-input>-->
+      </ion-item>
+      <!--emImage-->
+      <ion-item>
+        <ion-label>รูปภาพ</ion-label>
+        <ion-input readonly text-right [(ngModel)]="imageInput" name="image"></ion-input>
+        <button ion-button item-right type="button" (click)="selectImage()" >เลือกไฟล์</button>
+        
+      </ion-item>
+
+      <!--Submit Buttom-->
+      <ion-item>
+        <button type="button" (click)="onClosed()" color="danger" item-left ion-button>ย้อนกลับ</button>
+        <button [disabled]="!employeeForm.valid" type="submit" ion-button item-right>บึนทึก</button>
+      </ion-item>
+
+    </ion-list>
+  </form>
+
+</ion-content>

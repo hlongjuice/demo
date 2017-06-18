@@ -1,6 +1,8 @@
-import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { ProductionSchedulePage } from "../production-schedule/production-schedule";
+import {Component} from '@angular/core';
+import {IonicPage, NavController, NavParams} from 'ionic-angular';
+import {ProductionService} from "../../services/production.service";
+import {ProductionDatePage} from "./production-date/production-date";
+
 
 /**
  * Generated class for the ProductionPage page.
@@ -10,22 +12,28 @@ import { ProductionSchedulePage } from "../production-schedule/production-schedu
  */
 @IonicPage()
 @Component({
-  selector: 'page-production',
-  templateUrl: 'production.html',
+    selector: 'page-production',
+    templateUrl: 'production.html',
 })
 export class ProductionPage {
 
-  productionSchedulePage=ProductionSchedulePage;
+    productionDatePage = ProductionDatePage;
+    constructor(public navCtrl: NavController,
+                public navParams: NavParams,
+                private productionService: ProductionService
+                ) {
+    }
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
-  }
+    ngOnInit() {
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad ProductionPage');
-  }
+    }
 
-  setDate(){
-    this.navCtrl.push(this.productionSchedulePage);
-  }
+    ionViewDidLoad() {
+        console.log('ionViewDidLoad ProductionPage');
+    }
+
+    setDate() {
+        this.navCtrl.push(this.productionDatePage);
+    }
 
 }

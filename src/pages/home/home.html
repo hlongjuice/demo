@@ -5,14 +5,29 @@
     </button>
     <ion-title text-center>
       <!--<ion-item>-->
-        <ion-icon item-left name="home"></ion-icon>
-        Home
+      <ion-icon item-left name="home"></ion-icon>
+      Home
       <!--</ion-item> -->
-      </ion-title>
+    </ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
-  <h2></h2>
-  
+  <ion-list>
+    <ion-item *ngFor="let data of datas">
+      <ul>
+        <li>{{data.date}}</li>
+        <li>
+          <ul>
+            <li *ngFor="let time of data.production_date_time">
+              {{time.time_period}}
+              <p *ngFor="let em of time.production_em_performance">
+                {{em.weight}}
+              </p>
+        </li>
+        </ul>
+        </li>
+      </ul>
+    </ion-item>
+  </ion-list>
 </ion-content>

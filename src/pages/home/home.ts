@@ -1,5 +1,8 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
+import { AuthService } from "../../services/auth.service";
+
+
 
 @Component({
   selector: 'page-home',
@@ -9,7 +12,11 @@ export class HomePage {
 
   public name: any;
   constructor(
-    public navCtrl: NavController
+    private  authService:AuthService,
+    public navCtrl: NavController,
   ) {}
-
+    
+  ngOnInit() {
+    //  token=this.authService.getToken()
+  }
 }
