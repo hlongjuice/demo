@@ -39,6 +39,7 @@ import { DivisionAddPage } from "../pages/human-resource/division/division-add/d
 import { DivisionEditPage } from "../pages/human-resource/division/division-edit/division-edit";
 import { HumanResourcePage } from "../pages/human-resource/human-resource";
 import { DivisionService } from "../services/division.service";
+import { ErrorPage } from "../pages/error/error";
 
 
 
@@ -62,7 +63,8 @@ import { DivisionService } from "../services/division.service";
     DivisionPage,
     DivisionAddPage,
     DivisionEditPage,
-    HumanResourcePage
+    HumanResourcePage,
+    ErrorPage
   ],
   imports: [
     BrowserModule,
@@ -94,7 +96,8 @@ import { DivisionService } from "../services/division.service";
     DivisionPage,
     DivisionAddPage,
     DivisionEditPage,
-    HumanResourcePage
+    HumanResourcePage,
+    ErrorPage
   ],
   providers: [
     StatusBar,

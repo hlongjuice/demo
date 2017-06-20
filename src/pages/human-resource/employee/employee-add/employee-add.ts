@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController, ViewController, LoadingController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController, ViewController, LoadingController, PopoverController } from 'ionic-angular';
 import { FileChooser } from "@ionic-native/file-chooser";
 import { TransferObject } from "@ionic-native/transfer";
 import { NgForm } from "@angular/forms";
@@ -7,6 +7,7 @@ import { EmployeeService } from "../../../../services/employee.service";
 import { DivisionModel } from "../../../../models/division";
 import { FilePath } from "@ionic-native/file-path";
 import { ImagePicker, ImagePickerOptions } from "@ionic-native/image-picker";
+import { ErrorPage } from "../../../error/error";
 
 /**
  * Generated class for the EmployeeAddPage page.
@@ -22,7 +23,8 @@ import { ImagePicker, ImagePickerOptions } from "@ionic-native/image-picker";
 export class EmployeeAddPage {
   public divisionSelected: string;
   private imageInput: string;
-  public divisionsInput: DivisionModel[] = []
+  public divisionsInput: DivisionModel[] = [];
+  errPage=ErrorPage;
 
   constructor(
     public navCtrl: NavController,
@@ -34,7 +36,7 @@ export class EmployeeAddPage {
     public alertCtrl: AlertController,
     public viewCtrl:ViewController,
     public loadingCtrl:LoadingController,
-    private imagePicker: ImagePicker
+    private imagePicker: ImagePicker,
   ) {
   }
 
@@ -80,7 +82,8 @@ export class EmployeeAddPage {
   }
 
   onSubmit(formInput: NgForm) {
-   /* this.emService.addEmployee(formInput)
+     
+    this.emService.addEmployee(formInput)
       .then(
       result => {
         console.log('In Result')
@@ -89,16 +92,19 @@ export class EmployeeAddPage {
       }
       )
       .catch(err => {
-        let alert=this.alertCtrl.create({
+       let alert=this.alertCtrl.create({
           title:'ไม่สามารถเพิ่มข้อมูลได้',
           // message:err,
           buttons:['Dismiss']
         })
         alert.present();
         console.log('In Error');
-        // console.log(err.body)
+         console.log(err.body)
         this.viewCtrl.dismiss();
-      })*/
+      })
+
+       
+        
   }
 
 

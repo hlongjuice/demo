@@ -4,7 +4,7 @@ import { WebUrlService } from "./weburl.service";
 import { Http, Headers } from "@angular/http";
 import { EmployeeModel } from "../models/employee";
 import { AuthService } from "./auth.service";
-import { TransferObject, Transfer, FileUploadOptions } from "@ionic-native/transfer";
+import { TransferObject, Transfer, FileUploadOptions, FileUploadResult } from "@ionic-native/transfer";
 import { DivisionModel } from "../models/division";
 
 @Injectable()
@@ -70,7 +70,7 @@ export class EmployeeService {
 
             if(formInput.value.image){
                 console.log(formInput.value.image);
-             /*   this.uploadEmployeeImage(formInput.value.image)
+                this.uploadEmployeeImage(formInput.value.image,formInput.value.em_id)
                 .then(
                     result=>{
                         console.log(result)
@@ -78,9 +78,10 @@ export class EmployeeService {
                     }
                 )
                 .catch(err=>{
-                    console.log(err)
+                    console.log('IN Serive Error');
+                    // console.log(document.write(err.body));
                     reject(err);
-                })*/
+                })
             }
 
            /* this.http.post(addEmUrl, employee, { headers: this.headers })
@@ -126,11 +127,11 @@ export class EmployeeService {
                 )
         })
     }
-     uploadEmployeeImage(filePath:string,emID:number){
+     uploadEmployeeImage(filePath:string,emID:string):Promise<FileUploadResult>{
          let uploadImageUrl=this.url+'/api/image_transfer';
          let option:FileUploadOptions={
              fileKey:'emImage',
-             fileName:'test.jpg',
+            //  fileName:emID,
              httpMethod:'POST',
              headers:this.headers
          }
