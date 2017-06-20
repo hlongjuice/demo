@@ -28,8 +28,8 @@ plugins/android.json
 plugins/ios.json
 www/
 $RECYCLE.BIN/
-src/services/weburl.service.ts
 
 .DS_Store
 Thumbs.db
 UserInterfaceState.xcuserstate
+src/services/weburl.service.ts
