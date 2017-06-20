@@ -28,7 +28,7 @@ plugins/android.json
 plugins/ios.json
 www/
 $RECYCLE.BIN/
-src/service/weburl.service.ts
+src/services/weburl.service.ts
 
 .DS_Store
 Thumbs.db
