@@ -82,7 +82,6 @@ export class AuthService {
             this.authState = false;
             this.accessToken = "";
             resolve(true);
-            dsdsd
         })
 
     }
