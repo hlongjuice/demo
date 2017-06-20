@@ -123,7 +123,7 @@ export class ProductionScheduleService {
 
     }
     /*Get Key of data base*/
-    getKeys(): Promise<string[]> {
+    getKeys() {
         return this.storage.keys()
             .then(
             keys => {
@@ -133,7 +133,7 @@ export class ProductionScheduleService {
     }
     /*Get Schedult from database*/
 
-    getSchedule(date: string): Promise<ProductionScheduleModel> {
+    getSchedule(date: string): Promise<void|ProductionScheduleModel> {
         return this.storage.get(date)
             .then(
             (schedule: ProductionScheduleModel) => {
@@ -143,7 +143,7 @@ export class ProductionScheduleService {
             ).catch(err => { console.log(err) });
     }
     /*Get all dates*/
-    getDates(): Promise<string[]> {
+    getDates(): Promise<void|string[]> {
         let afterReplace: string[] = [];
         return this.storage.keys()
             .then(

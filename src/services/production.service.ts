@@ -20,7 +20,7 @@ export class ProductionService {
         this.authService.getToken()
             .then(
             token => {
-                let headerPromise = new Promise((resolve, reject) => {
+                let headerPromise:Promise<Headers> = new Promise((resolve, reject) => {
                     let headers = new Headers({
                         "Accept": "application/json",
                         "Authorization": "Bearer " + token,
