@@ -25,7 +25,7 @@ export class AuthService {
         this.authState = false;
     }
     /*Log In*/
-    login(usernameInput: string, passwordInput: string): Promise<string> {
+    login(usernameInput: string, passwordInput: string): Promise<any> {
         let userModel = new UserModel();
         var headers = new Headers({
             "Content-Type": "application/json",
