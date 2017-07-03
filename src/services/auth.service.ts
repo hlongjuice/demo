@@ -93,14 +93,17 @@ export class AuthService {
         })
         ;
     }
+    /*Get Auth State*/
     getAuthState(){
         return this.authState;
     }
+    /*Get Token*/
     getToken():Promise<string>{
         return new Promise((resovle,reject)=>{
             resovle(this.accessToken);
         }) 
     }
+    /*Get Header*/
     getHeader():Promise<Headers>{
         return new Promise((resolve,reject)=>{
                let headers = new Headers({

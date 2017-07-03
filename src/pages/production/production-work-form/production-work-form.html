@@ -19,24 +19,99 @@
       <ion-card-content>
         <ion-grid>
           <ion-row>
+            <!--Employee Selected-->
             <ion-col col-2>
-              <ion-item>
-                รหัสพนักงาน
-                <ion-input type="number" placeholder="7001"></ion-input>
-              </ion-item>
+              <div class="form-group">
+                <ion-label>รหัสพนักงาน</ion-label>
+                <ion-input name="emID" type="number" placeholder="7001" ngModel></ion-input>
+              </div>
+
             </ion-col>
-            <ion-col col-3>
-              <ion-list>
-                <h2> วันที่</h2>
-                <!--<ion-item class="input-border">-->
+            <!--Date-->
+            <ion-col col-2>
+              <div class="form-group">
+                <ion-label>วันที่</ion-label>
                 <div class="input-group">
-                  <ion-datetime></ion-datetime>
+                  <ion-datetime displayFormat="DD/MM/YYYY" [(ngModel)]="dateInput" name="date" ngModel></ion-datetime>
                   <ion-icon class="input-icon" color="primary" item-right><i class="fa fa-home" aria-hidden="true"></i></ion-icon>
                 </div>
-
-                <!--</ion-item>-->
-              </ion-list>
-
+              </div>
+            </ion-col>
+            <!--Start Time-->
+            <ion-col col-2>
+              <div class="form-group">
+                <ion-label>เวลาเริ่ม</ion-label>
+                <div class="input-group">
+                  <ion-datetime displayFormat="HH:mm" [(ngModel)]="startTimeInput" name="startTime" ngModel></ion-datetime>
+                  <ion-icon class="input-icon" color="primary" item-right><i class="fa fa-home" aria-hidden="true"></i></ion-icon>
+                </div>
+              </div>
+            </ion-col>
+            <!--End Time-->
+            <ion-col col-2>
+              <div class="form-group">
+                <ion-label>เวลาสิ้นสุด</ion-label>
+                <div class="input-group">
+                  <ion-datetime displayFormat="HH:mm" [(ngModel)]="startTimeInput" name="endTime" ngModel></ion-datetime>
+                  <ion-icon class="input-icon" color="primary" item-right><i class="fa fa-home" aria-hidden="true"></i></ion-icon>
+                </div>
+              </div>
+            </ion-col>
+            <!--Activtiy-->
+            <ion-col col-2>
+              <div class="form-group">
+                <ion-label>กิจกรรม</ion-label>
+                <div class="input-group">
+                  <ion-select name="acitivity" placeholder="เลือกกิจกรรม" ngModel>
+                    <ion-option *ngFor="let activity of activityInput" [value]="activity.id">{{activity.name}}</ion-option>
+                  </ion-select>
+                  <ion-icon class="input-icon" color="primary" item-right><i class="fa fa-home" aria-hidden="true"></i></ion-icon>
+                </div>
+              </div>
+            </ion-col>
+          </ion-row>
+          <!--Row 2-->
+          <ion-row>
+              <!--Employee Selected-->
+            <ion-col col-2>
+              <div class="form-group">
+                <ion-label>ครั้งที่</ion-label>
+                <p>2</p>
+              </div>
+            </ion-col>
+              <!--Shrimp Type-->
+            <ion-col col-2>
+              <div class="form-group">
+                <ion-label>ชนิดกุ้ง</ion-label>
+                <div class="input-group">
+                  <ion-select name="shrimpType" placeholder="เลือกชนิด" ngModel>
+                    <ion-option *ngFor="let shrimpType of shrimpTypeInput" [value]="shrimpType.id">{{shrimpType.name}}</ion-option>
+                  </ion-select>
+                  <ion-icon class="input-icon" color="primary" item-right><i class="fa fa-home" aria-hidden="true"></i></ion-icon>
+                </div>
+              </div>
+            </ion-col>
+               <!--Shrimp Side-->
+            <ion-col col-2>
+              <div class="form-group">
+                <ion-label>ขนาดกุ้ง</ion-label>
+                <div class="input-group">
+                  <ion-select name="shrimpSide" placeholder="เลือกขนาด" ngModel>
+                    <ion-option *ngFor="let shrimpSize of shrimpSizeInput" [value]="shrimpSize.id">{{shrimpSize.name}}</ion-option>
+                  </ion-select>
+                  <ion-icon class="input-icon" color="primary" item-right><i class="fa fa-home" aria-hidden="true"></i></ion-icon>
+                </div>
+              </div>
+            </ion-col>
+               <!--Weight-->
+            <ion-col col-2>
+              <div class="form-group">
+                <ion-label>น้ำหนัก</ion-label>
+                <div class="input-group">
+                  <ion-input name="weight" type="number" placeholder="0.00" ngModel></ion-input>
+                  <ion-icon class="input-icon" color="primary" item-right><i class="fa fa-home" aria-hidden="true"></i></ion-icon>
+                </div>
+              </div>
             </ion-col>
           </ion-row>
         </ion-grid>

@@ -10,6 +10,8 @@ import { WebUrlService } from "./weburl.service";
 export class ProductionService {
     private headers: Promise<Headers>;
     private url: string;
+    
+    /*Contructor*/
     constructor(
         private authService: AuthService,
         private http: Http,

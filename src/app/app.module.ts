@@ -42,6 +42,9 @@ import { DivisionService } from "../services/division.service";
 import { ErrorPage } from "../pages/error/error";
 import { ProductionResultPage } from "../pages/production/production-result/production-result";
 import { ProductionWorkFormPage } from "../pages/production/production-work-form/production-work-form";
+import { ProductionActivityService } from "../services/production/activity.service";
+import { ProductionShrimpTypeService } from "../services/production/shrimp-type.service";
+import { ProductionShrimpSizeService } from "../services/production/shrimp-size.service";
 
 
 
@@ -124,7 +127,11 @@ import { ProductionWorkFormPage } from "../pages/production/production-work-form
     AuthService,
     ProductionService,
     WebUrlService,
-    DivisionService
+    DivisionService,
+    /*Production*/
+    ProductionActivityService,
+    ProductionShrimpTypeService,
+    ProductionShrimpSizeService
   ]
 })
 export class AppModule { }

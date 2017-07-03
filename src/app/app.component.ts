@@ -17,7 +17,7 @@ import { ProductionWorkFormPage } from "../pages/production/production-work-form
   templateUrl: 'app.html'
 })
 export class MyApp {
-  rootPage = ProductionWorkFormPage;
+  rootPage = LoginPage;
   productionPage = ProductionPage;
   productionWorkFormPage=ProductionWorkFormPage;
   humanResourcePage=HumanResourcePage
