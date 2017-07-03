@@ -10,13 +10,16 @@ import { HomePage } from "../pages/home/home";
 import { LoginPage } from "../pages/login/login";
 import { AuthService } from "../services/auth.service";
 import { HumanResourcePage } from "../pages/human-resource/human-resource";
+import { ProductionResultPage } from "../pages/production/production-result/production-result";
+import { ProductionWorkFormPage } from "../pages/production/production-work-form/production-work-form";
 
 @Component({
   templateUrl: 'app.html'
 })
 export class MyApp {
-  rootPage = LoginPage;
+  rootPage = ProductionWorkFormPage;
   productionPage = ProductionPage;
+  productionWorkFormPage=ProductionWorkFormPage;
   humanResourcePage=HumanResourcePage
   homePage = HomePage;
   loginPage=LoginPage;
@@ -39,6 +42,8 @@ export class MyApp {
   }
   ngOnInit() {
     this.authState=this.authService.getAuthState();
+    this.menuCtrl.enable(true,'masterMenu');
+    this.menuCtrl.enable(false,'productionMenu');
   }
   openPage(page: any) {
     this.nav.setRoot(page);

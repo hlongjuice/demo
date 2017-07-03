@@ -40,6 +40,9 @@ import { DivisionEditPage } from "../pages/human-resource/division/division-edit
 import { HumanResourcePage } from "../pages/human-resource/human-resource";
 import { DivisionService } from "../services/division.service";
 import { ErrorPage } from "../pages/error/error";
+import { ProductionResultPage } from "../pages/production/production-result/production-result";
+import { ProductionWorkFormPage } from "../pages/production/production-work-form/production-work-form";
+
 
 
 
@@ -56,6 +59,8 @@ import { ErrorPage } from "../pages/error/error";
     ProductionTimeperiodsPage,
     ProductionEmPerformancePage,
     ProductionDatePage,
+    ProductionResultPage,
+    ProductionWorkFormPage,
     UserPage,
     EmployeePage,
     EmployeeAddPage,
@@ -89,6 +94,8 @@ import { ErrorPage } from "../pages/error/error";
     ProductionTimeperiodsPage,
     ProductionDatePage,
     ProductionEmPerformancePage,
+    ProductionResultPage,
+    ProductionWorkFormPage,
     UserPage,
     EmployeePage,
     EmployeeAddPage,

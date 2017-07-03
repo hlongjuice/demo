@@ -1,5 +1,6 @@
-<ion-split-pane>
-    <ion-menu class="menu" [content]="nav">
+
+    <!--Master Menu-->
+    <ion-menu id="masterMenu" class="menu" [content]="nav">
         <ion-header>
             <ion-toolbar color="">
                 <ion-title text-center>เมนู</ion-title>
@@ -13,7 +14,7 @@
                 หน้าหลัก
             </button>
                 <!--Production-->
-                <button ion-item (click)="openPage(productionPage)">
+                <button ion-item (click)="openPage(productionWorkFormPage)">
                 <ion-icon color="primary" item-left ><i class="fa fa-product-hunt" aria-hidden="true"></i></ion-icon>
                 ฝ่ายการผลิต
             </button>
@@ -46,5 +47,52 @@
             
         </ion-content>
     </ion-menu>
+    <!--Production Menu-->
+    <ion-menu id="productionMenu" class="menu" [content]="nav">
+        <ion-header>
+            <ion-toolbar color="">
+                <ion-title text-center>ฝ่ายผลิต</ion-title>
+            </ion-toolbar>
+        </ion-header>
+        <ion-content>
+            <ion-list padding-top>
+                <!--Home-->
+                <button ion-item (click)="openPage(homePage)">
+                <ion-icon color="primary" item-left><i class="fa fa-home" aria-hidden="true"></i></ion-icon>
+                สรุปผลการทำงาน
+            </button>
+                <!--Production-->
+                <button ion-item (click)="openPage(productionWorkFormPage)">
+                <ion-icon color="primary" item-left ><i class="fa fa-product-hunt" aria-hidden="true"></i></ion-icon>
+                บันทึกการทำงาน
+            </button>
+                <!--Engineer-->
+                <button ion-item (click)="openPage(productionPage)">
+                <ion-icon color="primary" item-left><i class="fa fa-thermometer-half" aria-hidden="true"></i></ion-icon>
+                ประวัติการบันทึก
+            </button>
+                <!--Lab-->
+                <button ion-item (click)="openPage(productionPage)">
+                <ion-icon color="primary" item-left ><i class="fa fa-flask" aria-hidden="true"></i></ion-icon>
+                จัดกลุ่มคนงาน
+            </button>
+                <!--Personality-->
+                <button ion-item (click)="openPage(humanResourcePage)">
+                <ion-icon color="primary" item-left ><i class="fa fa-user" aria-hidden="true"></i></ion-icon>
+                การคั้งค่าอื่นๆ
+            </button>
+                <!--QC-->
+            <button ion-item (click)="openPage(productionPage)">
+                <ion-icon color="primary" item-left name="paper"></ion-icon>
+                ฝ่ายคัดกรอกคุณภาพ
+            </button>
+            </ion-list>
+            <div padding-left padding-right>
+                 <button [hidden]="authState" ion-button block color="danger" (click)="logout()">ออกจากระบบ</button>
+            </div>
+               
+           
+            
+        </ion-content>
+    </ion-menu>
     <ion-nav #nav [root]="rootPage" main></ion-nav>
-</ion-split-pane>
