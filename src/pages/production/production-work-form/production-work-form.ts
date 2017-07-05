@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { ProductionActivityService } from "../../../services/production/activity.service";
 import { ProductionShrimpTypeService } from "../../../services/production/shrimp-type.service";
 import { ProductionShrimpSizeService } from "../../../services/production/shrimp-size.service";
+import { ProductionEmployeeService } from "../../../services/production/employee.service";
 
 /**
  * Generated class for the ProductionWorkFormPage page.
@@ -23,13 +24,18 @@ export class ProductionWorkFormPage {
   activityInput: any;
   shrimpSizeInput: any;
   shrimpTypeInput: any;
+  employees: any;
+  employeeGroups: any;
+  selectedEmployeeInput:number;
+  selectedGroup:number;
 
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
     public productionActivityService: ProductionActivityService,
     public productionShrimpTypeSerivce: ProductionShrimpTypeService,
-    public productionShrimpSizeService: ProductionShrimpSizeService
+    public productionShrimpSizeService: ProductionShrimpSizeService,
+    public productionEmployeeService: ProductionEmployeeService
   ) {
     let today = new Date();
     let DD: any = today.getDate();
@@ -64,7 +70,6 @@ export class ProductionWorkFormPage {
       result => {
         this.activityInput = result;
         console.log(result);
-
       }
       ).catch(err => { console.log(err) });
 
@@ -76,12 +81,34 @@ export class ProductionWorkFormPage {
 
     /*Get Shrimp Type*/
     this.productionShrimpTypeSerivce.getAllShrimpType()
-      .then(result => {this.shrimpTypeInput = result;})
+      .then(result => { this.shrimpTypeInput = result; })
       .catch(err => console.log(err))
+    /*Get Employee Group*/
+    this.productionEmployeeService.getGroups()
+    .then(
+      groups=>{
+        console.log(groups);
+        this.employeeGroups=groups;
+      }
+    )
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad ProductionWorkFormPage');
+  }
+
+  /*Get Group Members*/
+  getGroupMembers($id){
+    this.productionEmployeeService.getGroupMember($id)
+    .then(
+      members=>{
+        this.selectedGroup=$id;
+        this.employees=members;
+      }
+    ).catch(err=>{console.log(err)});
+  }
+  selectedEmployee($emID){
+    this.selectedEmployeeInput=$emID;
   }
 
 }

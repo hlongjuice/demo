@@ -45,6 +45,7 @@ import { ProductionWorkFormPage } from "../pages/production/production-work-form
 import { ProductionActivityService } from "../services/production/activity.service";
 import { ProductionShrimpTypeService } from "../services/production/shrimp-type.service";
 import { ProductionShrimpSizeService } from "../services/production/shrimp-size.service";
+import { ProductionEmployeeService } from "../services/production/employee.service";
 
 
 
@@ -131,7 +132,8 @@ import { ProductionShrimpSizeService } from "../services/production/shrimp-size.
     /*Production*/
     ProductionActivityService,
     ProductionShrimpTypeService,
-    ProductionShrimpSizeService
+    ProductionShrimpSizeService,
+    ProductionEmployeeService
   ]
 })
 export class AppModule { }
