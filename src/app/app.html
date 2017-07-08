@@ -1,6 +1,6 @@
 
     <!--Master Menu-->
-    <ion-menu id="masterMenu" class="menu" [content]="nav">
+    <ion-menu  side="left" id="masterMenu" class="menu" [content]="nav">
         <ion-header>
             <ion-toolbar color="">
                 <ion-title text-center>เมนู</ion-title>
@@ -48,7 +48,7 @@
         </ion-content>
     </ion-menu>
     <!--Production Menu-->
-    <ion-menu id="productionMenu" class="menu" [content]="nav">
+    <ion-menu  side="left" id="productionMenu" class="menu" [content]="nav">
         <ion-header>
             <ion-toolbar color="">
                 <ion-title text-center>ฝ่ายผลิต</ion-title>
@@ -57,7 +57,7 @@
         <ion-content>
             <ion-list padding-top>
                 <!--Home-->
-                <button ion-item (click)="openPage(homePage)">
+                <button ion-item (click)="openPage(productionResultPage)">
                 <ion-icon color="primary" item-left><i class="fa fa-home" aria-hidden="true"></i></ion-icon>
                 สรุปผลการทำงาน
             </button>
@@ -95,4 +95,4 @@
             
         </ion-content>
     </ion-menu>
-    <ion-nav #nav [root]="rootPage" main></ion-nav>
+    <ion-nav #nav [root]="rootPage"></ion-nav>

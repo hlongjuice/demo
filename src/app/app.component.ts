@@ -17,12 +17,16 @@ import { ProductionWorkFormPage } from "../pages/production/production-work-form
   templateUrl: 'app.html'
 })
 export class MyApp {
-  rootPage = LoginPage;
+  /*Page*/
+  rootPage=HomePage;
+  // rootPage = LoginPage;
   productionPage = ProductionPage;
   productionWorkFormPage=ProductionWorkFormPage;
+  productionResultPage=ProductionResultPage;
   humanResourcePage=HumanResourcePage
   homePage = HomePage;
   loginPage=LoginPage;
+  /*End Page*/
   private authState: boolean;
   @ViewChild('nav') nav: NavController;
 
@@ -42,8 +46,9 @@ export class MyApp {
   }
   ngOnInit() {
     this.authState=this.authService.getAuthState();
-    this.menuCtrl.enable(true,'masterMenu');
-    this.menuCtrl.enable(false,'productionMenu');
+    console.log(this.menuCtrl.getMenus());
+    this.menuCtrl.enable(false,'masterMenu');
+    this.menuCtrl.enable(true,'productionMenu');
   }
   openPage(page: any) {
     this.nav.setRoot(page);

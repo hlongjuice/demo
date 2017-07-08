@@ -49,7 +49,7 @@ export class ProductionEmployeeService {
              this.http.get(getGroupUrl,{headers:this.headers})
              .subscribe(
                  result=>{resolve(result.json())},
-                 err=>{console.log(err)}
+                 err=>{reject(err)}
              )
          })
      }

@@ -1,0 +1,120 @@
+<!--
+  Generated template for the ProductionResultDetailsPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>production-result-details</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <ion-card>
+    <!--Header-->
+    <ion-card-header>
+      <ion-grid>
+        <ion-row>
+          <ion-col col-7>
+            <ion-row>
+              <ion-col col-12>
+                {{date}}
+              </ion-col>
+              <ion-col col-12>
+                {{time_period}}
+              </ion-col>
+            </ion-row>
+
+          </ion-col>
+
+          <ion-col col-5>
+            <ion-col col-3>
+              {{work.production_activity.name}}
+            </ion-col>
+            <ion-col col-3>
+              {{work.production_shrimp_type.name}}
+            </ion-col>
+            <ion-col col-3>
+              {{work.production_shrimp_size.name}}
+            </ion-col>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-card-header>
+    <!--Content-->
+    <ion-card-content>
+
+      <ion-grid>
+        <ion-row>
+          <!--Employee ID List-->
+          <ion-col col-6>
+            <ion-list>
+              <ion-row>
+                <ion-col (click)="getDetails(em_id)" col-3 *ngFor="let em_id of em_ids ">
+                  <ion-item>
+                    {{em_id}}
+                  </ion-item>
+                </ion-col>
+              </ion-row>
+            </ion-list>
+          </ion-col>
+          <!--Employee Details-->
+          <ion-col col-6>
+            <ion-card>
+              <ion-card-header>
+                <ion-item>
+                  <ion-label>รหัสนักงาน</ion-label>
+                  {{selected_em_id}}
+                </ion-item>
+              </ion-card-header>
+              <ion-card-content>
+                <ion-grid>
+                  <!--Header Column-->
+                  <ion-row>
+                    <ion-col col-4>
+                      <ion-item>ชั่งครั้งที่</ion-item>
+                    </ion-col>
+                    <ion-col col-4>
+                      <ion-item>น้ำหนัก</ion-item>
+                    </ion-col>
+                    <ion-col col-4>
+                      <ion-item>ลบ</ion-item>
+                    </ion-col>
+                  </ion-row>
+                  <!--Content-->
+                  <ion-row *ngFor="let em_weight of em_weight_list; let i=index">
+                    <ion-col col-4>
+                      <ion-item>{{i+1}}</ion-item>
+                    </ion-col>
+                    <ion-col col-4>
+                      <ion-item>{{em_weight.weight}}</ion-item>
+                    </ion-col>
+                    <ion-col col-4>
+                      <ion-item><button ion-button block color="danger">ลบ</button></ion-item>
+                    </ion-col>
+                  </ion-row>
+                  <ion-row>
+                    <ion-col col-6>
+                      <ion-item>
+                        รวมน้ำหนัก
+                      </ion-item>
+                    </ion-col>
+                    <ion-col col-6>
+                      <ion-item>
+                        {{em_amount_weight}}
+                      </ion-item>
+                    </ion-col>
+                  </ion-row>
+                </ion-grid>
+              </ion-card-content>
+            </ion-card>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

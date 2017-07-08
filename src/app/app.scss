@@ -54,3 +54,12 @@ ion-select {
     border: 1px solid map-get($colors, light-gray);
     border-radius: 10px;
 }
+/*Alert Css*/
+.alertDanger{
+    background-color:map-get($colors, danger ) !important;
+    color: #fff !important;
+}
+.alertConfirm{
+    background-color:map-get($colors, success ) !important;
+    color:#fff !important;
+}

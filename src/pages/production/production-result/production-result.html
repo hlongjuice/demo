@@ -14,5 +14,120 @@
 
 
 <ion-content padding>
+  <form #historyForm="ngForm">
+    <ion-card>
+      <ion-card-header>
+
+      </ion-card-header>
+      <ion-card-content>
+        <ion-grid>
+          <ion-row>
+            <!--Date-->
+            <ion-col col-3>
+              <div class="form-group">
+                <ion-label>วันที่</ion-label>
+                <div class="input-group">
+                  <ion-datetime (ionChange)="getTimePeriod(dateHistory)" displayFormat="DD/MM/YYYY" [(ngModel)]="dateHistory" name="date"></ion-datetime>
+                  <ion-icon class="input-icon" color="primary" item-right><i class="fa fa-home" aria-hidden="true"></i></ion-icon>
+                </div>
+              </div>
+            </ion-col>
+            <!--Time Periods-->
+            <ion-col col-3>
+              <div class="form-group">
+                <ion-label>ช่วงเวลา</ion-label>
+                <div class="input-group">
+                  <ion-select (ionChange)="getWorkList(timePeriod)" name="timePeriod" [(ngModel)]="timePeriod">
+                    <ion-option *ngFor="let timePeriod of timePeriods" [value]="timePeriod">{{timePeriod.time_period}}</ion-option>
+                  </ion-select>
+                  <ion-icon class="input-icon" color="primary" item-right><i class="fa fa-home" aria-hidden="true"></i></ion-icon>
+                </div>
+              </div>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-card-content>
+    </ion-card>
+  </form>
+
+  <!--Detiail-->
+  <ion-card>
+    <ion-card-header>
+      ลายละเอียด
+    </ion-card-header>
+    <ion-card-content>
+      <ion-grid>
+        <!--Header-->
+        <ion-row>
+          <!--Activity-->
+          <ion-col col-2>
+            <ion-item>
+              งาน
+            </ion-item>
+          </ion-col>
+          <!--Shrimp Type-->
+          <ion-col col-2>
+            <ion-item>
+              ชนิด
+            </ion-item>
+          </ion-col>
+          <!--Shrimp Size-->
+          <ion-col col-2>
+            <ion-item>
+              ขนาด
+            </ion-item>
+          </ion-col>
+          <!--Amount Weight-->
+          <ion-col col-3>
+            <ion-item>
+              น้ำหนักรวม (กก.)
+            </ion-item>
+          </ion-col>
+          <!--Averrage Weight-->
+          <ion-col col-3>
+            <ion-item>
+              น้ำหนักเฉลี่ย (กก.)
+            </ion-item>
+          </ion-col>
+
+        </ion-row>
+
+        <!--Content-->
+        <ion-row *ngFor="let work of works">
+          <!--Activity-->
+          <ion-col col-2>
+            <ion-item>
+              {{work.production_activity.name}}
+            </ion-item>
+          </ion-col>
+          <!--Shrimp Type-->
+          <ion-col col-2>
+            <ion-item>
+              {{work.production_shrimp_type.name}}
+            </ion-item>
+          </ion-col>
+          <!--Shrimp Size-->
+          <ion-col col-2>
+            <ion-item>
+              {{work.production_shrimp_size.name}}
+            </ion-item>
+          </ion-col>
+          <!--Amount Weight-->
+          <ion-col col-3>
+            <ion-item>
+             {{work.amountWeight}}
+            </ion-item>
+          </ion-col>
+          <!--Averrage Weight-->
+          <ion-col col-3>
+            <ion-item detail-push (click)="getWorkDetails(work)">
+             {{work.averageWeight}}
+            </ion-item>
+          </ion-col>
+
+        </ion-row>
+      </ion-grid>
+    </ion-card-content>
+  </ion-card>
 
 </ion-content>

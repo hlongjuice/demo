@@ -14,7 +14,7 @@
 
 
 <ion-content padding>
-  <form #f="ngForm" (ngSubmit)="onSubmit(f)">
+  <form #workForm="ngForm">
     <!--Input Form-->
     <ion-card>
       <ion-card-content>
@@ -24,7 +24,7 @@
             <ion-col col-2>
               <div class="form-group">
                 <ion-label>รหัสพนักงาน</ion-label>
-                <ion-input name="emID" type="number" placeholder="7001" [(ngModel)]="selectedEmployeeInput"></ion-input>
+                <ion-input name="em_id" type="number" placeholder="7001" [(ngModel)]="selectedEmployeeInput"></ion-input>
               </div>
 
             </ion-col>
@@ -53,7 +53,7 @@
               <div class="form-group">
                 <ion-label>เวลาสิ้นสุด</ion-label>
                 <div class="input-group">
-                  <ion-datetime displayFormat="HH:mm" [(ngModel)]="startTimeInput" name="endTime" ngModel></ion-datetime>
+                  <ion-datetime displayFormat="HH:mm" [(ngModel)]="endTimeInput" name="endTime" ngModel></ion-datetime>
                   <ion-icon class="input-icon" color="primary" item-right><i class="fa fa-home" aria-hidden="true"></i></ion-icon>
                 </div>
               </div>
@@ -63,7 +63,7 @@
               <div class="form-group">
                 <ion-label>กิจกรรม</ion-label>
                 <div class="input-group">
-                  <ion-select name="acitivity" placeholder="เลือกกิจกรรม" ngModel>
+                  <ion-select name="activity_id" placeholder="เลือกกิจกรรม" ngModel>
                     <ion-option *ngFor="let activity of activityInput" [value]="activity.id">{{activity.name}}</ion-option>
                   </ion-select>
                   <ion-icon class="input-icon" color="primary" item-right><i class="fa fa-home" aria-hidden="true"></i></ion-icon>
@@ -85,7 +85,7 @@
               <div class="form-group">
                 <ion-label>ชนิดกุ้ง</ion-label>
                 <div class="input-group">
-                  <ion-select name="shrimpType" placeholder="เลือกชนิด" ngModel>
+                  <ion-select name="shrimp_type_id" placeholder="เลือกชนิด" ngModel>
                     <ion-option *ngFor="let shrimpType of shrimpTypeInput" [value]="shrimpType.id">{{shrimpType.name}}</ion-option>
                   </ion-select>
                   <ion-icon class="input-icon" color="primary" item-right><i class="fa fa-home" aria-hidden="true"></i></ion-icon>
@@ -97,7 +97,7 @@
               <div class="form-group">
                 <ion-label>ขนาดกุ้ง</ion-label>
                 <div class="input-group">
-                  <ion-select name="shrimpSide" placeholder="เลือกขนาด" ngModel>
+                  <ion-select name="shrimp_size_id" placeholder="เลือกขนาด" ngModel>
                     <ion-option *ngFor="let shrimpSize of shrimpSizeInput" [value]="shrimpSize.id">{{shrimpSize.name}}</ion-option>
                   </ion-select>
                   <ion-icon class="input-icon" color="primary" item-right><i class="fa fa-home" aria-hidden="true"></i></ion-icon>
@@ -114,11 +114,14 @@
                 </div>
               </div>
             </ion-col>
-            
+
             <!--Submit-->
             <ion-col col-2>
-              
+              <div class="form-group">
+                <button style="margin-top:40px" type="button" ion-button block color="success" (click)="addWork(workForm)">บันทึก</button>
+              </div>
             </ion-col>
+
           </ion-row>
         </ion-grid>
       </ion-card-content>
@@ -139,7 +142,7 @@
               <ion-col col-3 *ngFor="let employee of employees">
                 <ion-item (click)="selectedEmployee(employee.em_id)">
                   {{employee.em_id}}
-                </ion-item>   
+                </ion-item>
               </ion-col>
             </ion-row>
           </ion-list>

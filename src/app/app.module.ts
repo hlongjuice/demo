@@ -1,3 +1,5 @@
+import { ProductionResultDetailsPage } from './../pages/production/production-result/production-result-details/production-result-details';
+import { DateService } from './../services/date.service';
 import { NgModule, ErrorHandler } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
@@ -46,6 +48,7 @@ import { ProductionActivityService } from "../services/production/activity.servi
 import { ProductionShrimpTypeService } from "../services/production/shrimp-type.service";
 import { ProductionShrimpSizeService } from "../services/production/shrimp-size.service";
 import { ProductionEmployeeService } from "../services/production/employee.service";
+import { ProductionWorkService } from "../services/production/work.service";
 
 
 
@@ -64,6 +67,7 @@ import { ProductionEmployeeService } from "../services/production/employee.servi
     ProductionEmPerformancePage,
     ProductionDatePage,
     ProductionResultPage,
+    ProductionResultDetailsPage,
     ProductionWorkFormPage,
     UserPage,
     EmployeePage,
@@ -99,6 +103,7 @@ import { ProductionEmployeeService } from "../services/production/employee.servi
     ProductionDatePage,
     ProductionEmPerformancePage,
     ProductionResultPage,
+    ProductionResultDetailsPage,
     ProductionWorkFormPage,
     UserPage,
     EmployeePage,
@@ -129,11 +134,13 @@ import { ProductionEmployeeService } from "../services/production/employee.servi
     ProductionService,
     WebUrlService,
     DivisionService,
+    DateService,
     /*Production*/
     ProductionActivityService,
     ProductionShrimpTypeService,
     ProductionShrimpSizeService,
-    ProductionEmployeeService
+    ProductionEmployeeService,
+    ProductionWorkService
   ]
 })
 export class AppModule { }
