@@ -67,7 +67,7 @@
             <ion-card>
               <ion-card-header>
                 <ion-item>
-                  <ion-label>รหัสนักงาน</ion-label>
+                  รหัสนักงาน
                   {{selected_em_id}}
                 </ion-item>
               </ion-card-header>
@@ -94,7 +94,7 @@
                       <ion-item>{{em_weight.weight}}</ion-item>
                     </ion-col>
                     <ion-col col-4>
-                      <ion-item><button ion-button block color="danger">ลบ</button></ion-item>
+                      <ion-item><button type="button" (click)="deleteWeight(em_weight.id,i)" ion-button block color="danger">ลบ</button></ion-item>
                     </ion-col>
                   </ion-row>
                   <ion-row>

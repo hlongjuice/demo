@@ -18,32 +18,35 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 export class ProductionResultPage {
 
   /*Page*/
-    productionResultDetailsPage=ProductionResultDetailsPage;
+  productionResultDetailsPage = ProductionResultDetailsPage;
   /*EndPage*/
   dateHistory;
-  timePeriods:any;
-  works:any;
-  selectedTime:any;
-  selectedDate:Date;
-  amountWeight:number[];
-  averageWeight:number[];
+  selectedTimePeriod: any;
+  timePeriods: any;
+  works: any;
+  selectedTime: any;
+  selectedDate: Date;
+  amountWeight: number[];
+  averageWeight: number[];
 
 
-  constructor(public navCtrl: NavController, 
-  public navParams: NavParams,
-  public dateService:DateService,
-  public productionWorkService:ProductionWorkService) {
+  constructor(public navCtrl: NavController,
+    public navParams: NavParams,
+    public dateService: DateService,
+    public productionWorkService: ProductionWorkService) {
+    let currentDate = this.dateService.getCurrentDateTime()
+    this.dateHistory = currentDate.YY + '-' + currentDate.MM + '-' + currentDate.DD;
+
   }
 
-  ngOnInit(){
-    let currentDate=this.dateService.getCurrentDateTime()
-    this.dateHistory=currentDate.YY+'-'+currentDate.MM+'-'+currentDate.DD;
+  ngOnInit() {
     this.productionWorkService.getTimePeriod(this.dateHistory)
-    .then(result=>{
-      this.timePeriods=result.production_time_period;
-    })
-    .catch(err=>{console.log(err)});
-    console.log(currentDate);
+      .then(result => {
+        console.log(result)
+        this.timePeriods = result.production_date_time;
+      })
+      .catch(err => { console.log(err) });
+    console.log(this.dateHistory);
   }
 
   ionViewDidLoad() {
@@ -51,46 +54,33 @@ export class ProductionResultPage {
   }
 
   /*Get Time Period*/
-  getTimePeriod(date:Date){
-    this.selectedDate=date;
-    this.productionWorkService.getTimePeriod(date)
-    .then(result=>{
-      console.log(result);
-      this.timePeriods=result.production_date_time;
-    })
-    .catch(err=>{console.log(err)});
+  getTimePeriod(date: Date) {
     console.log(date);
+    this.selectedDate = date;
+    this.productionWorkService.getTimePeriod(date)
+      .then(result => {
+        this.timePeriods = result.production_date_time;
+      })
+      .catch(err => { console.log(err) })
   }
 
   /*Get Work List*/
-  getWorkList(time){
-    let time_period_id=time.id;
-    this.selectedTime=time.time_period;
-    console.log(time_period_id);
+  getWorkList(time) {
+    let time_period_id = time.id;
+    this.selectedTime = time.time_period;
     this.productionWorkService.getWorkList(time_period_id)
-    .then(
-      result=>{
-        let workList:any={
-          'production_work':[],
-          'amount_weight':[],
-          'average_weight':[]
-        }
-        this.works=result.production_work;
-        console.log(result);
-        // console.log(workList);
-        // console.log(result.production_work);
-        // result.production_work.forEach(work=>{
-          // workList.production_work.push(work)
-        // });
+      .then(
+      result => {
+        this.works = result.production_work;
       }
-    ).catch(err=>{console.log(err)})
+      ).catch(err => { console.log(err) })
   }
   /*Get Details*/
-  getWorkDetails(work){
-    this.navCtrl.push(this.productionResultDetailsPage,{
-      'date':this.selectedDate,
-      'timePeriod':this.selectedTime,
-      'work':work
+  getWorkDetails(work) {
+    this.navCtrl.push(this.productionResultDetailsPage, {
+      'date': this.selectedDate,
+      'timePeriod': this.selectedTime,
+      'work': work
     })
   }
 }

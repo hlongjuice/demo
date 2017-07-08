@@ -37,7 +37,7 @@
               <div class="form-group">
                 <ion-label>ช่วงเวลา</ion-label>
                 <div class="input-group">
-                  <ion-select (ionChange)="getWorkList(timePeriod)" name="timePeriod" [(ngModel)]="timePeriod">
+                  <ion-select  name="timePeriod" (ionChange)="getWorkList(selectedTimePeriod)"  [(ngModel)]="selectedTimePeriod" >
                     <ion-option *ngFor="let timePeriod of timePeriods" [value]="timePeriod">{{timePeriod.time_period}}</ion-option>
                   </ion-select>
                   <ion-icon class="input-icon" color="primary" item-right><i class="fa fa-home" aria-hidden="true"></i></ion-icon>

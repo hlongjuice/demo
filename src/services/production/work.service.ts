@@ -95,7 +95,7 @@ export class ProductionWorkService {
     }
 
     /*Get Work Details*/
-    getWorkDetials(work_id) {
+    getWorkDetials(work_id):Promise<any> {
         let getWorkDetialsUrl = this.url + '/api/production/work/date/time_period/work_list/' + work_id;
         return new Promise((resolve, reject) => {
              this.http.get(getWorkDetialsUrl, { headers: this.headers })
@@ -105,6 +105,18 @@ export class ProductionWorkService {
                  },
                  err=>{reject(err)}
              )
+        })
+    }
+
+    /*Delete Employee Weight*/
+    deleteWeight(weight_id):Promise<any>{
+        let deleteWeightUrl=this.url+'/api/production/work/date/time_period/work_list/weight/'+weight_id;
+        return new Promise((resolve,reject)=>{
+            this.http.delete(deleteWeightUrl,{headers:this.headers})
+            .subscribe(
+                result=>{resolve(result.json())},
+                err=>{reject(err)}
+            )
         })
     }
 }
