@@ -158,10 +158,9 @@
             </ion-list-header>
             <ion-row>
               <ion-col col-4 *ngFor="let employeeGroup of employeeGroups">
-                <ion-item (click)="getGroupMembers(employeeGroup.group_id)">
-                  {{employeeGroup.group_id}}
+                <ion-item (click)="getGroupMembers(employeeGroup.name)">
+                  {{employeeGroup.name}} 
                 </ion-item>
-
               </ion-col>
             </ion-row>
           </ion-list>

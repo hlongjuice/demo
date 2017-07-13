@@ -104,11 +104,12 @@ export class ProductionWorkFormPage {
   }
 
   /*Get Group Members*/
-  getGroupMembers($id) {
-    this.productionEmployeeService.getGroupMember($id)
+  getGroupMembers(group) {
+    this.productionEmployeeService.getGroupEmployee(group)
       .then(
       members => {
-        this.selectedGroup = $id;
+        console.log(members)
+        this.selectedGroup = group;
         this.employees = members;
       }
       ).catch(err => { console.log(err) });

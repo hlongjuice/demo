@@ -1,3 +1,4 @@
+import { ProductionEmployeePage } from './../pages/production/production-employee/production-employee';
 import { ProductionResultDetailsPage } from './../pages/production/production-result/production-result-details/production-result-details';
 import { DateService } from './../services/date.service';
 import { NgModule, ErrorHandler } from '@angular/core';
@@ -68,6 +69,7 @@ import { ProductionWorkService } from "../services/production/work.service";
     ProductionDatePage,
     ProductionResultPage,
     ProductionResultDetailsPage,
+    ProductionEmployeePage,
     ProductionWorkFormPage,
     UserPage,
     EmployeePage,
@@ -105,6 +107,7 @@ import { ProductionWorkService } from "../services/production/work.service";
     ProductionResultPage,
     ProductionResultDetailsPage,
     ProductionWorkFormPage,
+    ProductionEmployeePage,
     UserPage,
     EmployeePage,
     EmployeeAddPage,

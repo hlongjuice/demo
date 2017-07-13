@@ -63,3 +63,9 @@ ion-select {
     background-color:map-get($colors, success ) !important;
     color:#fff !important;
 }
+.line {
+    border-bottom: 1px solid map-get($colors, light-gray );
+}
+.fa{
+    margin-right:10px !important;
+}

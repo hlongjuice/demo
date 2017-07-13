@@ -23,34 +23,119 @@ export class ProductionEmployeeService {
                     headers => {
                         this.headers = headers
                     }
-                    )
+                    ).catch(err => console.log(err))
             }
-        )
+        ).catch(err => { console.log(err) })
     }
 
     /*Get Employee From Group*/
-     getGroupMember(groupID:string):Promise<any>{
-        let getEmployeeGroupUrl=this.url+'/api/production/group/members/'+groupID;
-        return new Promise((resolve,reject)=>{
-            this.http.get(getEmployeeGroupUrl,{headers:this.headers})
-            .subscribe(
-                result=>{
+    getGroupEmployee(groupID: string): Promise<any> {
+        let getEmployeeGroupUrl = this.url + '/api/production/group/members/' + groupID;
+        return new Promise((resolve, reject) => {
+            this.http.get(getEmployeeGroupUrl, { headers: this.headers })
+                .subscribe(
+                result => {
                     resolve(result.json());
                 },
-                err=>{reject(err);}
-            );
+                err => { reject(err); }
+                );
         })
-     }
+    }
 
-     /*Get All Group*/
-     getGroups():Promise<any>{
-         let getGroupUrl=this.url+'/api/production/groups';
-         return new Promise((resolve,reject)=>{
-             this.http.get(getGroupUrl,{headers:this.headers})
-             .subscribe(
-                 result=>{resolve(result.json())},
-                 err=>{reject(err)}
-             )
-         })
-     }
+    /*Get All Group*/
+    getGroups(): Promise<any> {
+        let getGroupUrl = this.url + '/api/production/groups';
+        return new Promise((resolve, reject) => {
+            this.http.get(getGroupUrl, { headers: this.headers })
+                .subscribe(
+                result => { resolve(result.json()) },
+                err => { reject(err) }
+                )
+        })
+    }
+    /*Get Non Group Employees*/
+    getNonGroupEmployee(division_id: number) {
+        let getNonGroupMemberUrl = this.url + '/api/production/group/non_group/members/' + division_id;
+        return new Promise((resolve, reject) => {
+            this.http.get(getNonGroupMemberUrl, { headers: this.headers })
+                .subscribe(
+                result => {
+                    resolve(result.json());
+                },
+                err => { reject(err) }
+                )
+        })
+    }
+
+    /*get All Division Employee*/
+    getAllDivisionEmployee(division_id: number): Promise<any> {
+        let getAllDivisionEmployeeUrl = this.url + '/api/production/group/all/employee/' + division_id;
+        return new Promise((resolve, reject) => {
+            this.http.get(getAllDivisionEmployeeUrl, { headers: this.headers })
+                .subscribe(
+                result => {
+                    resolve(result.json())
+                }, err => { reject(err) }
+                )
+        })
+    }
+    /*Go New Page*/
+    goNextPage(url: string): Promise<any> {
+        return new Promise((resolve, reject) => {
+            this.http.get(url, { headers: this.headers })
+                .subscribe(
+                result => {
+                    resolve(result.json())
+                },
+                err => { reject(err) }
+                )
+        });
+    }
+    /*addGroupMember*/
+    addGroupMember(group, employees): Promise<any> {
+        let newMembers = {
+            'group': group,
+            'employees': employees
+        }
+        let addGroupMemberUrl = this.url + '/api/production/group/member/add';
+        return new Promise((resolve, reject) => {
+            this.http.post(addGroupMemberUrl, newMembers, { headers: this.headers })
+                .subscribe(
+                result => {
+                    resolve(result.json())
+                }, err => { reject(err) }
+                )
+        });
+    }
+    /*changeGroupMember*/
+    changeGroupMember(group, employees): Promise<any> {
+        let editMembers = {
+            'group': group,
+            'employees': employees
+        }
+        let changeGroupMemberUrl = this.url + '/api/production/group/member/edit';
+        return new Promise((resolve, reject) => {
+            this.http.post(changeGroupMemberUrl, editMembers, { headers: this.headers })
+                .subscribe(
+                result => {
+                    resolve(result.json())
+                }, err => { reject(err) }
+                )
+        });
+    }
+    /*deleteGroupMember*/
+    deleteGroupMember(employees) {
+        let editMembers = {
+            'employees': employees
+        }
+        let deleteGroupMemberUrl = this.url + '/api/production/group/member/delete';
+        return new Promise((resolve, reject) => {
+            this.http.post(deleteGroupMemberUrl, editMembers, { headers: this.headers })
+                .subscribe(
+                result => {
+                    resolve(result.json())
+                }, err => { reject(err) }
+                )
+        });
+    }
 }
