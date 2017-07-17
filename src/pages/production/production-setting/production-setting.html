@@ -1,0 +1,114 @@
+<!--
+  Generated template for the ProductionSettingPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+  <ion-navbar color="primary">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title text-center>
+      <!--<ion-item>-->
+      <ion-icon item-left name="home"></ion-icon>
+      การตั้งค่าอื่นๆ
+      <!--</ion-item> -->
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content padding>
+  <ion-grid>
+    <ion-row>
+      <!--Left Column-->
+      <ion-col col-8>
+        <!--Activity-->
+        <ion-row>
+          <ion-card>
+            <ion-card-header>
+              <ion-item>
+                <ion-label>งาน</ion-label>
+                <button (click)="addActivity()" default color="primary" item-end ion-button>
+                  <ion-icon><i class="fa fa-plus-circle" aria-hidden="true"></i></ion-icon>
+                  เพิ่มกิจงาน
+                  </button>
+              </ion-item>
+            </ion-card-header>
+            <ion-card-content>
+              <!--Table Header-->
+              <ion-row class="row-header">
+                <ion-col col-3>
+                  <ion-item>
+                    <ion-label>รายการ</ion-label>
+                  </ion-item>
+                </ion-col>
+                <ion-col offset-1 col-2>
+                  <ion-item>
+                    <ion-label>สถานะ</ion-label>
+                  </ion-item>
+                </ion-col>
+                <ion-col col-3>
+                  <ion-item>
+                    <ion-label>รายการ</ion-label>
+                  </ion-item>
+                </ion-col>
+                <ion-col offset-1 col-2>
+                  <ion-item>
+                    <ion-label>สถานะ</ion-label>
+                  </ion-item>
+                </ion-col>
+                <div class="row-header-line"></div>
+              </ion-row>
+              <!--Table Content-->
+              <ion-row class="row-content">
+                <ion-col *ngFor="let activity of activities; let i=index" col-6>
+                  <ion-list>
+                    <ion-item-sliding #item>
+                      <ion-item>
+                        <ion-label>
+                          {{activity.name}}
+                        </ion-label>
+                        <ion-toggle (ionChange)="toggleStatus($event,i);" no-padding padding-top padding-bottom [checked]="activity.status==1"></ion-toggle>
+                      </ion-item>
+                      <ion-item-options side="left">
+                        <button (click)="editActivity(i)" ion-button>แก้ไข</button>
+                        <button (click)="deleteActivity(i)" ion-button color="danger" (click)="share(item)">ลบ</button>
+                      </ion-item-options>
+                    </ion-item-sliding>
+                  </ion-list>
+                  <div class="row-content-line-95"></div>
+                </ion-col>
+              </ion-row>
+            </ion-card-content>
+          </ion-card>
+        </ion-row>
+        <!--Shrimp Type-->
+        <ion-row>
+          <ion-card>
+            <ion-card-header>
+              ชนิดกุ้ง
+            </ion-card-header>
+            <ion-card-content>
+
+            </ion-card-content>
+          </ion-card>
+        </ion-row>
+      </ion-col>
+      <!--Right Column-->
+      <ion-col col-4>
+        <ion-row>
+          <ion-card>
+            <ion-card-header>
+              ขนาดกุ้ง
+            </ion-card-header>
+            <ion-card-content>
+
+            </ion-card-content>
+          </ion-card>
+        </ion-row>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

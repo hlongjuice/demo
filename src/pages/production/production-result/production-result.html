@@ -12,7 +12,7 @@
     <ion-title text-center>
       <!--<ion-item>-->
       <ion-icon item-left name="home"></ion-icon>
-        สรุปการบันทึก
+      สรุปการบันทึก
       <!--</ion-item> -->
     </ion-title>
   </ion-navbar>
@@ -43,7 +43,7 @@
               <div class="form-group">
                 <ion-label>ช่วงเวลา</ion-label>
                 <div class="input-group">
-                  <ion-select  name="timePeriod" (ionChange)="getWorkList(selectedTimePeriod)"  [(ngModel)]="selectedTimePeriod" >
+                  <ion-select name="timePeriod" (ionChange)="getWorkList(selectedTimePeriod)" [(ngModel)]="selectedTimePeriod">
                     <ion-option *ngFor="let timePeriod of timePeriods" [value]="timePeriod">{{timePeriod.time_period}}</ion-option>
                   </ion-select>
                   <ion-icon class="input-icon" color="primary" item-right><i class="fa fa-home" aria-hidden="true"></i></ion-icon>
@@ -63,8 +63,8 @@
     </ion-card-header>
     <ion-card-content>
       <ion-grid>
-        <!--Header-->
-        <ion-row>
+        <!--Table Header-->
+        <ion-row class="table-header">
           <!--Activity-->
           <ion-col col-2>
             <ion-item>
@@ -92,14 +92,15 @@
           <!--Averrage Weight-->
           <ion-col col-3>
             <ion-item>
-              น้ำหนักเฉลี่ย (กก.)
+             <h2 ion-text color="danger">น้ำหนักเฉลี่ย (กก.)</h2> 
             </ion-item>
           </ion-col>
-
+          <div class="table-header-line">
+          </div>
         </ion-row>
 
         <!--Content-->
-        <ion-row *ngFor="let work of works">
+        <ion-row (click)="setHighlight(i)" [ngClass]="{'highlight':isHighlightVisible[i]}" class="table-content" *ngFor="let work of works; let i=index">
           <!--Activity-->
           <ion-col col-2>
             <ion-item>
@@ -121,16 +122,16 @@
           <!--Amount Weight-->
           <ion-col col-3>
             <ion-item>
-             {{work.amountWeight}}
+              {{work.amountWeight}}
             </ion-item>
           </ion-col>
           <!--Averrage Weight-->
           <ion-col col-3>
             <ion-item detail-push (click)="getWorkDetails(work)">
-             {{work.averageWeight}}
+             <h2 ion-text color="danger">{{work.averageWeight}}</h2> 
             </ion-item>
           </ion-col>
-
+          <div class="table-content-line"></div>
         </ion-row>
       </ion-grid>
     </ion-card-content>

@@ -1,3 +1,4 @@
+import { ProductionSettingPage } from './../pages/production/production-setting/production-setting';
 import { ProductionEmployeePage } from './../pages/production/production-employee/production-employee';
 import { ProductionResultDetailsPage } from './../pages/production/production-result/production-result-details/production-result-details';
 import { DateService } from './../services/date.service';
@@ -22,11 +23,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { ProductionPage } from "../pages/production/production";
 
 import { UserPage } from "../pages/user/user";
-import { ProductionScheduleAddPage } from "../pages/production/production-schedule-add/production-schedule-add";
-import { ProductionTimeperiodsPage } from "../pages/production/production-timeperiods/production-timeperiods";
-import { ProductionEmPerformancePage } from "../pages/production/production-em-performance/production-em-performance";
 import { LoginPage } from "../pages/login/login";
-import { ProductionDatePage } from "../pages/production/production-date/production-date";
 
 import { EmployeeService } from "../services/employee.service";
 import { ProductionScheduleService } from "../services/production-schedule.service";
@@ -63,14 +60,11 @@ import { ProductionWorkService } from "../services/production/work.service";
     TabsPage,
     LoginPage,
     ProductionPage,
-    ProductionScheduleAddPage,
-    ProductionTimeperiodsPage,
-    ProductionEmPerformancePage,
-    ProductionDatePage,
     ProductionResultPage,
     ProductionResultDetailsPage,
     ProductionEmployeePage,
     ProductionWorkFormPage,
+    ProductionSettingPage,
     UserPage,
     EmployeePage,
     EmployeeAddPage,
@@ -100,14 +94,11 @@ import { ProductionWorkService } from "../services/production/work.service";
     LoginPage,
     TabsPage,
     ProductionPage,
-    ProductionScheduleAddPage,
-    ProductionTimeperiodsPage,
-    ProductionDatePage,
-    ProductionEmPerformancePage,
     ProductionResultPage,
     ProductionResultDetailsPage,
     ProductionWorkFormPage,
     ProductionEmployeePage,
+    ProductionSettingPage,
     UserPage,
     EmployeePage,
     EmployeeAddPage,
@@ -131,10 +122,8 @@ import { ProductionWorkService } from "../services/production/work.service";
 
     /*Service*/
     EmployeeService,
-    ProductionScheduleService,
     UserService,
     AuthService,
-    ProductionService,
     WebUrlService,
     DivisionService,
     DateService,

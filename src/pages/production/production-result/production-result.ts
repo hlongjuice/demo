@@ -28,6 +28,7 @@ export class ProductionResultPage {
   selectedDate: Date;
   amountWeight: number[];
   averageWeight: number[];
+  isHighlightVisible:boolean[];
 
 
   constructor(public navCtrl: NavController,
@@ -40,6 +41,7 @@ export class ProductionResultPage {
   }
 
   ngOnInit() {
+    this.isHighlightVisible=[];
     this.productionWorkService.getTimePeriod(this.dateHistory)
       .then(result => {
         console.log(result)
@@ -82,5 +84,10 @@ export class ProductionResultPage {
       'timePeriod': this.selectedTime,
       'work': work
     })
+  }
+  setHighlight(i){
+    this.isHighlightVisible.fill(false);
+    this.isHighlightVisible[i]=true;
+    console.log(this.isHighlightVisible);
   }
 }

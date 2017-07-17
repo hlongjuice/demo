@@ -1,7 +1,6 @@
 import {Component} from '@angular/core';
 import {IonicPage, NavController, NavParams} from 'ionic-angular';
 import {ProductionService} from "../../services/production.service";
-import {ProductionDatePage} from "./production-date/production-date";
 
 
 /**
@@ -17,10 +16,8 @@ import {ProductionDatePage} from "./production-date/production-date";
 })
 export class ProductionPage {
 
-    productionDatePage = ProductionDatePage;
     constructor(public navCtrl: NavController,
                 public navParams: NavParams,
-                private productionService: ProductionService
                 ) {
     }
 
@@ -30,10 +27,6 @@ export class ProductionPage {
 
     ionViewDidLoad() {
         console.log('ionViewDidLoad ProductionPage');
-    }
-
-    setDate() {
-        this.navCtrl.push(this.productionDatePage);
     }
 
 }

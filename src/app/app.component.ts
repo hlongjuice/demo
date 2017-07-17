@@ -1,3 +1,4 @@
+import { ProductionSettingPage } from './../pages/production/production-setting/production-setting';
 import { ProductionEmployeePage } from './../pages/production/production-employee/production-employee';
 import { Component, ViewChild } from '@angular/core';
 import { Platform, NavController, MenuController } from 'ionic-angular';
@@ -25,6 +26,7 @@ export class MyApp {
   productionPage = ProductionPage;
   productionWorkFormPage=ProductionWorkFormPage;
   productionResultPage=ProductionResultPage;
+  productionSettingPage=ProductionSettingPage;
   humanResourcePage=HumanResourcePage
   homePage = HomePage;
   loginPage=LoginPage;

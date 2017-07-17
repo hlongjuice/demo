@@ -98,10 +98,12 @@ export class ProductionEmployeePage {
   }
 
   /*Get In Group Employee*/
-  getInGroupEmployee(group) {
-    this.productionEmployeeService.getGroupEmployee(group)
+  getInGroupEmployee() {
+    console.log(this.group);
+    this.productionEmployeeService.getGroupEmployee(this.group)
       .then(
       result => {
+        console.log(result);
         this.inGroupEmployees = result;
       }
       )
@@ -117,9 +119,9 @@ export class ProductionEmployeePage {
       nextPage = this.nonGroupNext.next_page_url;
     }
     else if (this.groupTab == 'inGroup') {
-      nextPage = this.inGroupNext.next_page_url;
+      // nextPage = this.inGroupNext.next_page_url;
     }
-    if (nextPage != null) {
+    if (nextPage != null&&this.groupTab!="inGroup") {
       this.productionEmployeeService.goNextPage(nextPage)
         .then(
         result => {
@@ -178,9 +180,9 @@ export class ProductionEmployeePage {
           this.productionEmployeeService.addGroupMember(group, this.chkEmployee)
             .then(result => {
               console.log(result);
-                this.allEmployees = null;
-                this.nonGroupEmployees = null;
-                this.inGroupEmployees = null;
+              this.allEmployees = null;
+              this.nonGroupEmployees = null;
+              this.inGroupEmployees = null;
               this.getEmployee();
             })
         },
@@ -198,8 +200,8 @@ export class ProductionEmployeePage {
     alert.present();
   }
   /*Change Group Member*/
-  changeGroupMember(){
-      let alert = this.alertCtrl.create({
+  changeGroupMember() {
+    let alert = this.alertCtrl.create({
       title: 'เลือกกลุ่ม',
       buttons: [{
         text: 'ยกเลิก',
@@ -215,9 +217,9 @@ export class ProductionEmployeePage {
           this.productionEmployeeService.changeGroupMember(group, this.chkEmployee)
             .then(result => {
               console.log(result);
-                this.allEmployees = null;
-                this.nonGroupEmployees = null;
-                this.inGroupEmployees = null;
+              this.allEmployees = null;
+              this.nonGroupEmployees = null;
+              this.inGroupEmployees = null;
               this.getEmployee();
             })
         },
@@ -233,12 +235,16 @@ export class ProductionEmployeePage {
       });
     });
     alert.present();
+    alert.onDidDismiss(() => {
+      if (this.groupTab == 'inGroup')
+        this.getInGroupEmployee();
+    });
   }
   /*Delete Group Member*/
-  deleteGroupMember(){
-    let alert=this.alertCtrl.create({
-      title:'ยืนยันการลบ',
-    buttons: [{
+  deleteGroupMember() {
+    let alert = this.alertCtrl.create({
+      title: 'ยืนยันการลบ',
+      buttons: [{
         text: 'ยกเลิก',
         role: 'cancel',
         handler: () => {
@@ -252,9 +258,9 @@ export class ProductionEmployeePage {
           this.productionEmployeeService.deleteGroupMember(this.chkEmployee)
             .then(result => {
               console.log(result);
-                this.allEmployees = null;
-                this.nonGroupEmployees = null;
-                this.inGroupEmployees = null;
+              this.allEmployees = null;
+              this.nonGroupEmployees = null;
+              this.inGroupEmployees = null;
               this.getEmployee();
             })
         },
@@ -263,8 +269,9 @@ export class ProductionEmployeePage {
       ]
     })
     alert.present();
-  }
-  show(){
-    console.log(this.chkEmployee)
+    alert.onDidDismiss(() => {
+      if (this.groupTab == 'inGroup')
+        this.getInGroupEmployee();
+    });
   }
 }

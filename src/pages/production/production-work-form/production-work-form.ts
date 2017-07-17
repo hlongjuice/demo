@@ -80,13 +80,13 @@ export class ProductionWorkFormPage {
       ).catch(err => { console.log(err) });
 
     /*Get Shrimp Size*/
-    this.productionShrimpSizeService.getAllShrimpSize()
+    this.productionShrimpSizeService.getShrimpSize()
       .then(
       result => { this.shrimpSizeInput = result; }
       ).catch(err => console.log(err));
 
     /*Get Shrimp Type*/
-    this.productionShrimpTypeSerivce.getAllShrimpType()
+    this.productionShrimpTypeSerivce.getShrimpType()
       .then(result => { this.shrimpTypeInput = result; })
       .catch(err => console.log(err))
     /*Get Employee Group*/

@@ -1,5 +1,5 @@
 
-import { Http,Headers } from "@angular/http";
+import { Http, Headers } from "@angular/http";
 import { AuthService } from "../auth.service";
 import { WebUrlService } from "../weburl.service";
 import { Injectable } from "@angular/core";
@@ -28,15 +28,67 @@ export class ProductionShrimpTypeService {
         )
     }
 
-    getAllShrimpType():Promise<any>{
-        let getShrimpTypeUrl=this.url+'/api/production/shrimp_type';
-        return new Promise((resolve,reject)=>{
-            this.http.get(getShrimpTypeUrl,{headers:this.headers})
-            .subscribe(
-                result=>{
+    /*Get only enable shrimp type*/
+    getShrimpType() {
+        let getShrimpTypeUrl = this.url + '/api/production/shrimp_type/enable';
+        return new Promise((resolve, reject) => {
+            this.http.get(getShrimpTypeUrl, { headers: this.headers })
+                .subscribe(
+                result => {
                     resolve(result.json());
                 },
-                err=>{reject(err);}
+                err => { reject(err); }
+                )
+        })
+    }
+    getAllShrimpType(): Promise<any> {
+        let getAllShrimpTypeUrl = this.url + '/api/production/shrimp_type';
+        return new Promise((resolve, reject) => {
+            this.http.get(getAllShrimpTypeUrl, { headers: this.headers })
+                .subscribe(
+                result => {
+                    resolve(result.json());
+                },
+                err => { reject(err); }
+                )
+        })
+    }
+    /*Update*/
+    update(id, name) {
+        let updateUrl = this.url + '/api/production/shrimp_type/update/' + id
+        let newName = {
+            'name': name
+        }
+        return new Promise((resolve, reject) => {
+            this.http.patch(updateUrl, newName, { headers: this.headers })
+                .subscribe(
+                result => { resolve(result.json()) },
+                err => { reject(err) }
+                )
+        })
+    }
+    /*Update Status*/
+    updateStatus(id, status) {
+        let updateStatusUrl = this.url + '/api/production/shrimp_type/update/status/' + id
+        let newStatus = {
+            'status': status
+        }
+        return new Promise((resolve, reject) => {
+            this.http.patch(updateStatusUrl, newStatus, { headers: this.headers })
+                .subscribe(
+                result => { resolve(result.json()) },
+                err => { reject(err) }
+                )
+        })
+    }
+    /*delete*/
+    delete(id){
+        let deleteUrl=this.url+'/api/production/shrimp_type/delete/'+id
+        return new Promise((resolve,reject)=>{
+            this.http.delete(deleteUrl,{headers:this.headers})
+            .subscribe(
+                result=>{resolve(result.json())},
+                err=>{reject(err)}
             )
         })
     }

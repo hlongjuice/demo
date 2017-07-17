@@ -33,7 +33,9 @@ $colors: (
   dark:       #222,
   info:       #5BC0DE,
   success:    #32db64,
-  warning:    #f0ad4e
+  warning:    #f0ad4e,
+  gray:     #9B9B9B,
+  soft-gray:    #DDDBDB
 );
 
 
@@ -81,7 +83,25 @@ $colors: (
 
 @import "roboto";
 @import "noto-sans";
+@font-face {
+    font-family: 'RSU';
+    src: url('../assets/fonts/RSU.woff') format('woff'), url('../assets/fonts/RSU.ttf') format('truetype'), url('../assets/fonts/RSU.svg#RSU') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
 
+@font-face {
+    font-family: 'RSU_Regular';
+    src: url('../assets/fonts/RSU_Regular.eot');
+    src: url('../assets/fonts/RSU_Regular.woff2') format('woff2'), url('../assets/fonts/RSU_Regular.eot?#iefix') format('embedded-opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/*RSU*/
+$font-family-md-base: "RSU";
+$font-family-ios-base: "RSU";
+$font-family-wp-base: "RSU";
 /*Font Awesome*/
 @import "./scss/font-awesome/font-awesome"; @font-face { font-family: 'FontAwesome'; src: url('../assets/fonts/fontawesome-webfont.eot?v=#{$fa-version}');
 src: url('../assets/fonts/fontawesome-webfont.eot?#iefix&v=#{$fa-version}') format('embedded-opentype'),
