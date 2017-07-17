@@ -33,9 +33,13 @@ ion-select {
 }
 
 
+/*Tool Bar Title*/
+.toolbar-title{
+    letter-spacing: 1px;
+}
 /*Item*/
-
 .item {
+    letter-spacing: 1px;
     h1 {
         font-size: 2.6rem !important;
     }
@@ -92,7 +96,13 @@ ion-select {
         position: absolute;
         bottom: 1px;
         left: 0;
-        border-bottom: 1px solid map-get($colors, primary);
+        border-bottom: 1px solid rgba(map-get($colors, primary) ,0.5);
+    }
+}
+
+.header-primary {
+    .item {
+        color: map-get($colors, primary) !important;
     }
 }
 

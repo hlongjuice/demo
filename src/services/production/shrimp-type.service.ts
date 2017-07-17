@@ -92,4 +92,19 @@ export class ProductionShrimpTypeService {
             )
         })
     }
+    /*Add*/
+        /*Add*/
+    add(name){
+        let addUrl=this.url+'/api/production/shrimp_type/add';
+        let newShrimpType={
+            'name':name
+        }
+        return new Promise((resolve,reject)=>{
+            this.http.post(addUrl,newShrimpType,{headers:this.headers})
+            .subscribe(
+                result=>{resolve(result.json())},
+                err=>{reject(err)}
+            )
+        })
+    }
 }
