@@ -2,7 +2,8 @@ import { ProductionResultDetailsPage } from './production-result-details/product
 import { ProductionWorkService } from './../../../services/production/work.service';
 import { DateService } from './../../../services/date.service';
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
+declare var naturalSort:any;
 
 /**
  * Generated class for the ProductionResultPage page.
@@ -17,7 +18,8 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class ProductionResultPage {
 
-  /*Page*/
+  /*Page*/;
+  
   productionResultDetailsPage = ProductionResultDetailsPage;
   /*EndPage*/
   dateHistory;
@@ -28,24 +30,26 @@ export class ProductionResultPage {
   selectedDate: Date;
   amountWeight: number[];
   averageWeight: number[];
-  isHighlightVisible:boolean[];
+  isHighlightVisible: boolean[];
 
 
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
     public dateService: DateService,
-    public productionWorkService: ProductionWorkService) {
+    public productionWorkService: ProductionWorkService,
+    public alertCtrl: AlertController) {
     let currentDate = this.dateService.getCurrentDateTime()
     this.dateHistory = currentDate.YY + '-' + currentDate.MM + '-' + currentDate.DD;
-
   }
 
   ngOnInit() {
-    this.isHighlightVisible=[];
+    let time=[];
+    this.timePeriods=[];
+    // console.log(this.NaturalSort)
+    this.isHighlightVisible = [];
     this.productionWorkService.getTimePeriod(this.dateHistory)
       .then(result => {
-        console.log(result)
-        this.timePeriods = result.production_date_time;
+        this.timePeriods=result.production_date_time;
       })
       .catch(err => { console.log(err) });
     console.log(this.dateHistory);
@@ -57,11 +61,12 @@ export class ProductionResultPage {
 
   /*Get Time Period*/
   getTimePeriod(date: Date) {
-    console.log(date);
     this.selectedDate = date;
     this.productionWorkService.getTimePeriod(date)
       .then(result => {
+        // console.log(result);
         this.timePeriods = result.production_date_time;
+        // this.timePeriods=result;
       })
       .catch(err => { console.log(err) })
   }
@@ -74,6 +79,7 @@ export class ProductionResultPage {
       .then(
       result => {
         this.works = result.production_work;
+        console.log(this.works);
       }
       ).catch(err => { console.log(err) })
   }
@@ -85,9 +91,40 @@ export class ProductionResultPage {
       'work': work
     })
   }
-  setHighlight(i){
+  setHighlight(i) {
     this.isHighlightVisible.fill(false);
-    this.isHighlightVisible[i]=true;
+    this.isHighlightVisible[i] = true;
     console.log(this.isHighlightVisible);
+  }
+  /*Delete Work*/
+  deleteWork(id, index) {
+    console.log(index);
+    let alert = this.alertCtrl.create({
+      title: 'ยืนยันการลบ',
+      buttons: [
+        {
+          text: 'ยกเลิก',
+          role: 'cancel',
+          handler:()=>{
+            console.log(this.works)
+          },
+          cssClass: 'alertCancel'
+        },
+        {
+          text: 'ยืนยัน',
+          handler: () => {
+            this.productionWorkService.deleteWork(id)
+              .then(
+              result => {
+                console.log(this.works)
+                this.works.splice(index,1);
+              }
+              ).catch(err => { console.log(err) })
+          },
+          cssClass:'alertConfirm'
+        }
+      ]
+    })
+    alert.present();
   }
 }

@@ -1,11 +1,11 @@
+import { AlertController } from 'ionic-angular';
 import { Injectable } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { WebUrlService } from "./weburl.service";
 import { Http, Headers } from "@angular/http";
-import { EmployeeModel } from "../models/employee";
 import { AuthService } from "./auth.service";
 import { TransferObject, Transfer, FileUploadOptions, FileUploadResult } from "@ionic-native/transfer";
-import { DivisionModel } from "../models/division";
+import { EmployeeModel } from "../models/human-resource/employee";
 
 @Injectable()
 export class EmployeeService {
@@ -36,8 +36,8 @@ export class EmployeeService {
     }
 
     /*Get Employee*/
-    getEmployee(): Promise<any> {
-        let getEmUrl = this.url + '/api/employee';
+    getAllEmployees(): Promise<any> {
+        let getEmUrl = this.url + '/api/human_resource/employee/all';
         return new Promise((resolve, reject) => {
             this.http.get(getEmUrl, { headers: this.headers })
                 .subscribe(
@@ -49,93 +49,107 @@ export class EmployeeService {
                 }
                 )
         })
-
     }
-
-    /*Add Employee*/
-    addEmployee(formInput: NgForm): Promise<any> {
+    /* Get All Employee Without Page */
+    getAllEmployeeWithOutPage(){
+        let getEmployeeUrl=this.url+'/api/human_resource/employee/all/without_page';
+        return new Promise((resolve,reject)=>{
+            this.http.get(getEmployeeUrl,{headers:this.headers})
+            .subscribe(
+                result=>{resolve(result.json())},
+                err=>{reject(err)}
+            )
+        });
+    }
+    /*Get Division Employee*/
+    getDivisionEmployee(division_id): Promise<any> {
+        let divisionEmployeeUrl = this.url + '/api/human_resource/employee/division/' + division_id;
         return new Promise((resolve, reject) => {
-            let employee = new EmployeeModel();
-            let division=new DivisionModel();
-            let addEmUrl = this.url + '/api/employee';
-
-            division.id=formInput.value.division_id;
-
-            employee.em_id = formInput.value.em_id;
-            employee.name = formInput.value.name;
-            employee.lastname = formInput.value.lastname;
-            employee.division = division;
-            employee.created_by_user_id = this.userID;
-            employee.updated_by_user_id = this.userID;
-
-            if(formInput.value.image){
-                console.log(formInput.value.image);
-                this.uploadEmployeeImage(formInput.value.image,formInput.value.em_id)
-                .then(
-                    result=>{
-                        console.log(result)
-                        resolve(result);
-                    }
+            this.http.get(divisionEmployeeUrl, { headers: this.headers })
+                .subscribe(
+                result => { resolve(result.json()) },
+                err => { reject(err) }
                 )
-                .catch(err=>{
-                    console.log('IN Serive Error');
-                    // console.log(document.write(err.body));
-                    reject(err);
-                })
-            }
+        })
+    }
+    
 
-           /* this.http.post(addEmUrl, employee, { headers: this.headers })
+    /*Go New Page*/
+    goNextPage(url: string): Promise<any> {
+        return new Promise((resolve, reject) => {
+            this.http.get(url, { headers: this.headers })
                 .subscribe(
                 result => {
-                    resolve(result)
+                    resolve(result.json())
                 },
                 err => { reject(err) }
                 )
-                */
-        })
-    }
-
-    /*Edit Employee*/
-    editEmployee(formInput: NgForm, id: number): Promise<any> {
-        let editEmUrl = this.url + '/api/employee/' + id;
-        let employee = new EmployeeModel();
-        employee.name = formInput.value.name;
-        employee.lastname = formInput.value.lastname;
-        employee.updated_by_user_id = this.userID;
-        return new Promise((resolve, reject) => {
-
-            this.http.put(editEmUrl, employee, { headers: this.headers })
-                .subscribe(
-                result => {
-                    resolve(result);
-                },
-                err => {
-                    reject(err);
-                }
-                )
-        })
+        });
     }
 
     /*Delete Employee*/
-    deleteEmployee(id: number): Promise<any> {
-        let deleteEmUrl = this.url + '/api/employee/' + id;
+    deleteEmployee(emID):Promise<any> {
+        let emIDList={
+            'em_id':emID
+        }
+        let deleteUrl = this.url + '/api/human_resource/employee/delete';
         return new Promise((resolve, reject) => {
-            this.http.delete(deleteEmUrl, { headers: this.headers })
-                .subscribe(
-                result => { resolve(result) },
-                err => { reject(err) }
-                )
+            this.http.post(deleteUrl,emIDList,{ headers: this.headers })
+                .subscribe(result => {
+                    resolve(result.json())
+                }, err => { reject(err) });
         })
     }
-     uploadEmployeeImage(filePath:string,emID:string):Promise<FileUploadResult>{
-         let uploadImageUrl=this.url+'/api/image_transfer';
-         let option:FileUploadOptions={
-             fileKey:'emImage',
-            //  fileName:emID,
-             httpMethod:'POST',
-             headers:this.headers
-         }
-         const fileTransfer: TransferObject = this.transfer.create()
-         return fileTransfer.upload(filePath,uploadImageUrl,option);
-     }
+
+    /*Update Employee*/
+    updateEmployee(employee):Promise<any>{
+        let employeeInput={
+            'em_id':employee.em_id,
+            'name':employee.name,
+            'lastname':employee.lastname,
+            'division_id':employee.division_id,
+            'department_id':employee.department_id,
+            'salary_type_id':employee.salary_type_id
+        }
+        let editUrl=this.url+'/api/human_resource/employee/update';
+        return new Promise((resolve,reject)=>{
+            this.http.post(editUrl,employeeInput,{headers:this.headers})
+            .subscribe(
+                result=>{resolve(result.json())},
+                err=>{reject(err)}
+            )
+        })
+    }
+    /*Multiple Change Division Department*/
+    changeDivisionDepartment(division,department,employees):Promise<any>{
+        let divisionInput={
+            'division_id':division,
+            'employees':employees,
+            'department_id':department
+        }
+        console.log(divisionInput);
+        let changeDivisionUrl=this.url+'/api/human_resource/employee/change/division_department';
+        return new Promise((resolve,reject)=>{
+            this.http.post(changeDivisionUrl,divisionInput,{headers:this.headers})
+            .subscribe(
+                result=>{resolve(result.json())},
+                err=>{reject(err)}
+            )
+        })
+    }
+    /*Change Salary Type*/
+    changeSalaryType(salary,employees):Promise<any>{
+        let changeSalaryTypeUrl=this.url+'/api/human_resource/employee/change/salary_type';
+        let salaryInput={
+            'salary_type_id':salary,
+            'employees':employees
+        }
+        return new Promise((resolve,reject)=>{
+            this.http.post(changeSalaryTypeUrl,salaryInput,{headers:this.headers})
+            .subscribe(
+                result=>{resolve(result.json())},
+                err=>{reject(err)}
+            )
+        })
+    }
 }

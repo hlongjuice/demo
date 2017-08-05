@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ModalController } from 'ionic-angular';
 import { DivisionAddPage } from "./division-add/division-add";
-import { DivisionModel } from "../../../models/division";
 import { DivisionService } from "../../../services/division.service";
 import { DivisionEditPage } from "./division-edit/division-edit";
 import { NgForm } from "@angular/forms";
+import { DivisionModel } from "../../../models/human-resource/division";
 
 /**
  * Generated class for the DivisionPage page.

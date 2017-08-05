@@ -20,18 +20,23 @@ import { ProductionWorkService } from "../../../services/production/work.service
 })
 export class ProductionWorkFormPage {
 
+  /*Input*/
   dateInput: any;
   startTimeInput: any;
   endTimeInput: any;
   activityInput: any;
   shrimpSizeInput: any;
   shrimpTypeInput: any;
+  weightInput: number;
+  /*End Input*/
   employees: any;
   employeeGroups: any;
   selectedEmployeeInput: number;
   selectedGroup: number;
-  employeeAmountWeight:number;
-  employeeRound:number;
+  employeeAmountWeight: number;
+  employeeRound: number;
+  isHighlightVisible: boolean[];
+  isGroupHighlightVisible: boolean[];
 
   constructor(
     public navCtrl: NavController,
@@ -40,7 +45,7 @@ export class ProductionWorkFormPage {
     public productionShrimpTypeSerivce: ProductionShrimpTypeService,
     public productionShrimpSizeService: ProductionShrimpSizeService,
     public productionEmployeeService: ProductionEmployeeService,
-    public productionWorkService:ProductionWorkService,
+    public productionWorkService: ProductionWorkService,
     public alertCtrl: AlertController
   ) {
     let today = new Date();
@@ -70,6 +75,8 @@ export class ProductionWorkFormPage {
 
   }
   ngOnInit() {
+    this.isHighlightVisible = [];
+    this.isGroupHighlightVisible = [];
     /*Get Activity*/
     this.productionActivityService.getActivity()
       .then(
@@ -122,6 +129,9 @@ export class ProductionWorkFormPage {
   /*Add Work*/
   addWork(workForm: NgForm) {
     console.log(workForm);
+    let alertError=this.alertCtrl.create({
+      title:'ข้อมูลไม่ครับถ้วน'
+    })
     let confirmButton = this.alertCtrl.create({
       title: 'ยืนยันการบันทึก',
       buttons: [
@@ -130,9 +140,14 @@ export class ProductionWorkFormPage {
           text: 'ยกเลิก',
           role: 'cancel',
           handler: () => {
-            console.log('Cancel clicked');
+            console.log(workForm);
+            if (!workForm.value.em_id || !workForm.value.shrimp_type_id
+              || !workForm.value.shrimp_size_id||!workForm.value.weight) {
+              console.log('something Empty');
+              alertError.present();
+            }
           },
-          cssClass:'alertDanger'
+          cssClass: 'alertDanger'
         },
         /*Confirm*/
         /*Add Work*/
@@ -140,17 +155,37 @@ export class ProductionWorkFormPage {
           text: 'ยืนยัน',
           handler: () => {
             console.log('Confirm clicked');
-            let time_period:string=workForm.value.startTime+' - '+workForm.value.endTime;
-            this.productionWorkService.addWork(workForm,time_period)
-            .then(result=>{console.log(result)})
-            .catch(err=>{console.log(err)});
-            
+            /*Check Input*/
+            if (!workForm.value.em_id || !workForm.value.shrimp_type_id
+              || !workForm.value.shrimp_size_id||!workForm.value.weight) {
+              console.log('something Empty');
+              alertError.present();
+            }
+            else {
+              let time_period: string = workForm.value.startTime + ' - ' + workForm.value.endTime;
+              this.productionWorkService.addWork(workForm, time_period)
+                .then(result => {
+                  this.weightInput = 0;
+                  console.log(result)
+                })
+                .catch(err => { console.log(err) });
+            }
           },
-          cssClass:'alertConfirm'
+          cssClass: 'alertConfirm'
         }
       ]
     })
     confirmButton.present();
+  }
+  /*Set Highliht*/
+  setHighlight(i) {
+    this.isHighlightVisible.fill(false);
+    this.isHighlightVisible[i] = true;
+  }
+  setGroupHighlight(i) {
+    this.isHighlightVisible.fill(false);
+    this.isGroupHighlightVisible.fill(false);
+    this.isGroupHighlightVisible[i] = true;
   }
 
 }

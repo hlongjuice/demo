@@ -41,6 +41,21 @@ export class DateService {
     }
     return currentDate;
   }
+  /*Get Date*/
+  getDate(){
+    let date=this.YY+'-'+this.MM+'-'+this.DD;
+    return date;
+  }
+  /*Get Time*/
+  getTime(){
+    let time={
+      'currentTime':this.hh + ':' + this.mm,
+      'hh':this.hh,
+      'mm':this.mm
+    }
+    return time
+  }
+  
 
 
 }

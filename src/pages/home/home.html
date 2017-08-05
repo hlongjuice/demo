@@ -13,21 +13,22 @@
 </ion-header>
 
 <ion-content padding>
-  <ion-list>
-    <ion-item *ngFor="let data of datas">
-      <ul>
-        <li>{{data.date}}</li>
-        <li>
-          <ul>
-            <li *ngFor="let time of data.production_date_time">
-              {{time.time_period}}
-              <p *ngFor="let em of time.production_em_performance">
-                {{em.weight}}
-              </p>
-        </li>
-        </ul>
-        </li>
-      </ul>
-    </ion-item>
-  </ion-list>
+  <ion-grid>
+    <ion-row>
+      <!--Production-->
+      <ion-col col-4>
+        <ion-item (click)="openPage(productionResultPage)">
+          <ion-label>ฝ่ายผลิต</ion-label>
+          <ion-icon></ion-icon>
+        </ion-item>
+      </ion-col>
+      <!--Human Resource-->
+      <ion-col col-4>
+        <ion-item (click)="openPage(employeePage)">
+          <ion-label>ฝ่ายบุคคล</ion-label>
+          <ion-icon></ion-icon>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>

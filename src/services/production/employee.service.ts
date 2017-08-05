@@ -113,6 +113,7 @@ export class ProductionEmployeeService {
             'group': group,
             'employees': employees
         }
+        console.log(this.headers);
         let changeGroupMemberUrl = this.url + '/api/production/group/member/edit';
         return new Promise((resolve, reject) => {
             this.http.post(changeGroupMemberUrl, editMembers, { headers: this.headers })

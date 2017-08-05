@@ -34,10 +34,14 @@ ion-select {
 
 
 /*Tool Bar Title*/
-.toolbar-title{
+
+.toolbar-title {
     letter-spacing: 1px;
 }
+
+
 /*Item*/
+
 .item {
     letter-spacing: 1px;
     h1 {
@@ -46,6 +50,21 @@ ion-select {
     h2 {
         font-size: 2.0rem !important;
     }
+}
+
+.item-label-stacked {
+    .label {
+        font-size: 1.5rem !important;
+        color: map-get($colors, dark);
+    }
+    .datetime {
+        font-size: 1.6rem !important;
+        color: map-get($colors, dark);
+    }
+}
+
+.item-input-line {
+    border-bottom: 1px solid map-get($colors, soft-gray);
 }
 
 
@@ -60,15 +79,36 @@ ion-select {
         position: absolute;
         bottom: 10px;
         left: 0;
-        border-bottom: 1px solid map-get($colors, primary);
+        border-bottom: 1px solid rgba(map-get($colors, primary), 0.5);
         width: 100%;
+    }
+    .table-header-line-bottom-1 {
+        position: absolute;
+        bottom: 1px;
+        left: 0;
+        border-bottom: 1px solid rgba(map-get($colors, primary), 0.5);
+        width: 100%;
+    }
+    .table-header-line-95 {
+        position: absolute;
+        bottom: 10px;
+        left: 10px;
+        border-bottom: 1px solid map-get($colors, primary);
+        width: 95%;
     }
 }
 
 .table-content {
+    position: relative;
     .table-content-line {
-        border-bottom: 1px solid #eceeef;
+        position: absolute;
+        bottom: 10px;
+        left: 0;
+        border-bottom: 1px solid rgba(map-get($colors, soft-gray), 0.5);
         width: 100%;
+    }
+    .item {
+        border: none !important;
     }
 }
 
@@ -96,7 +136,17 @@ ion-select {
         position: absolute;
         bottom: 1px;
         left: 0;
-        border-bottom: 1px solid rgba(map-get($colors, primary) ,0.5);
+        border-bottom: 1px solid rgba(map-get($colors, primary), 0.5);
+    }
+    .item-block {
+        border: none !important;
+    }
+    .row-header-line-95 {
+        width: 95%;
+        position: absolute;
+        bottom: 1px;
+        left: 5px;
+        border-bottom: 1px solid rgba(map-get($colors, primary), 0.5);
     }
 }
 
@@ -115,6 +165,9 @@ ion-select {
         left: 0px;
         border-bottom: 1px solid map-get($colors, soft-gray);
     }
+    .item-block {
+        border: none !important;
+    }
     .row-content-line-95 {
         width: 95%;
         position: absolute;
@@ -132,21 +185,19 @@ ion-select {
 .form-group {
     position: relative;
     .label {
-        font-size: 16px;
+        font-size: 1.6rem;
         color: map-get($colors, dark);
     }
 }
 
 .input-group {
     position: relative;
-    display: table;
     border-collapse: separate;
     border: 1px solid map-get($colors, light);
     border-radius: 10px;
 }
 
 .input-icon {
-    display: table-cell;
     border-left: 1px solid map-get($colors, light-gray);
     padding-left: 10px;
     padding-right: 10px;
@@ -158,6 +209,13 @@ ion-select {
 .input-border {
     border: 1px solid map-get($colors, light-gray);
     border-radius: 10px;
+}
+
+
+/*Segemnt*/
+
+.segment-button {
+    font-size: 1.7rem !important;
 }
 
 
@@ -178,10 +236,25 @@ ion-select {
     color: #fff !important;
 }
 
+.alertSuccess {
+    color: map-get($colors, success) !important;
+}
+
 .line {
-    border-bottom: 1px solid map-get($colors, light-gray);
+    border-bottom: 1px solid map-get($colors, soft-gray);
+}
+
+.line-2 {
+    border-bottom: 2px solid map-get($colors, soft-gray);
 }
 
 .fa {
     margin-right: 10px !important;
+}
+
+
+/*Pop Over*/
+
+.popover-content {
+    min-width: 350px !important;
 }

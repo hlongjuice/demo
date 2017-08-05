@@ -1,8 +1,9 @@
+import { AuthService } from './../../../services/auth.service';
 import { ProductionShrimpSizeService } from './../../../services/production/shrimp-size.service';
 import { ProductionShrimpTypeService } from './../../../services/production/shrimp-type.service';
 import { ProductionActivityService } from './../../../services/production/activity.service';
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController, LoadingController } from 'ionic-angular';
 
 /**
  * Generated class for the ProductionSettingPage page.
@@ -19,33 +20,41 @@ export class ProductionSettingPage {
 
 
   activities: any;
+  isActivityLoading=true;
   shrimpTypes: any;
+  isShrimpTypeLoading=true;
   shrimpSizes: any;
+  isShrimpSizeLoading=true;
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
     public productionActivity: ProductionActivityService,
     public productionShrimpType: ProductionShrimpTypeService,
     public productionShrimpSize: ProductionShrimpSizeService,
-    public alertCtrl: AlertController
-
+    public alertCtrl: AlertController,
+    public authService:AuthService,
+    public loadingCtrl:LoadingController
   ) {
   }
 
   ngOnInit() {
+    console.log(this.authService.getUser());
     /*Get Activity*/
     this.productionActivity.getAllActivity()
       .then(result => {
+        this.isActivityLoading=false;
         this.activities = result;
       }
       ).catch(err => { console.log(err) })
     /*Get Shrimp Type*/
     this.productionShrimpType.getAllShrimpType()
       .then(result => {
+        this.isShrimpTypeLoading=false;
         this.shrimpTypes = result;
       }).catch(err => { console.log(err) })
     /*Get Shrimp Size*/
     this.productionShrimpSize.getAllShrimpSize()
       .then(result => {
+        this.isShrimpSizeLoading=false;
         this.shrimpSizes = result;
       })
   }

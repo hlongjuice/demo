@@ -23,6 +23,7 @@ export class ProductionEmployeePage {
   em_groups: any;
   groupTab: string;//Type of group that you seleced in radio button
   group: any;
+  isHighlightVisible: boolean[];
 
 
   /*Employee Varibles*/
@@ -51,6 +52,7 @@ export class ProductionEmployeePage {
   }
   /*ngOnInit*/
   ngOnInit() {
+    this.isHighlightVisible = [];
     this.allEmployeesState = false;
     this.nonGroupEmployeesState = false;
     this.inGroupEmployeesState = false;
@@ -72,6 +74,7 @@ export class ProductionEmployeePage {
 
   /*ionChange Get employee*/
   getEmployee() {
+    this.isHighlightVisible=[];
     if (this.groupTab == 'all') {
       if (this.allEmployees == null) {
         this.productionEmployeeService.getAllDivisionEmployee(this.divisionID)
@@ -121,7 +124,7 @@ export class ProductionEmployeePage {
     else if (this.groupTab == 'inGroup') {
       // nextPage = this.inGroupNext.next_page_url;
     }
-    if (nextPage != null&&this.groupTab!="inGroup") {
+    if (nextPage != null && this.groupTab != "inGroup") {
       this.productionEmployeeService.goNextPage(nextPage)
         .then(
         result => {
@@ -150,14 +153,17 @@ export class ProductionEmployeePage {
   }
 
   /*Set Check Employee*/
-  setCheckedEmployee(event, em_id) {
+  setCheckedEmployee(event, em_id,i) {
     let index;
+    
     if (event.checked) {
       this.chkEmployee.push(em_id);
+      this.isHighlightVisible[i] = true;
     }
     else {
       index = this.chkEmployee.indexOf(em_id)
       this.chkEmployee.splice(index, 1);
+      this.isHighlightVisible[i] = false;
     }
     console.log(this.chkEmployee);
   }
@@ -273,5 +279,11 @@ export class ProductionEmployeePage {
       if (this.groupTab == 'inGroup')
         this.getInGroupEmployee();
     });
+  }
+
+  /*Set Row Highlight*/
+  setHighlight(i) {
+    this.isHighlightVisible.fill(false);
+    this.isHighlightVisible[i] = true;
   }
 }

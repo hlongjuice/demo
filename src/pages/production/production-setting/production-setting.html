@@ -11,7 +11,7 @@
     </button>
     <ion-title text-center>
       <!--<ion-item>-->
-      <ion-icon item-left name="home"></ion-icon>
+      <ion-icon item-start><i class="fa fa-cog" aria-hidden="true"></i></ion-icon>
       การตั้งค่าอื่นๆ
       <!--</ion-item> -->
     </ion-title>
@@ -63,8 +63,11 @@
               </ion-row>
               <!--Table Content-->
               <ion-row class="row-content">
+                <ion-col col-12 text-center>
+                  <ion-spinner *ngIf="isActivityLoading"></ion-spinner>
+                </ion-col>
                 <ion-col *ngFor="let activity of activities; let i=index" col-6>
-                  <ion-list>
+                  <ion-list no-lines>
                     <ion-item-sliding #item>
                       <ion-item>
                         <ion-label>
@@ -123,10 +126,13 @@
               </ion-row>
               <!--Table Content-->
               <ion-row class="row-content">
+                <ion-col text-center col-12>
+                  <ion-spinner *ngIf="!shrimpTypes"></ion-spinner>
+                </ion-col>
                 <ion-col *ngFor="let type of shrimpTypes; let i=index" col-6>
                   <ion-list>
                     <ion-item-sliding #item>
-                      <ion-item>
+                      <ion-item >
                         <ion-label>
                           {{type.name}}
                         </ion-label>
@@ -176,8 +182,11 @@
               </ion-row>
               <!--Table Content-->
               <ion-row class="row-content">
+                <ion-col text-center col-12>
+                  <ion-spinner *ngIf="!shrimpSizes"></ion-spinner>
+                </ion-col>
                 <ion-col *ngFor="let size of shrimpSizes; let i=index" col-12>
-                  <ion-list>
+                  <ion-list no-lines>
                     <ion-item-sliding #item>
                       <ion-item>
                         <ion-label>

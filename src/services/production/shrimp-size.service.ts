@@ -61,7 +61,7 @@ export class ProductionShrimpSizeService {
             'name':name
         }
         return new Promise((resolve,reject)=>{
-            this.http.patch(updateUrl,newName,{headers:this.headers})
+            this.http.post(updateUrl,newName,{headers:this.headers})
             .subscribe(
                 result=>{resolve(result.json())},
                 err=>{reject(err)}
@@ -75,7 +75,7 @@ export class ProductionShrimpSizeService {
             'status':status
         }
         return new Promise((resolve,reject)=>{
-            this.http.patch(updateUrl,newStatus,{headers:this.headers})
+            this.http.post(updateUrl,newStatus,{headers:this.headers})
             .subscribe(
                 result=>{resolve(result.json())},
                 err=>{reject(err)}
@@ -86,7 +86,7 @@ export class ProductionShrimpSizeService {
     delete(id){
         let deleteUrl=this.url+'/api/production/shrimp_size/delete/'+id;
         return new Promise((resolve,reject)=>{
-            this.http.delete(deleteUrl,{headers:this.headers})
+            this.http.get(deleteUrl,{headers:this.headers})
             .subscribe(
                 result=>{resolve(result.json())},
                 err=>{reject(err)}

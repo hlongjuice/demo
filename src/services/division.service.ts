@@ -3,8 +3,8 @@ import { WebUrlService } from "./weburl.service";
 import { NgForm } from "@angular/forms";
 import { Http,Headers} from "@angular/http";
 import { AuthService } from "./auth.service";
-import { DivisionModel } from "../models/division";
 import { Injectable } from "@angular/core";
+import { DivisionModel } from "../models/human-resource/division";
 
 @Injectable()
 export class DivisionService {
@@ -42,7 +42,7 @@ export class DivisionService {
     }
     /*Get All Divisions*/
     getDivision():Promise<any> {
-        let getDivisionUrl= this.url+'/api/division';
+        let getDivisionUrl= this.url+'/api/human_resource/division';
         return new Promise((resolve,reject)=>{
              this.http.get(getDivisionUrl,{headers:this.headers})
              .subscribe(

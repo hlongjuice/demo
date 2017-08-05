@@ -1,3 +1,11 @@
+import { CarResponseService } from './../services/human-resource/car/car-response.service';
+import { CarManageService } from './../services/human-resource/car/car-manage.service';
+import { CarResponsePage } from './../pages/human-resource/car/car-response/car-response';
+import { CarRequestPage } from './../pages/human-resource/car/car-request/car-request';
+import { CarManagePage } from './../pages/human-resource/car/car-manage/car-manage';
+import { DepartmentService } from './../services/department.service';
+import { PopupDivisionDepartmentPage } from './../pages/human-resource/employee/popup-division-department/popup-division-department';
+import { EmployeeEditPage } from './../pages/human-resource/employee/employee-edit/employee-edit';
 import { ProductionSettingPage } from './../pages/production/production-setting/production-setting';
 import { ProductionEmployeePage } from './../pages/production/production-employee/production-employee';
 import { ProductionResultDetailsPage } from './../pages/production/production-result/production-result-details/production-result-details';
@@ -12,6 +20,7 @@ import { Transfer, TransferObject } from '@ionic-native/transfer';
 import { FileChooser } from '@ionic-native/file-chooser';
 import { FilePath } from '@ionic-native/file-path';
 import { ImagePicker } from '@ionic-native/image-picker';
+import { ScreenOrientation } from '@ionic-native/screen-orientation';
 
 import { HomePage } from '../pages/home/home';
 import { TabsPage } from '../pages/tabs/tabs';
@@ -32,14 +41,11 @@ import { AuthService } from "../services/auth.service";
 import { ProductionService } from "../services/production.service";
 import { WebUrlService } from "../services/weburl.service";
 import { EmployeePage } from "../pages/human-resource/employee/employee";
-import { EmployeeAddPage } from "../pages/human-resource/employee/employee-add/employee-add";
-import { EmployeeDetailsPage } from "../pages/human-resource/employee/employee-details/employee-details";
 import { DivisionPage } from "../pages/human-resource/division/division";
 import { DivisionAddPage } from "../pages/human-resource/division/division-add/division-add";
 import { DivisionEditPage } from "../pages/human-resource/division/division-edit/division-edit";
 import { HumanResourcePage } from "../pages/human-resource/human-resource";
 import { DivisionService } from "../services/division.service";
-import { ErrorPage } from "../pages/error/error";
 import { ProductionResultPage } from "../pages/production/production-result/production-result";
 import { ProductionWorkFormPage } from "../pages/production/production-work-form/production-work-form";
 import { ProductionActivityService } from "../services/production/activity.service";
@@ -47,6 +53,7 @@ import { ProductionShrimpTypeService } from "../services/production/shrimp-type.
 import { ProductionShrimpSizeService } from "../services/production/shrimp-size.service";
 import { ProductionEmployeeService } from "../services/production/employee.service";
 import { ProductionWorkService } from "../services/production/work.service";
+
 
 
 
@@ -66,19 +73,25 @@ import { ProductionWorkService } from "../services/production/work.service";
     ProductionWorkFormPage,
     ProductionSettingPage,
     UserPage,
+    /*Human Resource*/
     EmployeePage,
-    EmployeeAddPage,
-    EmployeeDetailsPage,
+    EmployeeEditPage,
+    PopupDivisionDepartmentPage,
     DivisionPage,
     DivisionAddPage,
     DivisionEditPage,
     HumanResourcePage,
-    ErrorPage
+    CarManagePage,
+    CarRequestPage,
+    CarResponsePage
+    /*End Human Resource*/
   ],
   imports: [
     BrowserModule,
     HttpModule,
-    IonicModule.forRoot(MyApp),
+    IonicModule.forRoot(MyApp, {
+      mode: 'ios'
+    }),
     IonicStorageModule.forRoot(
       {
         name: '__mydb',
@@ -100,14 +113,18 @@ import { ProductionWorkService } from "../services/production/work.service";
     ProductionEmployeePage,
     ProductionSettingPage,
     UserPage,
+    /*Human Resource*/
     EmployeePage,
-    EmployeeAddPage,
-    EmployeeDetailsPage,
+    EmployeeEditPage,
+    PopupDivisionDepartmentPage,
     DivisionPage,
     DivisionAddPage,
     DivisionEditPage,
     HumanResourcePage,
-    ErrorPage
+    CarManagePage,
+    CarRequestPage,
+    CarResponsePage
+    /*End Human Resource*/
   ],
   providers: [
     StatusBar,
@@ -119,6 +136,7 @@ import { ProductionWorkService } from "../services/production/work.service";
     FileChooser,
     FilePath,
     ImagePicker,
+    ScreenOrientation,
 
     /*Service*/
     EmployeeService,
@@ -126,13 +144,19 @@ import { ProductionWorkService } from "../services/production/work.service";
     AuthService,
     WebUrlService,
     DivisionService,
+    DepartmentService,
     DateService,
     /*Production*/
     ProductionActivityService,
     ProductionShrimpTypeService,
     ProductionShrimpSizeService,
     ProductionEmployeeService,
-    ProductionWorkService
+    ProductionWorkService,
+    /*Human Resrouce*/
+    CarManageService,
+    CarResponseService,
+    CarResponseService
+    
   ]
 })
 export class AppModule { }

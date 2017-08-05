@@ -11,7 +11,7 @@
     </button>
     <ion-title text-center>
       <!--<ion-item>-->
-      <ion-icon item-left name="home"></ion-icon>
+      <ion-icon item-start><i class="fa fa-users" aria-hidden="true"></i></ion-icon>
       จัดกลุ่มพนักงาน
       <!--</ion-item> -->
     </ion-title>
@@ -47,7 +47,7 @@
             <ion-col *ngIf="groupTab=='all'" col-2>
               <div (click)="changeGroupMember()">
                 <button ion-button block color="warning">
-                <i class="fa fa-plus-circle" aria-hidden="true"></i>
+                <i class="fa fa fa-exchange" aria-hidden="true"></i>
                  ย้ายกลุ่ม
                 </button>
               </div>
@@ -55,7 +55,7 @@
             <ion-col *ngIf="groupTab=='all'" col-2>
               <div (click)="deleteGroupMember()">
                 <button ion-button block color="danger">
-                <i class="fa fa-plus-circle" aria-hidden="true"></i>
+                <i class="fa fa-minus-circle" aria-hidden="true"></i>
                  ลบออกจากกลุ่ม
                 </button>
               </div>
@@ -63,15 +63,13 @@
           </ion-row>
           <!--In Group-->
           <ion-row *ngSwitchCase="'inGroup'">
-            <ion-col col-5>
-              <ion-item>
-                <ion-label fixed item-start>เลือกกลุ่ม</ion-label>
-                <div item-content class="input-group">
-                  <ion-select (ionChange)="getInGroupEmployee()" name="group" placeholder="เลือกกลุ่ม" [(ngModel)]="group">
-                    <ion-option *ngFor="let group of em_groups">{{group.name}}</ion-option>
-                  </ion-select>
-                  <ion-icon class="input-icon" color="primary" item-right><i class="fa fa-home" aria-hidden="true"></i></ion-icon>
-                </div>
+            <ion-col col-3>
+              <ion-item padding-top class="item-input">
+                <!--<ion-label stacked item-start>เลือกกลุ่ม</ion-label>-->
+                <ion-select (ionChange)="getInGroupEmployee()" name="group" placeholder="เลือกกลุ่ม" [(ngModel)]="group">
+                  <ion-option *ngFor="let group of em_groups">{{group.name}}</ion-option>
+                </ion-select>
+                <ion-icon item-start color="primary" item-right><i class="fa fa-users" aria-hidden="true"></i></ion-icon>
               </ion-item>
             </ion-col>
             <ion-col col-7>
@@ -79,7 +77,7 @@
                 <ion-col col-6>
                   <div (click)="changeGroupMember()">
                     <button ion-button block color="warning">
-                <i class="fa fa-plus-circle" aria-hidden="true"></i>
+                <i class="fa fa fa-exchange" aria-hidden="true"></i>
                  ย้ายกลุ่ม
                 </button>
                   </div>
@@ -87,7 +85,7 @@
                 <ion-col col-6>
                   <div (click)="deleteGroupMember()">
                     <button ion-button block color="danger">
-                <i class="fa fa-plus-circle" aria-hidden="true"></i>
+                <i class="fa fa-minus-circle" aria-hidden="true"></i>
                  ลบออกจากกลุ่ม
                 </button>
                   </div>
@@ -102,15 +100,15 @@
   </ion-card>
 
   <!--Bottom Card-->
-  <ion-card style="height:80%">
+  <ion-card>
     <ion-card-header>
 
     </ion-card-header>
-    <ion-card-content style="height:100%">
+    <ion-card-content>
       <!--Employee List-->
-      <ion-grid style="height:100%">
+      <ion-grid>
         <!--Header Column-->
-        <ion-row>
+        <ion-row class="table-header">
           <ion-col col-1>
           </ion-col>
           <ion-col col-2>
@@ -125,18 +123,24 @@
           <ion-col col-3>
             <ion-item>แก้ไข</ion-item>
           </ion-col>
+          <div class="table-header-line-bottom-1"></div>
         </ion-row>
         <!--Row List-->
-        <ion-row class="row-scroll" style="height:100%">
-          <ion-scroll no-padding class="scroll-view" scrollY="true">
-            <!--Group Tab-->
+        <ion-row>
+          <!--Group Tab-->
+          <ion-col col-12>
             <div [ngSwitch]="groupTab">
               <!--Tab All-->
               <div *ngSwitchCase="'all'">
-                <ion-row class="line" *ngFor="let allEmployee of allEmployees; let i=index;">
+                <ion-row>
+                  <ion-col text-center col-12>
+                    <ion-spinner *ngIf="!allEmployees"></ion-spinner>
+                  </ion-col>
+                </ion-row>
+                <ion-row [ngClass]="{'highlight':isHighlightVisible[i]}" class="line" *ngFor="let allEmployee of allEmployees; let i=index;">
                   <ion-col col-1>
                     <ion-item>
-                      <ion-checkbox (ionChange)="setCheckedEmployee($event,allEmployee.em_id)"></ion-checkbox>
+                      <ion-checkbox (ionChange)="setCheckedEmployee($event,allEmployee.em_id,i)"></ion-checkbox>
                     </ion-item>
                   </ion-col>
                   <!--EmID-->
@@ -176,10 +180,15 @@
               </div>
               <!--Tab Non Group Employee-->
               <div *ngSwitchCase="'nonGroup'">
-                <ion-row class="line" *ngFor="let nonGroupEmployee of nonGroupEmployees">
+                <ion-row>
+                  <ion-col text-center col-12>
+                    <ion-spinner *ngIf="!nonGroupEmployees"></ion-spinner>
+                  </ion-col>
+                </ion-row>
+                <ion-row [ngClass]="{'highlight':isHighlightVisible[i]}" class="line" *ngFor="let nonGroupEmployee of nonGroupEmployees; let i=index">
                   <ion-col col-1>
                     <ion-item>
-                      <ion-checkbox (ionChange)="setCheckedEmployee($event,nonGroupEmployee.em_id)"></ion-checkbox>
+                      <ion-checkbox (ionChange)="setCheckedEmployee($event,nonGroupEmployee.em_id,i)"></ion-checkbox>
                     </ion-item>
                   </ion-col>
                   <!--EmID-->
@@ -203,10 +212,10 @@
 
               <!--Tab In Group-->
               <div *ngSwitchCase="'inGroup'">
-                <ion-row class="line" *ngFor="let inGroupEmployee of inGroupEmployees">
+                <ion-row [ngClass]="{'highlight':isHighlightVisible[i]}" class="line" *ngFor="let inGroupEmployee of inGroupEmployees; let i = index">
                   <ion-col col-1>
                     <ion-item>
-                      <ion-checkbox (ionChange)="setCheckedEmployee($event,inGroupEmployee.em_id)"></ion-checkbox>
+                      <ion-checkbox (ionChange)="setCheckedEmployee($event,inGroupEmployee.em_id,i)"></ion-checkbox>
                     </ion-item>
                   </ion-col>
 
@@ -233,7 +242,7 @@
 
               </ion-infinite-scroll-content>
             </ion-infinite-scroll>
-          </ion-scroll>
+          </ion-col>
         </ion-row>
       </ion-grid>
     </ion-card-content>

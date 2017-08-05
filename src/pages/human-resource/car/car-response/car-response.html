@@ -1,0 +1,90 @@
+<!--
+  Generated template for the CarResponsePage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+  <ion-navbar color="primary">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title text-center>
+      <!--<ion-item>-->
+      <ion-icon item-start><i class="fa fa-users" aria-hidden="true"></i></ion-icon>
+      รายการขอรถ
+      <!--</ion-item> -->
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content padding>
+  <ion-card>
+    <ion-card-header>
+      <ion-grid>
+        <ion-row>
+          <ion-col col-6>
+            <button (click)="approveRequest()" ion-button color="primary">อนุมัติการขอ</button>
+          </ion-col>
+          <ion-col col-6>
+            <button (click)="deleteRequest()" ion-button color="danger">ลบการขอ</button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-grid>
+        <!--Table Header-->
+        <ion-row>
+          <!--Check Box-->
+          <ion-col col-1></ion-col>
+          <ion-col col-2>
+            <ion-item>วันที่</ion-item>
+          </ion-col>
+          <ion-col col-2>
+            <ion-item>ไปสถานที่</ion-item>
+          </ion-col>
+          <ion-col col-2>
+            <ion-item>ฝ่ายที่ขอ</ion-item>
+          </ion-col>
+          <ion-col col-2>
+            <ion-item>ผู้ขอ</ion-item>
+          </ion-col>
+          <ion-col col-2>
+            <ion-item>ประเภทรถที่ขอ</ion-item>
+          </ion-col>
+        </ion-row>
+        <!--Table Content-->
+        <ion-row *ngFor="let request of requests; let i=index">
+          <!--Check Box-->
+          <ion-col col-1>
+            <ion-item>
+              <ion-checkbox (ionChange)="setCheckedRequest($event,i)"></ion-checkbox>
+            </ion-item>
+          </ion-col>
+          <!--Date-->
+          <ion-col col-2>
+            <ion-item>{{request.date}}</ion-item>
+          </ion-col>
+          <!--Destination-->
+          <ion-col col-2>
+            <ion-item>{{request.destination}}</ion-item>
+          </ion-col>
+          <!--Division-->
+          <ion-col col-2>
+            <ion-item>{{request.division?.name}}</ion-item>
+          </ion-col>
+          <!--Employee-->
+          <ion-col col-2>
+            <ion-item>{{request.employee?.name}}</ion-item>
+          </ion-col>
+          <!--Car Type-->
+          <ion-col col-2>
+            <ion-item>{{request.car_type?.name}}</ion-item>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

@@ -65,9 +65,10 @@ export class ProductionActivityService {
         let newStatus = {
             'status': status
         }
+        console.log(this.headers);
         let updateStatusUrl = this.url + '/api/production/activity/update/status/' + id;
         return new Promise((resolve, reject) => {
-            this.http.patch(updateStatusUrl, newStatus, { headers: this.headers })
+            this.http.post(updateStatusUrl, newStatus, { headers: this.headers })
                 .subscribe(
                 result => {
                     resolve(result.json())
@@ -82,7 +83,7 @@ export class ProductionActivityService {
         }
         let updateUrl = this.url + '/api/production/activity/update/' + id;
         return new Promise((resolve, reject) => {
-            this.http.patch(updateUrl, newName, { headers: this.headers })
+            this.http.post(updateUrl, newName, { headers: this.headers })
                 .subscribe(
                 result => {
                     resolve(result.json())
@@ -94,7 +95,7 @@ export class ProductionActivityService {
     delete(id){
         let deleteUrl=this.url+'/api/production/activity/delete/'+id
         return new Promise((resolve,reject)=>{
-            this.http.delete(deleteUrl,{headers:this.headers})
+            this.http.get(deleteUrl,{headers:this.headers})
             .subscribe(
                 result=>{
                     resolve(result.json())

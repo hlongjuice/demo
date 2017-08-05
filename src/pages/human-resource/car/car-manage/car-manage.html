@@ -1,0 +1,83 @@
+<!--
+  Generated template for the CarManagePage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+  <ion-navbar color="primary">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title text-center>
+      <!--<ion-item>-->
+      <ion-icon item-start><i class="fa fa-users" aria-hidden="true"></i></ion-icon>
+      การจัดการพนักงาน
+      <!--</ion-item> -->
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content padding>
+  <ion-grid>
+    <ion-row>
+      <!--Left Card-->
+      <ion-col col-7>
+        <ion-card>
+          <ion-card-header>
+            <ion-row>
+              <!--Car Type Selection-->
+              <ion-col col-6>
+                <ion-item>
+                  <ion-select (ionChange)="getCar()" [(ngModel)]="selectedType">
+                    <ion-option value="all">ทั้งหมด</ion-option>
+                    <ion-option *ngFor="let carType of carTypes" [value]="carType?.id">{{carType?.name}}</ion-option>
+                  </ion-select>
+                </ion-item>
+              </ion-col>
+              <!--Add Car-->
+              <ion-col col-6>
+                <button (click)="addCar()" ion-button color="primary">เพิ่ม</button>
+              </ion-col>
+            </ion-row>
+          </ion-card-header>
+          <ion-card-content>
+            <!--Table Header-->
+            <ion-row>
+              <ion-col col-4>
+                <ion-item>หมายเลขรถ</ion-item>
+              </ion-col>
+              <ion-col col-4>
+                <ion-item>ป้ายทะเบียน</ion-item>
+              </ion-col>
+              <ion-col col-4>
+                <ion-item>แก้ไข</ion-item>
+              </ion-col>
+            </ion-row>
+            <!--Table Content-->
+            <ion-row *ngFor="let car of cars">
+              <!--Car Number-->
+              <ion-col col-4>
+                <ion-item>{{car.car_number}}</ion-item>
+              </ion-col>
+              <!--Car Plate Number-->
+              <ion-col col-4>
+                <ion-item>{{car.plate_number}}</ion-item>
+              </ion-col>
+              <!--Quantity-->
+              <ion-col col-4>
+                <button ion-button color="primary">แก้ไข</button>
+              </ion-col>
+            </ion-row>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+      <!--Right Card-->
+      <ion-col col-5>
+
+      </ion-col>
+
+    </ion-row>
+  </ion-grid>
+</ion-content>

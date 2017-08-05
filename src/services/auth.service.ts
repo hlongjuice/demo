@@ -7,22 +7,34 @@ import { WebUrlService } from "./weburl.service";
 @Injectable()
 export class AuthService {
 
-    private url:string;
-    private oauthUrl:string;
-    private userUrl:string;
+    private url: string;
+    private oauthUrl: string;
+    private userUrl: string;
     private user: UserModel;
     private authState: boolean;
     private accessToken: string;
     constructor(
         private http: Http,
-        public webUrl:WebUrlService
+        public webUrl: WebUrlService
     ) {
         console.log('AuthController');
-        this.url=this.webUrl.getUrl();
-        this.oauthUrl=this.url+'/oauth/token';
-        this.userUrl=this.url+'/api/user';
+        this.url = this.webUrl.getUrl();
+        this.oauthUrl = this.url + '/oauth/token';
+        this.userUrl = this.url + '/api/user';
         console.log(this.oauthUrl);
         this.authState = false;
+    }
+    ngOnInit() {
+        console.log('In OnInit')
+        if (this.accessToken == null) {
+             console.log('In OnInit in IF')
+            console.log('AuthController');
+            this.url = this.webUrl.getUrl();
+            this.oauthUrl = this.url + '/oauth/token';
+            this.userUrl = this.url + '/api/user';
+            console.log(this.oauthUrl);
+            this.authState = false;
+        }
     }
     /*Log In*/
     login(usernameInput: string, passwordInput: string): Promise<any> {
@@ -67,7 +79,7 @@ export class AuthService {
                             }
                             )
                     },
-                    (err)=>{
+                    (err) => {
                         console.log(err);
                         reject();
                     }
@@ -87,30 +99,29 @@ export class AuthService {
     }
 
     /*Get User*/
-    getUser():Promise<UserModel>{
-        return new Promise((resolve,reject)=>{
+    getUser(): Promise<UserModel> {
+        return new Promise((resolve, reject) => {
             resolve(this.user);
-        })
-        ;
+        });
     }
     /*Get Auth State*/
-    getAuthState(){
+    getAuthState() {
         return this.authState;
     }
     /*Get Token*/
-    getToken():Promise<string>{
-        return new Promise((resovle,reject)=>{
+    getToken(): Promise<string> {
+        return new Promise((resovle, reject) => {
             resovle(this.accessToken);
-        }) 
+        })
     }
     /*Get Header*/
-    getHeader():Promise<Headers>{
-        return new Promise((resolve,reject)=>{
-               let headers = new Headers({
-                        "Accept": "application/json",
-                        "Authorization": "Bearer " + this.accessToken,
-                    });
-                    resolve(headers);
+    getHeader(): Promise<Headers> {
+        return new Promise((resolve, reject) => {
+            let headers = new Headers({
+                "Accept": "application/json",
+                "Authorization": "Bearer " + this.accessToken,
+            });
+            resolve(headers);
         })
 
     }

@@ -119,4 +119,16 @@ export class ProductionWorkService {
             )
         })
     }
+
+    /*Delete Work*/
+    deleteWork(id):Promise<any>{
+        let deleteWorkUrl=this.url+'/api/production/work/delete/'+id;
+        return new Promise((resolve,reject)=>{
+            this.http.get(deleteWorkUrl,{headers:this.headers})
+            .subscribe(
+                result=>{resolve(result.json())},
+                err=>{reject(err)}
+            )
+        })
+    }
 }
