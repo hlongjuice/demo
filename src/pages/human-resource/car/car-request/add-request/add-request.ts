@@ -1,6 +1,8 @@
+import { CarRequestService } from './../../../../../services/human-resource/car/car-request.service';
+import { NgForm } from '@angular/forms';
 import { DateService } from './../../../../../services/date.service';
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ModalController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ModalController, ViewController, AlertController, LoadingController } from 'ionic-angular';
 
 /**
  * Generated class for the AddRequestPage page.
@@ -24,6 +26,7 @@ export class AddRequestPage {
   selectedDivision: number;
   selectedEmployee: number;
   selectedCarType: number;
+  carTypes:any[];
   rank: string;
   rankID: number;
   startDate: string;
@@ -34,12 +37,18 @@ export class AddRequestPage {
   passengers: any[];
   passengerNumber: number;
   passengerInputs: any[];
+  selectedPassengers: any[];
+  user:any;
   row: number;
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
     public dateService: DateService,
-    public modalCtrl: ModalController
+    public modalCtrl: ModalController,
+    public viewCtrl:ViewController,
+    public alertCtrl:AlertController,
+    public carRequestService:CarRequestService,
+    public loader:LoadingController
   ) {
   }
 
@@ -47,16 +56,16 @@ export class AddRequestPage {
     this.hasPassenger = false;
     this.passengerNumber = 0;
     this.passengers = [];
+    this.selectedPassengers=[];
     this.startDate = this.dateService.getDate();
     this.endDate = this.dateService.getDate();
     this.startTime = this.dateService.getTime().currentTime;
     this.endTime = this.dateService.getTime().currentTime;
     this.allEmployees = this.navParams.data.employees;
     this.divisions = this.navParams.data.divisions;
-    this.passengerInputs = [{
-      'divisions': this.divisions,
-      'employee': ''
-    }];
+    this.carTypes=this.navParams.data.carTypes;
+    this.user=this.navParams.data.user;
+    this.passengerInputs=[];
   }
 
   /* Get Employee who can request */
@@ -73,6 +82,7 @@ export class AddRequestPage {
         this.requestEmployee = result.name + ' ' + result.lastname;//recieve employee from modal
         this.requestEmployeeID = result.em_id;
         this.rank = result.rank.name;
+        this.rankID=result.rank.id;
         console.log(result);
       }
     })
@@ -94,7 +104,7 @@ export class AddRequestPage {
   }
 
   /* Get Division Employee */
-  getDivisionPassengers(index:number) {
+  getDivisionPassengers(index: number) {
     console.log(index);
     let divisionPassenger = new Promise((resolve, reject) => {
       this.passengers = this.allEmployees.filter(item => {
@@ -108,20 +118,19 @@ export class AddRequestPage {
       modal.onDidDismiss(result => {
         if (result) {
           console.log(index)
-          this.passengerInputs[0].employee = result.name + ' ' + result.lastname;
-          console.log(this.passengerInputs[index])
+          this.passengerInputs[index].employee = result.name + ' ' + result.lastname;
+          this.passengerInputs[index].employeeID= result.em_id;
         }
       })
     })
-
-
   }
 
   /* Set Passengers */
   setPassengers() {
     let newInput = {
       'divisions': this.divisions,
-      'employee': ''
+      'employee': '',
+      'employeeID':''
     }
     this.passengerInputs.push(newInput);
     this.passengerNumber++;
@@ -131,8 +140,28 @@ export class AddRequestPage {
   /* deletePassenger */
   deletePassenger(index) {
     this.passengerInputs.splice(index, 1);
-    this.passengerInputs.splice(index, 1);
     this.passengerNumber--;
+  }
+
+  /* Add Request */
+  addRequest(inputs){
+    let loader=this.loader.create({
+      content:'กำลังส่งคำขอ...'
+    })
+    loader.present();
+    this.carRequestService.addCarRequest(inputs.startDate,inputs.startTime,inputs.endDate,inputs.endTime,
+    inputs.selectedCarType,inputs.selectedDivision,inputs.requestEmployeeID,
+    inputs.rankID,inputs.destination,
+    inputs.details,this.user.id,this.passengerInputs,this.passengerNumber)
+    .then(result=>{
+      console.log(result)
+      this.carRequestService.getCarRequest(this.user.id)
+      .then(result=>{
+          loader.dismiss();
+         this.viewCtrl.dismiss(result);
+      }).catch(err=>{console.log(err)})
+    })
+    .catch(err=>{console.log(err)})
   }
 
 }

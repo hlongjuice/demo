@@ -53,6 +53,7 @@ import { ProductionShrimpTypeService } from "../services/production/shrimp-type.
 import { ProductionShrimpSizeService } from "../services/production/shrimp-size.service";
 import { ProductionEmployeeService } from "../services/production/employee.service";
 import { ProductionWorkService } from "../services/production/work.service";
+import { CarRequestService } from "../services/human-resource/car/car-request.service";
 
 
 
@@ -155,7 +156,7 @@ import { ProductionWorkService } from "../services/production/work.service";
     /*Human Resrouce*/
     CarManageService,
     CarResponseService,
-    CarResponseService
+    CarRequestService
     
   ]
 })

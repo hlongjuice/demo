@@ -32,7 +32,6 @@
     "@ionic/storage": "^2.0.1",
     "@types/websql": "0.0.27",
     "chart.js": "^2.6.0",
-    "com.megster.cordova.FileChooser": "https://github.com/don/cordova-filechooser.git",
     "com.synconset.imagepicker": "https://github.com/Telerik-Verified-Plugins/ImagePicker.git",
     "cordova-android": "~6.1.2",
     "cordova-osx": "~4.0.1",

@@ -7,14 +7,18 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>add-request</ion-title>
+    <ion-item no-lines>
+      <ion-title>แบบฟอร์มข้อใช้รถ</ion-title>
+      <button [disabled]="!newRequest.form.valid" (click)="addRequest(newRequest.value)" item-end default ion-button color="success">ส่งแบบฟอร์ม</button>
+    </ion-item>
+    
   </ion-navbar>
 
 </ion-header>
 
 
 <ion-content padding>
-  <form #newRequest="ngForm" (ngSubmit)="addRequest()">
+  <form #newRequest="ngForm" (ngSubmit)="addRequest(newRequest.value)">
     <ion-grid>
       <!--Row Start Time-->
       <ion-row>
@@ -84,13 +88,8 @@
         <!--Employee-->
         <ion-col col-6>
           <ion-item>
-            <ion-label color="primary">ผู้ขอ</ion-label>
-            <!-- <ion-select required (ionChange)="getRank()" name="selectedEmployee" placeholder="เลือกผู้ขอ" [(ngModel)]="selectedEmployee"> -->
-              <!-- <ion-option *ngFor="let requestEmployee of requestEmployees" [value]="requestEmployee.em_id"> -->
-                <!-- {{requestEmployee.name}} {{requestEmployee.lastname}} -->
-              <!-- </ion-option> -->
-            <!-- </ion-select> -->
-            <ion-input text-right (focus)="getRequestEmployees()" [disabled]="!divisions" [(ngModel)]="requestEmployee" name="requestEmployee"></ion-input>
+            <ion-label (focus)="getRequestEmployees()" color="primary">ผู้ขอ</ion-label>
+            <ion-input required text-right (focus)="getRequestEmployees()" [disabled]="!divisions" [(ngModel)]="requestEmployee" name="requestEmployee"></ion-input>
             <ion-input hidden [(ngModel)]="requestEmployeeID" name="requestEmployeeID"></ion-input>
           </ion-item>
         </ion-col>
@@ -98,8 +97,7 @@
         <ion-col col-6>
           <ion-item>
             <ion-label color="primary">ตำแหน่ง</ion-label>
-            <ion-input></ion-input>
-            <ion-input [disabled]=true text-right name="rank" [(ngModel)]="rank"></ion-input>
+            <ion-input disabled text-right name="rank" [(ngModel)]="rank"></ion-input>
             <ion-input hidden name="rankID" [(ngModel)]="rankID"></ion-input>
           </ion-item>
         </ion-col>
@@ -134,21 +132,26 @@
         <!-- Passenger Input -->
         <ion-col col-12>
           <ion-row *ngFor="let passengerInput of passengerInputs; let i = index">
-            <ion-col col-4>
-              <ion-item>
-                <ion-select (ionChange)="getDivisionPassengers(i)" placeholder="เลือกฝ่าย" name="selectedDivision[]" [(ngModel)]="passengerInput.division">
-                  <ion-option *ngFor="let division of divisions" [value]="division.id">{{division.name}}</ion-option>
-                </ion-select>
-              </ion-item>
-            </ion-col>
-            <ion-col col-6>
-              <ion-item>
-                <ion-input [disabled]="!passengerInput.division" placeholder="เลือกผู้โดยสาร" (focus)="setPassengerInput($event,i)" name="selectedPassenger[]"
-                  [(ngModel)]="passengerInput.employee"></ion-input>
-              </ion-item>
-            </ion-col>
-            <ion-col col-2>
-              <button text-right (click)="deletePassenger(i)" type="button" ion-button color="danger">ลบ</button>
+            <ion-col col-12 *ngIf="passengerInputs!=null">
+              <ion-row>
+                <ion-col col-4>
+                  <ion-item>
+                    <ion-select (ionChange)="getDivisionPassengers(i)" placeholder="เลือกฝ่าย" name="selectedDivision[{{i}}]" [(ngModel)]="passengerInput.division">
+                      <ion-option *ngFor="let division of divisions" [value]="division.id">{{division.name}}</ion-option>
+                    </ion-select>
+                  </ion-item>
+                </ion-col>
+                <ion-col col-6>
+                  <ion-item>
+                    <ion-input [disabled]="!passengerInput.division" placeholder="เลือกผู้โดยสาร" (focus)="setPassengerInput($event,i)" 
+                      [ngModelOptions]="{standalone:true}" [(ngModel)]="passengerInput.employee"></ion-input>
+                    <ion-input hidden name="selectedPassengerIDs[]" [(ngModel)]="passengerInput.employeeID"></ion-input>
+                  </ion-item>
+                </ion-col>
+                <ion-col col-2>
+                  <button text-right (click)="deletePassenger(i)" type="button" ion-button color="danger">ลบ</button>
+                </ion-col>
+              </ion-row>
             </ion-col>
           </ion-row>
         </ion-col>

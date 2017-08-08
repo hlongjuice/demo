@@ -44,16 +44,21 @@ export class CarRequestService {
     }
 
     /*Add Car Request*/
-    addCarRequest(date, car_type_id, division_id, em_id, rank_id, destination, details, user_id): Promise<any> {
+    addCarRequest(start_date,start_time,end_date,end_time, car_type_id, division_id, em_id, rank_id, destination, details, user_id,passengers,passenger_number){
         let car_request = {
-            'date': date,
+            'start_date': start_date,
+            'start_time':start_time,
+            'end_date':end_date,
+            'end_time':end_time,
             'car_type_id': car_type_id,
             'division_id': division_id,
             'em_id': em_id,
             'rank_id': rank_id,
             'destination': destination,
             'details': details,
-            'requested_by_user_id': user_id
+            'requested_by_user_id': user_id,
+            'passengers':passengers,
+            'passenger_number':passenger_number
         }
         let addCarUrl = this.url + '/api/human_resource/car/car_request/add';
         return new Promise((resolve, reject) => {
