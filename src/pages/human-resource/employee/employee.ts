@@ -1,9 +1,12 @@
+import { NextPageService } from './../../../services/next-page.service';
+import { AuthService } from './../../../services/auth.service';
+import { RankService } from './../../../services/rank.service';
 import { EmployeeModel } from './../../../models/human-resource/employee';
 import { DepartmentService } from './../../../services/department.service';
 import { PopupDivisionDepartmentPage } from './popup-division-department/popup-division-department';
 
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ModalController, AlertController, PopoverController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ModalController, AlertController, PopoverController, LoadingController } from 'ionic-angular';
 import { DivisionService } from "../../../services/division.service";
 import { EmployeeService } from "../../../services/employee.service";
 import { EmployeeEditPage } from "./employee-edit/employee-edit";
@@ -32,8 +35,11 @@ export class EmployeePage {
   chkEmployee: any[];
   divisions: any[];
   departments: any[];
+  ranks: any[];
   selectedDivision: string;
   nextPageUrl = "";
+  user: any;
+  page: any;
   /*Contructor*/
   constructor(
     public navCtrl: NavController,
@@ -43,9 +49,17 @@ export class EmployeePage {
     public employeeService: EmployeeService,
     public alertCtrl: AlertController,
     public editPopOver: PopoverController,
-    public departmentService: DepartmentService) {
+    public loaderCtrl: LoadingController,
+    public rankService: RankService,
+    public authService: AuthService,
+    public departmentService: DepartmentService,
+    public newPageService: NextPageService
+
+  ) {
   }
   ngOnInit() {
+    let loader = this.loaderCtrl.create({ content: 'กำลังโหลดข้อมูล...' })
+    loader.present();
     this.selectedDivision = 'allEmployee';
     this.divisions = [];
     this.allEmployee = [];
@@ -56,41 +70,71 @@ export class EmployeePage {
     this.groupTab = 'all';
 
     /*Get divisions*/
-    this.divisionService.getDivision()
-      .then(result => {
-        this.divisions = result;
-        /*Get Department*/
-        this.departmentService.getDepartment()
-          .then(result => {
-            this.departments = result;
-          }).catch(err => { console.log(err) })
-        /*Get Employee*/
-        this.employeeService.getAllEmployees()
-          .then(result => {
-            console.log(result)
+    Promise.all([
+      /* Get User */
+      this.authService.getUser()
+        .then(result => {
+          this.user = result
+        }).catch(err => { console.log(err) }),
+      /*Get Department*/
+      this.departmentService.getDepartment()
+        .then(result => {
+          this.departments = result;
+        }).catch(err => { console.log(err) }),
+      /*Get Employee*/
+      this.employeeService.getAllEmployees()
+        .then(result => {
+          console.log(result)
 
-            /*All Employee*/
-            this.allEmployee = result.data;
-            /*Monthly Employee*/
-            this.allEmployee.forEach(employee => {
-              //1 is monthly
-              if (employee.salary_type.id == 1) {
-                this.monthlyEmployee.push(employee)
-              }
-              /*Else is 2 as daily*/
-              else {
-                this.dailyEmployee.push(employee)
-              }
-            })
-            this.employees = this.allEmployee;
-          });
-      })
+          /*All Employee*/
+          this.allEmployee = result.data;
+          this.page = result;
+          /*Monthly Employee*/
+          this.allEmployee.forEach(employee => {
+            //1 is monthly
+            if (employee.salary_type.id == 1) {
+              this.monthlyEmployee.push(employee)
+            }
+            /*Else is 2 as daily*/
+            else {
+              this.dailyEmployee.push(employee)
+            }
+          })
+          this.employees = this.allEmployee;
+          /* Add Zero Number */
+          this.addZeroNumber();
+        }).catch(err => { console.log(err) }),
+      /* Get Divisions */
+      this.divisionService.getDivision()
+        .then(result => {
+          this.divisions = result;
+        }).catch(err => { console.log(err) }),
+      /* Get Ranks */
+      this.rankService.getAllRank()
+        .then(result => {
+          this.ranks = result;
+        }).catch(err => { console.log(err) })
+    ]).then(() => { loader.dismiss() })
+      .catch(err => { console.log(err); loader.dismiss() })
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad EmployeePage');
-  }
 
+  /* Add New Employee */
+  addNewEmployee() {
+    console.log('Add new')
+    let modal = this.modalCtrl.create('EmployeeAddPage', {
+      'divisions': this.divisions,
+      'departments': this.departments,
+      'ranks': this.ranks,
+      'user': this.user
+    })
+    modal.present();
+    modal.onDidDismiss((result) => {
+      if (result) {
+        this.getEmployees();
+      }
+    })
+  }
   /*Set Check Employee*/
   setCheckedEmployee(event, em_id, i) {
     let index;
@@ -119,18 +163,21 @@ export class EmployeePage {
   }
   /*Selected Division*/
   getEmployees() {
+    let loader=this.loaderCtrl.create({content:'กำลังโหลดข้อมูล...',duration:2000})
+    loader.present();
     console.log(this.selectedDivision);
     this.allEmployee = [];
     this.monthlyEmployee = [];
     this.dailyEmployee = [];
     this.nextPageUrl = "";
     this.chkEmployee = [];
-    this.isHighlightVisible=[];
+    this.isHighlightVisible = [];
     if (this.selectedDivision == 'allEmployee') {
       this.employeeService.getAllEmployees()
         .then(result => {
           /*set Next Page*/
           this.nextPageUrl = result.next_page_url;
+          this.page = result;
           /*Set Empployee*/
           this.setEmployee(result);
 
@@ -138,6 +185,7 @@ export class EmployeePage {
     } else {
       this.employeeService.getDivisionEmployee(this.selectedDivision)
         .then(result => {
+          this.page = result;
           this.setEmployee(result);
         }).catch(err => { console.log(err) })
     }
@@ -146,7 +194,8 @@ export class EmployeePage {
   /*Set Employee*/
   setEmployee(employees) {
 
-    this.allEmployee = employees.data;
+    this.allEmployee.push.apply(this.allEmployee, employees.data);
+    this.addZeroNumber();
     /*Monthly Employee*/
     this.allEmployee.forEach(employee => {
       //1 is monthly
@@ -172,16 +221,16 @@ export class EmployeePage {
   }
   /*Edit Employee*/
   editEmployee(event, index) {
-    
+
     let editPop = this.editPopOver.create(this.employeeEditPage, {
       'em_id': this.employees[index].em_id,
       'name': this.employees[index].name,
       'lastname': this.employees[index].lastname,
       'salary_type_id': this.employees[index].salary_type.id,
       'division_id': this.employees[index].division.id,
-      'divisions':this.divisions,
-      'departments':this.departments?this.departments:null,
-      'department_id':this.employees[index].department?this.employees[index].department.id:null
+      'divisions': this.divisions,
+      'departments': this.departments ? this.departments : null,
+      'department_id': this.employees[index].department ? this.employees[index].department.id : null
     }, {
         showBackdrop: true,
         enableBackdropDismiss: false
@@ -219,36 +268,36 @@ export class EmployeePage {
       inputs: [
         {
           label: 'รายเดือน',
-          type:'radio',
-          value:'1'
+          type: 'radio',
+          value: '1'
         },
         {
-          label:'รายวัน',
-          type:'radio',
-          value:'2'
+          label: 'รายวัน',
+          type: 'radio',
+          value: '2'
         }
       ],
       buttons: [
         {
           text: 'ยกเลิก',
-          role:'cancel',
-          cssClass:'alertCancel'
+          role: 'cancel',
+          cssClass: 'alertCancel'
         },
         {
-          text:'บันทึก',
-          handler:(data)=>{
-            this.employeeService.changeSalaryType(data,this.chkEmployee)
-            .then(result=>{
-              let success=this.alertCtrl.create({title:'การบันทึกเสร็จสิ้น',cssClass:'alertSuccess'})
-              success.present();
-              this.getEmployees();
-            }).catch(err=>{
-              let alert = this.alertCtrl.create({title:'ไม่สารถมารถแก้ไขข้อมูลได้'});
-              alert.present();
-              console.log(err)
-            })
+          text: 'บันทึก',
+          handler: (data) => {
+            this.employeeService.changeSalaryType(data, this.chkEmployee)
+              .then(result => {
+                let success = this.alertCtrl.create({ title: 'การบันทึกเสร็จสิ้น', cssClass: 'alertSuccess' })
+                success.present();
+                this.getEmployees();
+              }).catch(err => {
+                let alert = this.alertCtrl.create({ title: 'ไม่สารถมารถแก้ไขข้อมูลได้' });
+                alert.present();
+                console.log(err)
+              })
           },
-          cssClass:'alertConfirm'
+          cssClass: 'alertConfirm'
         }
       ]
     })
@@ -276,10 +325,38 @@ export class EmployeePage {
               errAlert.present();
               console.log(err)
             });
-        }
+        },
+        cssClass: 'alertConfirm'
       }]
     })
     confirmAlert.present();
+  }
+  /* Next Page */
+  moreEmployees() {
+    let loader = this.loaderCtrl.create({ content: 'กำลังโหลดข้อมูล...' })
+    loader.present();
+    this.newPageService.nextPage(this.page.next_page_url)
+      .then(result => {
+        this.page = result
+        loader.dismiss();
+        this.setEmployee(result);
+      }).catch(err => { console.log(err); loader.dismiss(); })
+  }
+
+  /* Add Zero Number */
+  addZeroNumber() {
+    for (let i = 0; i < this.employees.length; i++) {
+      if (this.employees[i].em_id.toString().length < 4) {
+        if (this.employees[i].em_id < 10) {
+          this.employees[i].em_id = "000" + this.employees[i].em_id
+        } else if (this.employees[i].em_id < 100) {
+          this.employees[i].em_id = "00" + this.employees[i].em_id
+        } else if (this.employees[i].em_id < 1000) {
+          this.employees[i].em_id = "0" + this.employees[i].em_id
+        }
+      }
+
+    }
   }
 
 }

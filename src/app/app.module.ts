@@ -1,3 +1,20 @@
+import { QcRecorderResultPage } from './../pages/qc/qc-recorder-result/qc-recorder-result';
+import { QcShrimpResultService } from './../services/qc/shrimp_result.service';
+
+import { QcRecorderListPage } from './../pages/qc/qc-shrimp-recorder/qc-recorder-list/qc-recorder-list';
+import { QcRecorderDetailsPage } from './../pages/qc/qc-shrimp-recorder/qc-recorder-details/qc-recorder-details';
+import { QcAddReceivingPage } from './../pages/qc/qc-shrimp-recorder/qc-add-receiving/qc-add-receiving';
+import { SupplierService } from './../services/supplier.service';
+import { QcShrimpRecorderPage } from './../pages/qc/qc-shrimp-recorder/qc-shrimp-recorder';
+import { QcShrimpReceivingService } from './../services/qc/shrimp_receiving.service';
+import { CarUsagePage } from './../pages/human-resource/car/car-usage/car-usage';
+import { CarUsageService } from './../services/human-resource/car/car-usage.service';
+import { RankService } from './../services/rank.service';
+import { CarResponseHistoryPage } from './../pages/human-resource/car/car-response-history/car-response-history';
+import { CarAccessService } from './../services/human-resource/car/car-access.service';
+import { CarAccessControlPage } from './../pages/human-resource/car/car-access-control/car-access-control';
+import { CarDriverService } from './../services/human-resource/car/car-driver.service';
+import { NextPageService } from './../services/next-page.service';
 import { CarResponseService } from './../services/human-resource/car/car-response.service';
 import { CarManageService } from './../services/human-resource/car/car-manage.service';
 import { CarResponsePage } from './../pages/human-resource/car/car-response/car-response';
@@ -54,6 +71,7 @@ import { ProductionShrimpSizeService } from "../services/production/shrimp-size.
 import { ProductionEmployeeService } from "../services/production/employee.service";
 import { ProductionWorkService } from "../services/production/work.service";
 import { CarRequestService } from "../services/human-resource/car/car-request.service";
+import { QcSupplierPage } from "../pages/qc/qc-supplier/qc-supplier";
 
 
 
@@ -84,8 +102,19 @@ import { CarRequestService } from "../services/human-resource/car/car-request.se
     HumanResourcePage,
     CarManagePage,
     CarRequestPage,
-    CarResponsePage
+    CarResponsePage,
+    CarResponseHistoryPage,
+    CarAccessControlPage,
+    CarUsagePage,
     /*End Human Resource*/
+    /* QC */
+    QcShrimpRecorderPage,
+    QcAddReceivingPage,
+    QcRecorderDetailsPage,
+    QcRecorderListPage,
+    QcSupplierPage,
+    QcRecorderResultPage
+    /* End QC */
   ],
   imports: [
     BrowserModule,
@@ -124,8 +153,19 @@ import { CarRequestService } from "../services/human-resource/car/car-request.se
     HumanResourcePage,
     CarManagePage,
     CarRequestPage,
-    CarResponsePage
+    CarResponsePage,
+    CarResponseHistoryPage,
+    CarAccessControlPage,
+    CarUsagePage,
     /*End Human Resource*/
+    /* QC */
+    QcShrimpRecorderPage,
+    QcAddReceivingPage,
+    QcRecorderDetailsPage,
+    QcRecorderListPage,
+    QcSupplierPage,
+    QcRecorderResultPage
+    /* End QC */
   ],
   providers: [
     StatusBar,
@@ -146,18 +186,26 @@ import { CarRequestService } from "../services/human-resource/car/car-request.se
     WebUrlService,
     DivisionService,
     DepartmentService,
+    RankService,
     DateService,
+    NextPageService,
+    CarDriverService,
+    SupplierService,
     /*Production*/
     ProductionActivityService,
     ProductionShrimpTypeService,
     ProductionShrimpSizeService,
     ProductionEmployeeService,
     ProductionWorkService,
-    /*Human Resrouce*/
+    /*Human Resource*/
     CarManageService,
     CarResponseService,
-    CarRequestService
-    
+    CarRequestService,
+    CarAccessService,
+    CarUsageService,
+    /* Qc */
+    QcShrimpReceivingService,
+    QcShrimpResultService
   ]
 })
 export class AppModule { }

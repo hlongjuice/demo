@@ -14,11 +14,12 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class RequestDetailsPage {
 
+  requestDetails:any;
   constructor(public navCtrl: NavController, public navParams: NavParams) {
   }
-
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad RequestDetailsPage');
+  ngOnInit(){
+    this.requestDetails=this.navParams.data.requestDetails;
+    console.log(this.requestDetails);
   }
 
 }

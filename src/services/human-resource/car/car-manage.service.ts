@@ -44,6 +44,21 @@ export class CarManageService {
                 )
         });
     }
+    /* Get Available Car*/
+    getAvailableCar(type):Promise<any> {
+        let getCarUrl = this.url + '/api/human_resource/car/manage/available_car/' + type
+        return new Promise((resolve, reject) => {
+            this.http.get(getCarUrl, { headers: this.headers })
+                .subscribe(
+                result => {
+                    resolve(result.json())
+                },
+                err => {
+                    reject(err)
+                }
+                )
+        });
+    }
 
     /*Add Car*/
     addCar(car_number, car_type_id, plate_number): Promise<any> {
@@ -99,7 +114,7 @@ export class CarManageService {
     }
 
     /*Get CarType*/
-    getCarType():Promise<any> {
+    getCarType(): Promise<any> {
         let getTypeUrl = this.url + '/api/human_resource/car/car_type';
         return new Promise((resolve, reject) => {
             this.http.get(getTypeUrl, { headers: this.headers })

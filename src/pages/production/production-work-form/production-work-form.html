@@ -30,7 +30,7 @@
             <ion-col col-3>
               <ion-item no-lines>
                 <ion-label stacked>รหัสพนักงาน</ion-label>
-                <ion-input class="selected-id" name="em_id" type="number" placeholder="เลือกพนักงาน" [(ngModel)]="selectedEmployeeInput"></ion-input>
+                <ion-input required class="selected-id" name="em_id" type="number" placeholder="เลือกพนักงาน" [(ngModel)]="selectedEmployeeInput"></ion-input>
               </ion-item>
 
             </ion-col>
@@ -39,7 +39,7 @@
               <ion-item class="item-input">
                 <ion-label stacked>วันที่</ion-label>
                 <ion-icon item-start color="primary"><i class="fa fa-calendar" aria-hidden="true"></i></ion-icon>
-                <ion-datetime displayFormat="DD/MM/YYYY" [(ngModel)]="dateInput" name="date" ngModel>
+                <ion-datetime required displayFormat="DD/MM/YYYY" [(ngModel)]="dateInput" name="date" ngModel>
                 </ion-datetime>
               </ion-item>
             </ion-col>
@@ -47,7 +47,7 @@
             <ion-col col-3>
               <ion-item class="item-input">
                 <ion-label stacked>เวลาเริ่ม</ion-label>
-                <ion-datetime displayFormat="HH:mm" [(ngModel)]="startTimeInput" name="startTime" ngModel></ion-datetime>
+                <ion-datetime required displayFormat="HH:mm" [(ngModel)]="startTimeInput" name="startTime" ngModel></ion-datetime>
                 <ion-icon color="primary" item-start><i class="fa fa-clock-o" aria-hidden="true"></i></ion-icon>
               </ion-item>
             </ion-col>
@@ -55,7 +55,7 @@
             <ion-col col-3>
               <ion-item class="item-input">
                 <ion-label stacked>เวลาสิ้นสุด</ion-label>
-                <ion-datetime displayFormat="HH:mm" [(ngModel)]="endTimeInput" name="endTime" ngModel></ion-datetime>
+                <ion-datetime required displayFormat="HH:mm" [(ngModel)]="endTimeInput" name="endTime" ngModel></ion-datetime>
                 <!--<ion-icon small color="primary" item-end><i class="fa fa-clock-o" aria-hidden="true"></i></ion-icon>-->
               </ion-item>
             </ion-col>
@@ -67,7 +67,7 @@
             <ion-col col-2>
               <ion-item class="item-input">
                 <ion-label stacked>กิจกรรม</ion-label>
-                <ion-select name="activity_id" placeholder="เลือกกิจกรรม" ngModel>
+                <ion-select required name="activity_id" placeholder="เลือกกิจกรรม" ngModel>
                   <ion-option *ngFor="let activity of activityInput" [value]="activity.id">{{activity.name}}</ion-option>
                 </ion-select>
               </ion-item>
@@ -76,7 +76,7 @@
             <ion-col col-2>
               <ion-item class="item-input">
                 <ion-label stacked>ชนิดกุ้ง</ion-label>
-                <ion-select name="shrimp_type_id" placeholder="เลือกชนิด" ngModel>
+                <ion-select required name="shrimp_type_id" placeholder="เลือกชนิด" ngModel>
                   <ion-option *ngFor="let shrimpType of shrimpTypeInput" [value]="shrimpType.id">{{shrimpType.name}}</ion-option>
                 </ion-select>
               </ion-item>
@@ -85,7 +85,7 @@
             <ion-col col-2>
               <ion-item class="item-input">
                 <ion-label stacked>ขนาดกุ้ง</ion-label>
-                <ion-select name="shrimp_size_id" placeholder="เลือกขนาด" ngModel>
+                <ion-select required name="shrimp_size_id" placeholder="เลือกขนาด" ngModel>
                   <ion-option *ngFor="let shrimpSize of shrimpSizeInput" [value]="shrimpSize.id">{{shrimpSize.name}}</ion-option>
                 </ion-select>
               </ion-item>
@@ -94,7 +94,7 @@
             <ion-col col-3>
               <ion-item class="item-input">
                 <ion-label stacked>น้ำหนัก</ion-label>
-                <ion-input name="weight" type="number" placeholder="0.00" [(ngModel)]="weightInput"></ion-input>
+                <ion-input required #testWeight name="weight" type="number" placeholder="0.00" [(ngModel)]="weightInput"></ion-input>
                 <ion-icon color="primary" item-start><i class="fa fa fa-tag" aria-hidden="true"></i></ion-icon>
               </ion-item>
             </ion-col>
@@ -102,7 +102,7 @@
             <!--Submit-->
             <ion-col col-3>
               <div class="form-group">
-                <button margin-top type="button" ion-button block color="success" (click)="addWork(workForm)">
+                <button [disabled]="!workForm.form.valid" margin-top type="button" ion-button block color="success" (click)="addWork(workForm)">
                   <ion-icon item-start><i class="fa fa-floppy-o" aria-hidden="true"></i></ion-icon>
                   บันทึก</button>
               </div>
@@ -127,7 +127,7 @@
             </ion-list-header>
             <ion-row>
               <ion-col col-3 *ngFor="let employee of employees; let i = index">
-                <ion-item (click)="setHighlight(i)" [ngClass]="{'highlight':isHighlightVisible[i]}" text-center (click)="selectedEmployee(employee.em_id)">
+                <ion-item (click)="setHighlight(i)" [ngClass]="{'highlight':isHighlightVisible[i]}" text-center (click)="selectedEmployee(employee.em_id,testWeight)">
                   {{employee.em_id}}
                 </ion-item>
               </ion-col>

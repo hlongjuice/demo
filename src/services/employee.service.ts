@@ -35,6 +35,29 @@ export class EmployeeService {
         )
     }
 
+    /* Add New Employee */
+    addNewEmployee(em_id,name,lastname,division_id,department_id,salary_type_id,rank_id,user_id):Promise<any>{
+        let newEmployee={
+            'em_id':em_id,
+            'name':name,
+            'lastname':lastname,
+            'division_id':division_id,
+            'department_id':department_id,
+            'salary_type_id':salary_type_id,
+            'rank_id':rank_id,
+            'user_id':user_id
+        }
+        let addUrl=this.url+'/api/human_resource/employee/add';
+        return new Promise((resolve,reject)=>{
+            this.http.post(addUrl,newEmployee,{headers:this.headers})
+            .subscribe(
+                result=>{resolve(result.json())},
+                err=>{reject(err.json())}
+            )
+        })
+        
+    }
+
     /*Get Employee*/
     getAllEmployees(): Promise<any> {
         let getEmUrl = this.url + '/api/human_resource/employee/all';

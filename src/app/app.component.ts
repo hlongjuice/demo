@@ -1,3 +1,8 @@
+import { QcRecorderResultPage } from './../pages/qc/qc-recorder-result/qc-recorder-result';
+import { QcSupplierPage } from './../pages/qc/qc-supplier/qc-supplier';
+import { QcShrimpRecorderPage } from './../pages/qc/qc-shrimp-recorder/qc-shrimp-recorder';
+import { CarResponseHistoryPage } from './../pages/human-resource/car/car-response-history/car-response-history';
+import { CarAccessControlPage } from './../pages/human-resource/car/car-access-control/car-access-control';
 import { CarResponsePage } from './../pages/human-resource/car/car-response/car-response';
 import { CarRequestPage } from './../pages/human-resource/car/car-request/car-request';
 import { CarManagePage } from './../pages/human-resource/car/car-manage/car-manage';
@@ -34,13 +39,20 @@ export class MyApp {
   productionSettingPage=ProductionSettingPage;
   /*Human Resource Page*/
   humanResourcePage=HumanResourcePage;
+  carAccessControlPage=CarAccessControlPage
   carManagePage=CarManagePage;
   carRequestPage=CarRequestPage;
   carResponsePage=CarResponsePage;
+  carResponseHistoryPage=CarResponseHistoryPage
   employeePage=EmployeePage;
   homePage = HomePage;
   loginPage=LoginPage;
   /*End Page*/
+  /* QC */
+  qcShrimpRecorderPage=QcShrimpRecorderPage
+  qcSupplierPage=QcSupplierPage
+  qcRecorderResultPage=QcRecorderResultPage
+  /* End QC */
   private authState: boolean;
   @ViewChild('nav') nav: NavController;
 
@@ -64,7 +76,8 @@ export class MyApp {
     this.authState=this.authService.getAuthState();
     console.log(this.menuCtrl.getMenus());
     this.menuCtrl.enable(false,'masterMenu');
-    this.menuCtrl.enable(true,'productionMenu');
+    this.menuCtrl.enable(false,'productionMenu');
+    this.menuCtrl.enable(true,'humanResourceMenu');
   }
   openPage(page: any) {
     this.nav.setRoot(page);

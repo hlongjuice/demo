@@ -32,30 +32,40 @@ export class DateService {
 
   /*Current Date*/
   getCurrentDateTime() {
-    let currentDate={
-      'DD':this.DD,
-      'MM':this.MM,
-      'YY':this.YY,
-      'hh':this.hh,
-      'mm':this.mm
+    let currentDate = {
+      'DD': this.DD,
+      'MM': this.MM,
+      'YY': this.YY,
+      'hh': this.hh,
+      'mm': this.mm
     }
     return currentDate;
   }
   /*Get Date*/
-  getDate(){
-    let date=this.YY+'-'+this.MM+'-'+this.DD;
+  getDate() {
+    let date = this.YY + '-' + this.MM + '-' + this.DD;
     return date;
   }
   /*Get Time*/
-  getTime(){
-    let time={
-      'currentTime':this.hh + ':' + this.mm,
-      'hh':this.hh,
-      'mm':this.mm
+  getTime() {
+    let time = {
+      'currentTime': this.hh + ':' + this.mm,
+      'hh': this.hh,
+      'mm': this.mm
     }
     return time
   }
-  
+
+  /* get Month Name */
+  getMonthName() {
+    let months = [
+      'ม.ค.','ก.พ.', 'มี.ค.','เม.ย.',
+      'พ.ค.','มิ.ย.','ก.ค.','ส.ค.',
+      'ก.ย.','ต.ค.','พ.ย.','ธ.ค.'
+    ]
+    return months
+  }
+
 
 
 }

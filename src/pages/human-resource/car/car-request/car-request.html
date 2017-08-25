@@ -5,11 +5,17 @@
   Ionic pages and navigation.
 -->
 <ion-header>
-
-  <ion-navbar>
-    <ion-title>car-request</ion-title>
+  <ion-navbar color="primary">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title text-center>
+      <!--<ion-item>-->
+      <ion-icon item-start><i class="fa fa-users" aria-hidden="true"></i></ion-icon>
+      ระบบขอใช้รถ
+      <!--</ion-item> -->
+    </ion-title>
   </ion-navbar>
-
 </ion-header>
 
 
@@ -21,6 +27,9 @@
           <ion-col col-6>
             <button (click)="addRequest()" ion-button color="primary">ขอใช้รถ</button>
           </ion-col>
+          <ion-col col-6>
+            <!-- <button [disabled]="chkStatus.indexOf(true)==-1" (click)="deleteRequest()" ion-button color="danger">ลบข้อมูล</button> -->
+          </ion-col>
         </ion-row>
       </ion-grid>
     </ion-card-header>
@@ -28,9 +37,11 @@
     <ion-card-content>
       <ion-grid>
         <!--Table Header-->
-        <ion-row>
+        <ion-row class="table-header">
           <!--Check Box-->
-          <ion-col col-1></ion-col>
+          <!-- <ion-col col-1></ion-col> -->
+          <!-- Details -->
+          <ion-col col-2></ion-col>
           <ion-col col-2>
             <ion-item>วันที่ขอ</ion-item>
           </ion-col>
@@ -46,13 +57,21 @@
           <ion-col col-2>
             <ion-item></ion-item>
           </ion-col>
+          <div class="table-header-line"></div>
         </ion-row>
         <!--Table Content-->
-        <ion-row *ngFor="let request of allRequests">
+        <ion-row class="table-content" *ngFor="let request of allRequests; let i=index">
           <!--Check Box-->
-          <ion-col col-1></ion-col>
+          <!-- <ion-col col-1> -->
+          <!-- <ion-checkbox [checked]="chkStatus[i]" (ionChange)="setCheckBox($event,request.id,i)"></ion-checkbox> -->
+          <!-- </ion-col> -->
+          <!-- Details -->
           <ion-col col-2>
-            <ion-item>{{request.start_date}}</ion-item>
+            <button margin-bottom (click)="getDetails(i)" ion-button color="primary">ลายละเอียด</button>
+          </ion-col>
+          <ion-col col-2>
+            <!-- <ion-item>{{request.start_date}}</ion-item> -->
+            <ion-datetime disabled displayFormat="DD / MM / YYYY" [(ngModel)]="request.start_date"></ion-datetime>
           </ion-col>
           <ion-col col-2>
             <ion-item>{{request.start_time}}</ion-item>
@@ -66,8 +85,9 @@
             </ion-item>
           </ion-col>
           <ion-col col-2>
-            <button (click)="getDetails()" ion-button color="primary">ลายละเอียด</button>
+            <button margin-bottom *ngIf="request.status.id==1" (click)="singleDelete(request.id,i)" ion-button color="danger">ลบ</button>
           </ion-col>
+          <div class="table-content-line"></div>
         </ion-row>
       </ion-grid>
     </ion-card-content>

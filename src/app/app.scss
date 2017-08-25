@@ -40,6 +40,18 @@ ion-select {
 }
 
 
+/* Date Time */
+
+.item-datetime-disabled ion-label {
+    opacity: 1 !important;
+}
+
+.datetime-disabled {
+    opacity: 1 !important;
+    font-size: 1.7rem !important;
+}
+
+
 /*Item*/
 
 .item {
@@ -61,6 +73,25 @@ ion-select {
         font-size: 1.6rem !important;
         color: map-get($colors, dark);
     }
+}
+
+
+/* Div Ion Text */
+
+div.text {
+    color: map-get($colors, gray) !important;
+}
+
+
+/* Disabled Input Item */
+
+.text-input[disabled] {
+    opacity: 1 !important;
+}
+
+.select-disabled,
+.item-select-disabled ion-label {
+    opacity: 1 !important;
 }
 
 .item-input-line {

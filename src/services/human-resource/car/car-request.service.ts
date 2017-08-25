@@ -60,6 +60,7 @@ export class CarRequestService {
             'passengers':passengers,
             'passenger_number':passenger_number
         }
+        console.log(passengers)
         let addCarUrl = this.url + '/api/human_resource/car/car_request/add';
         return new Promise((resolve, reject) => {
             this.http.post(addCarUrl, car_request, { headers: this.headers })
@@ -90,6 +91,21 @@ export class CarRequestService {
                 err=>{reject(err)}
             )
         })
+    }
 
+    /* Delete Car Request */
+    deleteRequest(request_ids):Promise<any>{
+        let requests={
+            'car_request_ids':request_ids
+        }
+        console.log(requests)
+        let deleteUrl=this.url+'/api/human_resource/car/car_request/delete';
+        return new Promise((resolve,reject)=>{
+            this.http.post(deleteUrl,requests,{headers:this.headers})
+            .subscribe(
+                result=>{resolve(result.json)},
+                err=>{reject(err)}
+            )
+        })
     }
 }

@@ -159,9 +159,9 @@ export class AddRequestPage {
       .then(result=>{
           loader.dismiss();
          this.viewCtrl.dismiss(result);
-      }).catch(err=>{console.log(err)})
+      }).catch(err=>{console.log(err); loader.dismiss()})
     })
-    .catch(err=>{console.log(err)})
+    .catch(err=>{console.log(err); loader.dismiss()})
   }
 
 }

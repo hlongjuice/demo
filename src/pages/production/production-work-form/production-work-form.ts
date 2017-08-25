@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController, LoadingController, ToastController } from 'ionic-angular';
 import { ProductionActivityService } from "../../../services/production/activity.service";
 import { ProductionShrimpTypeService } from "../../../services/production/shrimp-type.service";
 import { ProductionShrimpSizeService } from "../../../services/production/shrimp-size.service";
@@ -46,7 +46,9 @@ export class ProductionWorkFormPage {
     public productionShrimpSizeService: ProductionShrimpSizeService,
     public productionEmployeeService: ProductionEmployeeService,
     public productionWorkService: ProductionWorkService,
-    public alertCtrl: AlertController
+    public alertCtrl: AlertController,
+    public loaderCtrl: LoadingController,
+    public toastCtrl:ToastController
   ) {
     let today = new Date();
     let DD: any = today.getDate();
@@ -75,35 +77,39 @@ export class ProductionWorkFormPage {
 
   }
   ngOnInit() {
+    let alert = this.alertCtrl.create({ title: 'ไม่สามารถใช้งานได้โปรดลองอีกครั้ง' })
+    let loader = this.loaderCtrl.create({ content: 'กำลังโหลดข้อมูล...' })
+    loader.present();
     this.isHighlightVisible = [];
     this.isGroupHighlightVisible = [];
-    /*Get Activity*/
-    this.productionActivityService.getActivity()
-      .then(
-      result => {
-        this.activityInput = result;
-        console.log(result);
-      }
-      ).catch(err => { console.log(err) });
-
-    /*Get Shrimp Size*/
-    this.productionShrimpSizeService.getShrimpSize()
-      .then(
-      result => { this.shrimpSizeInput = result; }
-      ).catch(err => console.log(err));
-
-    /*Get Shrimp Type*/
-    this.productionShrimpTypeSerivce.getShrimpType()
-      .then(result => { this.shrimpTypeInput = result; })
-      .catch(err => console.log(err))
-    /*Get Employee Group*/
-    this.productionEmployeeService.getGroups()
-      .then(
-      groups => {
-        console.log(groups);
-        this.employeeGroups = groups;
-      }
-      )
+    Promise.all([
+      /*Get Activity*/
+      this.productionActivityService.getActivity()
+        .then(
+        result => {
+          this.activityInput = result;
+          console.log(result);
+        }
+        ).catch(err => { console.log(err) }),
+      /*Get Shrimp Size*/
+      this.productionShrimpSizeService.getShrimpSize()
+        .then(
+        result => { this.shrimpSizeInput = result; }
+        ).catch(err => console.log(err)),
+      /*Get Shrimp Type*/
+      this.productionShrimpTypeSerivce.getShrimpType()
+        .then(result => { this.shrimpTypeInput = result; })
+        .catch(err => console.log(err)),
+      /*Get Employee Group*/
+      this.productionEmployeeService.getGroups()
+        .then(
+        groups => {
+          console.log(groups);
+          this.employeeGroups = groups;
+        }
+        ).catch(err => console.log(err))
+    ]).then(() => { loader.dismiss() })
+      .catch(err => { console.log(err); loader.dismiss(); alert.present(); })
   }
 
   ionViewDidLoad() {
@@ -122,60 +128,71 @@ export class ProductionWorkFormPage {
       ).catch(err => { console.log(err) });
   }
   /*Selected Employee*/
-  selectedEmployee($emID) {
+  selectedEmployee($emID, testWeight) {
     this.selectedEmployeeInput = $emID;
+    console.log(testWeight)
+    testWeight.setFocus();
   }
 
   /*Add Work*/
   addWork(workForm: NgForm) {
+    let loader=this.loaderCtrl.create({content:'กำลังเพิ่มข้อมูล...'})
+    let toast=this.toastCtrl.create({message:'บันทึกเรียบร้อย',duration:1500,position:'top'})
+    let alert=this.alertCtrl.create({title:'ไม่สามารถเพิ่มข้อมูลได้'})
+    loader.present()
     console.log(workForm);
-    let alertError=this.alertCtrl.create({
-      title:'ข้อมูลไม่ครับถ้วน'
-    })
-    let confirmButton = this.alertCtrl.create({
-      title: 'ยืนยันการบันทึก',
-      buttons: [
-        /*Cancel*/
-        {
-          text: 'ยกเลิก',
-          role: 'cancel',
-          handler: () => {
-            console.log(workForm);
-            if (!workForm.value.em_id || !workForm.value.shrimp_type_id
-              || !workForm.value.shrimp_size_id||!workForm.value.weight) {
-              console.log('something Empty');
-              alertError.present();
-            }
+    /*  let alertError = this.alertCtrl.create({
+        title: 'ข้อมูลไม่ครับถ้วน'
+      })
+      let confirmButton = this.alertCtrl.create({
+        title: 'ยืนยันการบันทึก',
+        buttons: [
+          {
+            text: 'ยกเลิก',
+            role: 'cancel',
+            handler: () => {
+              console.log(workForm);
+              if (!workForm.value.em_id || !workForm.value.shrimp_type_id
+                || !workForm.value.shrimp_size_id || !workForm.value.weight) {
+                console.log('something Empty');
+                alertError.present();
+              }
+            },
+            cssClass: 'alertDanger'
           },
-          cssClass: 'alertDanger'
-        },
-        /*Confirm*/
-        /*Add Work*/
-        {
-          text: 'ยืนยัน',
-          handler: () => {
-            console.log('Confirm clicked');
-            /*Check Input*/
-            if (!workForm.value.em_id || !workForm.value.shrimp_type_id
-              || !workForm.value.shrimp_size_id||!workForm.value.weight) {
-              console.log('something Empty');
-              alertError.present();
-            }
-            else {
-              let time_period: string = workForm.value.startTime + ' - ' + workForm.value.endTime;
-              this.productionWorkService.addWork(workForm, time_period)
-                .then(result => {
-                  this.weightInput = 0;
-                  console.log(result)
-                })
-                .catch(err => { console.log(err) });
-            }
-          },
-          cssClass: 'alertConfirm'
-        }
-      ]
-    })
-    confirmButton.present();
+          {
+            text: 'ยืนยัน',
+            handler: () => {
+              console.log('Confirm clicked');
+              if (!workForm.value.em_id || !workForm.value.shrimp_type_id
+                || !workForm.value.shrimp_size_id || !workForm.value.weight) {
+                console.log('something Empty');
+                alertError.present();
+              }
+              else {
+                let time_period: string = workForm.value.startTime + ' - ' + workForm.value.endTime;
+                this.productionWorkService.addWork(workForm, time_period)
+                  .then(result => {
+                    this.weightInput = 0;
+                    console.log(result)
+                  })
+                  .catch(err => { console.log(err) });
+              }
+            },
+            cssClass: 'alertConfirm'
+          }
+        ]
+      })
+      confirmButton.present();*/
+    let time_period: string = workForm.value.startTime + ' - ' + workForm.value.endTime;
+    this.productionWorkService.addWork(workForm, time_period)
+      .then(result => {
+        this.weightInput = null;
+        console.log(result)
+        loader.dismiss();
+        toast.present();
+      })
+      .catch(err => { console.log(err);loader.dismiss();alert.present() });
   }
   /*Set Highliht*/
   setHighlight(i) {

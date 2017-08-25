@@ -37,9 +37,15 @@
         <ion-segment-button value="monthly">พนักงานรายเดือน</ion-segment-button>
         <ion-segment-button value="daily">พนักงานรายวัน</ion-segment-button>
       </ion-segment>
-      <!--Inser/Edit/Delete List-->
+      <!--Insert/Edit/Delete List-->
       <ion-grid>
         <ion-row>
+          <ion-col col-3>
+            <button (click)="addNewEmployee()" ion-button color="primary">
+              <i class="fa fa-plus-circle" aria-hidden="true"></i>
+              เพิ่มพนักงาน
+            </button>
+          </ion-col>
           <ion-col col-3>
             <div (click)="changeDivisionDepartment()">
               <button ion-button block color="primary">
@@ -139,16 +145,19 @@
               </ion-grid>
             </ion-item>
             <div class="row-content-line"></div>
-            <ion-item-options side="left">
+            <ion-item-options side="right">
               <button (click)="editEmployee($event,i)" ion-button>แก้ไข</button>
               <button (click)="deleteEmployee(i)" ion-button color="danger">ลบ</button>
             </ion-item-options>
           </ion-item-sliding>
         </ion-list>
-        <ion-infinite-scroll (ionInfinite)="doInfinite($event)">
-          <ion-infinite-scroll-content>
-          </ion-infinite-scroll-content>
-        </ion-infinite-scroll>
+        <ion-item text-center>
+           <button *ngIf="page?.next_page_url!=null" ion-button default (click)="moreEmployees()">ดูเพิ่มเติม</button> 
+        </ion-item>
+        <!-- <ion-infinite-scroll (ionInfinite)="doInfinite($event)"> -->
+          <!-- <ion-infinite-scroll-content> -->
+          <!-- </ion-infinite-scroll-content> -->
+        <!-- </ion-infinite-scroll> -->
         <!--End Employee List-->
       </ion-grid>
     </ion-card-content>

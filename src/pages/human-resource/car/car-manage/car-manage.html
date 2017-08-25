@@ -20,64 +20,65 @@
 
 
 <ion-content padding>
-  <ion-grid>
-    <ion-row>
-      <!--Left Card-->
-      <ion-col col-7>
-        <ion-card>
-          <ion-card-header>
-            <ion-row>
-              <!--Car Type Selection-->
-              <ion-col col-6>
-                <ion-item>
-                  <ion-select (ionChange)="getCar()" [(ngModel)]="selectedType">
-                    <ion-option value="all">ทั้งหมด</ion-option>
-                    <ion-option *ngFor="let carType of carTypes" [value]="carType?.id">{{carType?.name}}</ion-option>
-                  </ion-select>
-                </ion-item>
-              </ion-col>
-              <!--Add Car-->
-              <ion-col col-6>
-                <button (click)="addCar()" ion-button color="primary">เพิ่ม</button>
-              </ion-col>
-            </ion-row>
-          </ion-card-header>
-          <ion-card-content>
-            <!--Table Header-->
-            <ion-row>
-              <ion-col col-4>
-                <ion-item>หมายเลขรถ</ion-item>
-              </ion-col>
-              <ion-col col-4>
-                <ion-item>ป้ายทะเบียน</ion-item>
-              </ion-col>
-              <ion-col col-4>
-                <ion-item>แก้ไข</ion-item>
-              </ion-col>
-            </ion-row>
-            <!--Table Content-->
-            <ion-row *ngFor="let car of cars">
-              <!--Car Number-->
-              <ion-col col-4>
-                <ion-item>{{car.car_number}}</ion-item>
-              </ion-col>
-              <!--Car Plate Number-->
-              <ion-col col-4>
-                <ion-item>{{car.plate_number}}</ion-item>
-              </ion-col>
-              <!--Quantity-->
-              <ion-col col-4>
-                <button ion-button color="primary">แก้ไข</button>
-              </ion-col>
-            </ion-row>
-          </ion-card-content>
-        </ion-card>
-      </ion-col>
-      <!--Right Card-->
-      <ion-col col-5>
-
-      </ion-col>
-
-    </ion-row>
-  </ion-grid>
+  <ion-card>
+    <ion-card-header>
+      <ion-grid>
+        <ion-row>
+          <!--Car Type Selection-->
+          <ion-col col-6>
+            <ion-item>
+              <ion-select (ionChange)="getCar()" [(ngModel)]="selectedType">
+                <ion-option value="all">ทั้งหมด</ion-option>
+                <ion-option *ngFor="let carType of carTypes" [value]="carType?.id">{{carType?.name}}</ion-option>
+              </ion-select>
+            </ion-item>
+          </ion-col>
+          <!--Add Car-->
+          <ion-col col-6>
+            <button (click)="addCar()" ion-button color="primary">เพิ่ม</button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-grid>
+        <!-- Table Header -->
+        <ion-row class="table-header">
+          <ion-col col-3>
+            <ion-item>หมายเลขรถ</ion-item>
+          </ion-col>
+          <ion-col col-3>
+            <ion-item>ป้ายทะเบียน</ion-item>
+          </ion-col>
+          <ion-col col-3>
+            <ion-item>ลายละเอียดรถ</ion-item>
+          </ion-col>
+          <ion-col col-3>
+            <ion-item>ประวัติการใช้งาน</ion-item>
+          </ion-col>
+          <div class="table-header-line"></div>
+        </ion-row>
+        <!--Table Content-->
+        <ion-row class="table-content" *ngFor="let car of cars">
+          <!--Car Number-->
+          <ion-col col-3>
+            <ion-item>{{car.car_number}}</ion-item>
+          </ion-col>
+          <!--Car Plate Number-->
+          <ion-col col-3>
+            <ion-item>{{car.plate_number}}</ion-item>
+          </ion-col>
+          <!--Edit-->
+          <ion-col col-3>
+            <button margin-bottom ion-button color="warning">แก้ไข</button>
+          </ion-col>
+          <!-- Usage History-->
+          <ion-col col-3>
+            <button (click)="showUsage(car)" margin-bottom ion-button color="primary">ประวัติการใช้งาน</button>
+          </ion-col>
+          <div class="table-content-line"></div>
+        </ion-row>
+      </ion-grid>
+    </ion-card-content>
+  </ion-card>
 </ion-content>

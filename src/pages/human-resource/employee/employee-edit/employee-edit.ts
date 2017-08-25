@@ -18,6 +18,7 @@ export class EmployeeEditPage {
   name: string;
   lastname: string;
   divisions: any[];
+  allDepartments:any[];
   departments: any[];
   salary_type_id: any;
   em_id: string;
@@ -37,9 +38,19 @@ export class EmployeeEditPage {
     this.lastname = this.navParams.get('lastname');
     this.divisions = this.navParams.get('divisions');
     this.division_id=this.navParams.get('division_id');
-    this.departments = this.navParams.get('departments');
     this.department_id=this.navParams.get('department_id');
     this.salary_type_id = this.navParams.get('salary_type_id');
+    this.allDepartments=this.navParams.get('departments');
+    if(this.division_id){
+      this.getDepartment();
+    }
+  }
+
+  /* Get Department */
+  getDepartment(){
+    this.departments=this.allDepartments.filter(item=>{
+      return item.division_id==this.division_id
+    })
   }
 
   dismiss() {

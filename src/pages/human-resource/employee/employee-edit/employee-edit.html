@@ -24,12 +24,12 @@
     <!--Divisions-->
     <ion-item>
       <ion-label>ฝ่าย</ion-label>
-      <ion-select [(ngModel)]="division_id">
+      <ion-select (ionChange)="getDepartment()" [(ngModel)]="division_id">
         <ion-option *ngFor="let division of divisions; let i = index" [value]="division.id">{{division?.name}}</ion-option>
       </ion-select>
     </ion-item>
     <!--Departments-->
-    <ion-item>
+    <ion-item *ngIf="division_id">
       <ion-label>แผนก</ion-label>
       <ion-select [(ngModel)]="department_id">
         <ion-option *ngFor="let department of departments; let i =index" [value]="department.id">{{department?.name}}</ion-option>

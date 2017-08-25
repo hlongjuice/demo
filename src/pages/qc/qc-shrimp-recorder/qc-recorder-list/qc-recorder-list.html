@@ -1,0 +1,55 @@
+<!--
+  Generated template for the QcRecorderListPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>qc-recorder-details</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <ion-card>
+    <ion-card-header>
+      <ion-item>
+        <ion-datetime item-start disabled displayFormat="DD/MM/YYYY" [(ngModel)]="recorder.date"></ion-datetime>
+        <ion-label item-content>แหล่งที่มา :<span ion-text color="primary">{{recorder.supplier.name}}</span></ion-label>
+        <ion-label item-content>บ่อ :<span ion-text color="primary">{{recorder.pond}}</span></ion-label>
+        <ion-label item-content>code :<span ion-text color="primary">{{recorder.code}}</span></ion-label>
+      </ion-item>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-list inset>
+        <!-- Table Header -->
+        <ion-item class="table-header">
+          <ion-label>เที่ยว</ion-label>
+          <ion-label>ขนาดกุ้ง(ตัว/กก.)</ion-label>
+          <ion-label>กุ้งตาย(กก.)</ion-label>
+          <ion-label>น้ำหนักหักตะกร้า</ion-label>
+          <button item-start ion-button default clear disabled>รายละเอียด</button>
+          <button item-end ion-button default clear disabled>ลบ</button>
+
+        </ion-item>
+        <!-- Table Content -->
+        <ion-item *ngFor="let list of lists; let i =index" class="table-content">
+          <!-- Round -->
+          <ion-label>{{i+1}}</ion-label>
+          <!-- Shrimp Size -->
+          <ion-label>{{list.shrimp_size}}</ion-label>
+          <!-- Real Shrimp Dead -->
+          <ion-label>{{list.real_shrimp_dead}}</ion-label>
+          <!-- Weight -->
+          <ion-label>{{list.weight}}</ion-label>
+          <!-- Detail Button -->
+          <button item-start ion-button default (click)="showDetails(list)">รายละเอียด</button>
+          <button item-end ion-button default color="danger" (click)="deleteShrimpReceiving(list)">ลบ</button>
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

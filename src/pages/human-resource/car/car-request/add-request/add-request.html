@@ -11,7 +11,7 @@
       <ion-title>แบบฟอร์มข้อใช้รถ</ion-title>
       <button [disabled]="!newRequest.form.valid" (click)="addRequest(newRequest.value)" item-end default ion-button color="success">ส่งแบบฟอร์ม</button>
     </ion-item>
-    
+
   </ion-navbar>
 
 </ion-header>
@@ -73,13 +73,12 @@
             </ion-select>
           </ion-item>
         </ion-col>
-        <ion-col col-6>
-          <!--Car Type-->
+        <!--Rank-->
+        <ion-col *ngIf="rank" col-6>
           <ion-item>
-            <ion-label color="primary">ประเภทรถ</ion-label>
-            <ion-select required name="selectedCarType" placeholder="เลือกประเภทรถ" [(ngModel)]="selectedCarType">
-              <ion-option *ngFor="let carType of carTypes" [value]="carType.id">{{carType.name}}</ion-option>
-            </ion-select>
+            <ion-label color="primary">ตำแหน่ง</ion-label>
+            <ion-input disabled text-right name="rank" [(ngModel)]="rank"></ion-input>
+            <ion-input hidden name="rankID" [(ngModel)]="rankID"></ion-input>
           </ion-item>
         </ion-col>
       </ion-row>
@@ -93,12 +92,13 @@
             <ion-input hidden [(ngModel)]="requestEmployeeID" name="requestEmployeeID"></ion-input>
           </ion-item>
         </ion-col>
-        <!--Rank-->
         <ion-col col-6>
+          <!--Car Type-->
           <ion-item>
-            <ion-label color="primary">ตำแหน่ง</ion-label>
-            <ion-input disabled text-right name="rank" [(ngModel)]="rank"></ion-input>
-            <ion-input hidden name="rankID" [(ngModel)]="rankID"></ion-input>
+            <ion-label color="primary">ประเภทรถ</ion-label>
+            <ion-select required name="selectedCarType" placeholder="เลือกประเภทรถ" [(ngModel)]="selectedCarType">
+              <ion-option *ngFor="let carType of carTypes" [value]="carType.id">{{carType.name}}</ion-option>
+            </ion-select>
           </ion-item>
         </ion-col>
       </ion-row>
@@ -143,8 +143,8 @@
                 </ion-col>
                 <ion-col col-6>
                   <ion-item>
-                    <ion-input [disabled]="!passengerInput.division" placeholder="เลือกผู้โดยสาร" (focus)="setPassengerInput($event,i)" 
-                      [ngModelOptions]="{standalone:true}" [(ngModel)]="passengerInput.employee"></ion-input>
+                    <ion-input [disabled]="!passengerInput.division" placeholder="เลือกผู้โดยสาร" (focus)="setPassengerInput($event,i)" [ngModelOptions]="{standalone:true}"
+                      [(ngModel)]="passengerInput.employee"></ion-input>
                     <ion-input hidden name="selectedPassengerIDs[]" [(ngModel)]="passengerInput.employeeID"></ion-input>
                   </ion-item>
                 </ion-col>
