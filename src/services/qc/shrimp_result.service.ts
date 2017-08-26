@@ -65,4 +65,53 @@ export class QcShrimpResultService {
                 )
         })
     }
+
+    /* Supplier Result By Month */
+    getSupplierResultByMonth(supplier_id,year,month):Promise<any>{
+        let inputs={
+            'supplier_id':supplier_id,
+            'year':year,
+            'month':month
+        }
+        let getByMonthUrl=this.url+'/api/qc/result/supplier/month';
+        return new Promise((resolve,reject)=>{
+            this.http.post(getByMonthUrl,inputs,{headers:this.headers})
+            .subscribe(
+                result=>{resolve(result.json())},
+                err=>{reject(err)}
+            )
+        })
+    }
+        /* Supplier Result By Year */
+    getSupplierResultByYear(supplier_id,year):Promise<any>{
+        let inputs={
+            'supplier_id':supplier_id,
+            'year':year
+        }
+        let getByMonthUrl=this.url+'/api/qc/result/supplier/year';
+        return new Promise((resolve,reject)=>{
+            this.http.post(getByMonthUrl,inputs,{headers:this.headers})
+            .subscribe(
+                result=>{resolve(result.json())},
+                err=>{reject(err)}
+            )
+        })
+    }
+        /* Supplier Result By Month */
+    getSupplierResultByQuarter(supplier_id,year,quarter):Promise<any>{
+        let inputs={
+            'supplier_id':supplier_id,
+            'year':year,
+            'quarter':quarter
+        }
+        console.log(inputs)
+        let getByMonthUrl=this.url+'/api/qc/result/supplier/quarter';
+        return new Promise((resolve,reject)=>{
+            this.http.post(getByMonthUrl,inputs,{headers:this.headers})
+            .subscribe(
+                result=>{resolve(result.json())},
+                err=>{reject(err)}
+            )
+        })
+    }
 }

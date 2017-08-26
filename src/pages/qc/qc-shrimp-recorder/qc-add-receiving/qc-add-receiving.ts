@@ -63,7 +63,7 @@ export class QcAddReceivingPage {
       this.qcShrimpReceivingService.addReceiving(formInputs)
         .then(result => {
           this.dismissLoader()
-          this.viewCtrl.dismiss(result)
+          // this.viewCtrl.dismiss(result)
           this.showToast('เพิ่มข้อมูลสำเร็จ')
           console.log(result)
         }).catch(err => { console.log(err); this.dismissLoader(); this.showAlert('ไม่สามารถเพิ่มข้อมูลได้') })

@@ -19,6 +19,7 @@ export class QcSupplierPage {
   _toast: any
   _alert: any
   suppliers: any[];
+  allSuppliers:any[];
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
@@ -35,7 +36,8 @@ export class QcSupplierPage {
     this.showLoader()
     this.supplierService.getSupplier()
       .then(result => {
-        this.suppliers = result
+        this.allSuppliers=result;
+        this.suppliers = this.allSuppliers
         this.dismissLoader()
       }).catch(err => { console.log(err); this.dismissLoader(); this.showAlert('ไม่สามารถใช้งานได้โปรดลองอีกครั้ง') })
   }
@@ -71,6 +73,24 @@ export class QcSupplierPage {
         this.getSupplier();
       }
     })
+  }
+
+  initializeItems() {
+    this.suppliers = this.allSuppliers
+  }
+
+  /* Get Passenger */
+  searchSupplier(event: any) {
+    // set val to the value of the searchbar
+    this.initializeItems();
+    let val = event.target.value;
+    // if the value is an empty string don't filter the items
+    if (val && val.trim() != '') {
+      this.suppliers = this.suppliers.filter((item) => {
+        // return (item.toLowerCase().indexOf(val.toLowerCase()) > -1);
+        return item.name.toLowerCase().indexOf(val.toLowerCase()) > -1
+      })
+    }
   }
 
   //Loader

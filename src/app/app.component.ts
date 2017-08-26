@@ -77,7 +77,7 @@ export class MyApp {
     console.log(this.menuCtrl.getMenus());
     this.menuCtrl.enable(false,'masterMenu');
     this.menuCtrl.enable(false,'productionMenu');
-    this.menuCtrl.enable(true,'humanResourceMenu');
+    this.menuCtrl.enable(false,'humanResourceMenu');
   }
   openPage(page: any) {
     this.nav.setRoot(page);

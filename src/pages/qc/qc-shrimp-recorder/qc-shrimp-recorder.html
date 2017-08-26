@@ -29,9 +29,11 @@
           </ion-col>
           <ion-col offset-4 col-4>
             <ion-item>
-              <ion-label>เลือกวันที่</ion-label>
-              <ion-datetime (ionChange)="getReceiving()" displayFormat="DD/MM/YY" [(ngModel)]="date"></ion-datetime>
+              <ion-label fixed>เลือกวันที่</ion-label>
+              <ion-datetime class="date-input-large" displayFormat="DD/MM/YY" [(ngModel)]="date"></ion-datetime>
+              <button ion-button item-end default color="primary" (click)="getReceiving()">ค้นหา</button>
             </ion-item>
+            <div class="line"></div>
           </ion-col>
         </ion-row>
       </ion-grid>

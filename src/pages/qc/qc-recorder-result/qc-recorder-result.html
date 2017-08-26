@@ -21,7 +21,7 @@
 <ion-content padding>
   <ion-card>
     <ion-card-header>
-      <ion-segment (ionChange)="getReceiving()" [(ngModel)]="result_type">
+      <ion-segment (ionChange)="resetData()" [(ngModel)]="result_type">
         <ion-segment-button value="1">ผลสรุประจำเดือน</ion-segment-button>
         <ion-segment-button value="2">ผลสรุปประจำปี</ion-segment-button>
         <ion-segment-button value="3">ผลสรุปตามกลุ่มลูกค้า</ion-segment-button>
@@ -35,8 +35,8 @@
           <ion-col *ngIf="result_type==1" col-4>
             <ion-item>
               <ion-label fixed item-start>เลือกเดือน</ion-label>
-              <ion-datetime text-left item-content class="month-input" (ionChange)="getMonthlyReceiving(date)" displayFormat="MM/YYYY"
-                [(ngModel)]="date"></ion-datetime>
+              <ion-datetime text-left item-content class="date-input" displayFormat="MM/YYYY" [(ngModel)]="date"></ion-datetime>
+              <button ion-button item-end default color="primary" (click)="getMonthlyReceiving()">ค้นหา</button>
             </ion-item>
             <div class="line"></div>
           </ion-col>
@@ -44,9 +44,73 @@
           <ion-col *ngIf="result_type==2" col-4>
             <ion-item>
               <ion-label fixed item-start>เลือกปี</ion-label>
-              <ion-datetime text-left item-content class="month-input" (ionChange)="getYearlyReceiving(year)" displayFormat="YY" [(ngModel)]="year"></ion-datetime>
+              <ion-datetime class="date-input" text-left item-content displayFormat="YYYY" [(ngModel)]="date"></ion-datetime>
+              <button ion-button item-end default color="primary" (click)="getYearlyReceiving()">ค้นหา</button>
             </ion-item>
             <div class="line"></div>
+          </ion-col>
+          <!-- BySupplier -->
+          <ion-col col-12 *ngIf="result_type==3">
+
+            <ion-col col-4>
+              <!-- Select Supplier -->
+              <ion-item>
+                <ion-label>เลือกแหล่งวัตถุดิบ</ion-label>
+                <ion-input class="text-input-large" (focus)="getSuppliers()" [(ngModel)]="supplier_name"></ion-input>
+                <ion-input hidden [(ngModel)]="supplier_id"></ion-input>
+              </ion-item>
+              <div class="line"></div>
+            </ion-col>
+            <ion-col col-12>
+              <!-- By Supplier Segment -->
+              <ion-segment (ionChange)="resetData()" class="inside-segment" color="info" *ngIf="supplier_id" [(ngModel)]="supplier_result_type">
+                <ion-segment-button value="month">ผลสรุประจำเดือน</ion-segment-button>
+                <ion-segment-button value="year">ผลสรุปประจำปี</ion-segment-button>
+                <ion-segment-button value="quarter">ผลสรุปประจำไตรมาส</ion-segment-button>
+              </ion-segment>
+              <!-- Supplier Input By Month -->
+              <ion-row *ngIf="supplier_result_type=='month'">
+                <ion-col col-4>
+                  <ion-item>
+                    <ion-label fixed>เลือกเดือน</ion-label>
+                    <ion-datetime margin-right class="date-input" displayFormat="MM/YYYY" [(ngModel)]="date"></ion-datetime>
+                    <button margin-left ion-button item-end default color="primary" (click)="getSupplierReceiving()">ค้าหา</button>
+                  </ion-item>
+                </ion-col>
+              </ion-row>
+              <!-- Supplier Input By Year -->
+              <ion-row *ngIf="supplier_result_type=='year'">
+                <ion-col col-4>
+                  <ion-item>
+                    <ion-label fixed>เลือกปี</ion-label>
+                    <ion-datetime class="date-input" displayFormat="YYYY" [(ngModel)]="date"></ion-datetime>
+                    <button margin-left ion-button item-end default color="primary" (click)="getSupplierReceiving()">ค้าหา</button>
+                  </ion-item>
+                </ion-col>
+              </ion-row>
+              <!-- Supplier Input By Quarter -->
+              <ion-row *ngIf="supplier_result_type=='quarter'">
+                <ion-col col-auto>
+                  <ion-item>
+                    <ion-label fixed>เลือกไตรมาส</ion-label>
+                    <ion-select class="date-input" [(ngModel)]="quarter">
+                      <ion-option selected value=1>1</ion-option>
+                      <ion-option value=2>2</ion-option>
+                      <ion-option value=3>3</ion-option>
+                      <ion-option value=4>4</ion-option>
+                    </ion-select>
+                  </ion-item>
+                </ion-col>
+                <ion-col col-auto>
+                  <ion-item>
+                    <ion-label fixed>เลือกปี</ion-label>
+                    <ion-datetime class="date-input" displayFormat="YYYY" [(ngModel)]="date"></ion-datetime>
+                    <button margin-left ion-button item-end default color="primary" (click)="getSupplierReceiving()">ค้าหา</button>
+                  </ion-item>
+                </ion-col>
+              </ion-row>
+              <div *ngIf="supplier_result_type" class="line"></div>
+            </ion-col>
           </ion-col>
         </ion-row>
       </ion-grid>
@@ -167,9 +231,9 @@
           <ion-card>
             <ion-card-content>
               <div>
-                <h3 ion-text color="primary">ปี </h3>
+                <h3 ion-text color="primary">ปี {{year_headers[0]}}</h3>
                 <div class="result-blue" ion-text text-right>
-                  <h1 ion-text color="primary"> <span></span>กก.</h1>
+                  <h1 ion-text color="primary">{{yt_result_shrimp_dead_percents[0]|number:'1.2-2'}} <span></span>%</h1>
                 </div>
               </div>
             </ion-card-content>
@@ -180,9 +244,9 @@
           <ion-card>
             <ion-card-content>
               <div>
-                <h3 ion-text color="warning">ปี</h3>
+                <h3 ion-text color="warning">ปี {{year_headers[1]}}</h3>
                 <div class="result-orange" ion-text text-right>
-                  <h1 ion-text color="warning"> <span></span>%</h1>
+                  <h1 ion-text color="warning"> {{yt_result_shrimp_dead_percents[1]|number:'1.2-2'}}<span></span>%</h1>
                 </div>
               </div>
             </ion-card-content>
@@ -193,9 +257,9 @@
           <ion-card>
             <ion-card-content>
               <div>
-                <h3 ion-text color="dark-blue">ปี</h3>
-                <div class="result-dark-blue" ion-text text-right>
-                  <h1 ion-text color="dark-blue"> <span></span>%</h1>
+                <h3 ion-text color="danger">ปี {{year_headers[2]}}</h3>
+                <div class="result-red" ion-text text-right>
+                  <h1 ion-text color="danger">{{yt_result_shrimp_dead_percents[2]|number:'1.2-2'}} <span></span>%</h1>
                 </div>
               </div>
             </ion-card-content>
@@ -207,20 +271,20 @@
     <ion-grid>
       <ion-row>
         <!-- Column left -->
-        <ion-col col-6>
+        <ion-col col-5>
           <ion-card>
             <ion-card-header>
               <ion-grid>
                 <ion-row class="table-header">
                   <ion-col col-3>
-                    <ion-item>เดือน</ion-item>
+                    <ion-item>เดือน | ปี</ion-item>
                   </ion-col>
                   <ion-col *ngFor="let year_header of year_headers" col-3>
                     <ion-item>
                       {{year_header}}
                     </ion-item>
                   </ion-col>
-                  <div class="table-header-line"></div >
+                  <div class="table-header-line"></div>
                 </ion-row>
               </ion-grid>
             </ion-card-header>
@@ -253,17 +317,111 @@
 
         </ion-col>
         <!-- Column Right -->
-        <ion-col col-6>
+        <ion-col col-7>
           <ion-card>
             <ion-card-header>
-              
+
             </ion-card-header>
             <ion-card-content>
-              <canvas #qcChart width=100%></canvas>
+              <canvas class="line-chart" #qcChart></canvas>
             </ion-card-content>
           </ion-card>
         </ion-col>
       </ion-row>
     </ion-grid>
+  </div>
+  <!-- By Supplier -->
+  <div #bySupplier *ngIf="result_type==3">
+    <!-- Card Result -->
+    <ion-grid *ngIf="supplier_result_type">
+      <ion-row>
+        <!-- Total Weight -->
+        <ion-col>
+          <ion-card>
+            <ion-card-content>
+              <div>
+                <h3 ion-text color="primary">น้ำหนักรวม</h3>
+                <div class="result-blue" ion-text text-right>
+                  <h1 ion-text color="primary">{{s_total_result_shrimp_weight| number}} <span></span>กก.</h1>
+                </div>
+              </div>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+        <!-- Shrimp Dead -->
+        <ion-col>
+          <ion-card>
+            <ion-card-content>
+              <div>
+                <h3 ion-text color="warning">เปอร์เซ็นตายใน</h3>
+                <div class="result-orange" ion-text text-right>
+                  <h1 ion-text color="warning">{{s_total_result_shrimp_dead_percent}} <span></span>%</h1>
+                </div>
+              </div>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+        <!-- Last Five -->
+        <ion-col>
+          <ion-card>
+            <ion-card-content>
+              <div>
+                <h3 ion-text color="dark-blue">เปอร์เซ็นตาย 5 เที่ยว</h3>
+                <div class="result-dark-blue" ion-text text-right>
+                  <h1 ion-text color="dark-blue">{{s_total_result_last_five_shrimp_dead_percent}} <span></span>%</h1>
+                </div>
+              </div>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+        <!-- Total Shrimp Dead -->
+        <ion-col>
+          <ion-card>
+            <ion-card-content>
+              <div>
+                <h3 ion-text color="danger">เปอร์เซ็นตายรวม</h3>
+                <div class="result-red" ion-text text-right>
+                  <h1 ion-text color="danger">{{s_total_result_total_shrimp_dead_percent}} <span></span>%</h1>
+                </div>
+              </div>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+    <!-- Table Card -->
+    <ion-card>
+      <ion-card-content>
+        <ion-grid>
+          <!-- Monthly -->
+          <ion-row>
+            <ion-col col-12>
+              <ion-list inset>
+                <ion-item text-center class="table-header">
+                  <ion-label>วันที่จับ</ion-label>
+                  <ion-label>ลูกค้า</ion-label>
+                  <ion-label>บ่อ</ion-label>
+                  <ion-label>นน.ทั้งบ่อ</ion-label>
+                  <ion-label>%ตายในเป็น</ion-label>
+                  <ion-label>%ตาย5เที่ยว</ion-label>
+                  <ion-label>%ตายรวม</ion-label>
+                </ion-item>
+                <ion-item text-center (click)="setHighlight(i)" [ngClass]="{'highlight':isHighlightVisible[i]}" class="table-content" *ngFor="let s_result of s_results; let i=index">
+                  <ion-label>{{s_result.date}}</ion-label>
+                  <ion-label>{{s_result.supplier.name}}</ion-label>
+                  <ion-label>{{s_result.pond}}</ion-label>
+                  <ion-label>{{s_result.total_shrimp_weight}}</ion-label>
+                  <ion-label>{{s_result.shrimp_dead_percent}}</ion-label>
+                  <ion-label>{{s_result.last_five_shrimp_dead_percent}}</ion-label>
+                  <ion-label>{{s_result.total_shrimp_dead_percent}}</ion-label>
+                  <div ion-text class="table-content-line"></div>
+                </ion-item>
+              </ion-list>
+            </ion-col>
+          </ion-row>
+          <!-- Soft By Customer -->
+        </ion-grid>
+      </ion-card-content>
+    </ion-card>
   </div>
 </ion-content>

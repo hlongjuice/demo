@@ -41,7 +41,9 @@ export class HomePage {
     //  token=this.authService.getToken()
     this.menuCtrl.enable(false, 'masterMenu');
     this.menuCtrl.enable(false, 'productionMenu');
-    this.menuCtrl.enable(true, 'humanResourceMenu');
+    this.menuCtrl.enable(false, 'humanResourceMenu');
+    this.menuCtrl.enable(false);
+    this.menuCtrl.swipeEnable(false);
   }
   openPage(page) {
     this.menuCtrl.enable(false, 'masterMenu');

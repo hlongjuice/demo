@@ -54,8 +54,8 @@ export class SupplierInputPage {
     // if the value is an empty string don't filter the items
     if (val && val.trim() != '') {
       this.suppliers = this.suppliers.filter((item) => {
-        // return (item.toLowerCase().indexOf(val.toLowerCase()) > -1);
-        return item.name.indexOf(val) > -1
+        return (item.name.toLowerCase().indexOf(val.toLowerCase()) > -1);
+        // return item.name.indexOf(val) > -1
       })
     }
   }

@@ -163,7 +163,7 @@ export class EmployeePage {
   }
   /*Selected Division*/
   getEmployees() {
-    let loader=this.loaderCtrl.create({content:'กำลังโหลดข้อมูล...',duration:2000})
+    let loader = this.loaderCtrl.create({ content: 'กำลังโหลดข้อมูล...', duration: 2000 })
     loader.present();
     console.log(this.selectedDivision);
     this.allEmployee = [];
@@ -178,7 +178,7 @@ export class EmployeePage {
           /*set Next Page*/
           this.nextPageUrl = result.next_page_url;
           this.page = result;
-          /*Set Empployee*/
+          /*Set Employee*/
           this.setEmployee(result);
 
         }).catch(err => { console.log(err) })
@@ -356,6 +356,36 @@ export class EmployeePage {
         }
       }
 
+    }
+  }
+
+  initializeItems() {
+    switch (this.groupTab) {
+      case 'all': {
+        this.employees = this.allEmployee
+      } break;
+      case 'monthly': {
+        this.employees = this.monthlyEmployee
+      } break;
+      case 'daily': {
+        this.employees = this.dailyEmployee
+      } break;
+      default: break;
+    }
+  }
+  /* Search Employee */
+  searchEmployees(event: any) {
+    // set val to the value of the searchbar
+    this.initializeItems();
+    let val = event.target.value;
+    // if the value is an empty string don't filter the items
+    if (val && val.trim() != '') {
+      this.employees = this.employees.filter((item) => {
+        console.log(item)
+        return (item.name.toLowerCase().indexOf(val.toLowerCase()) > -1 || 
+        item.lastname.toLowerCase().indexOf(val.toLowerCase()) > -1 ||
+        item.em_id.toString().indexOf(val) > -1)
+      })
     }
   }
 

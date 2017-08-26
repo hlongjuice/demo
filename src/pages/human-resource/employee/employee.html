@@ -26,7 +26,7 @@
       <ion-item class="item-input">
         <ion-label stacked>เลือกฝ่าย</ion-label>
         <ion-select (ionChange)="getEmployees()" [(ngModel)]="selectedDivision">
-          <ion-option  value="allEmployee">ทุกฝ่าย</ion-option>
+          <ion-option value="allEmployee">ทุกฝ่าย</ion-option>
           <ion-option *ngFor="let division of divisions; let i = index;" [value]="division.id">{{division.name}}</ion-option>
         </ion-select>
       </ion-item>
@@ -70,7 +70,7 @@
   <!--Bottom Card-->
   <ion-card>
     <ion-card-header>
-
+      <ion-searchbar (ionInput)="searchEmployees($event)"></ion-searchbar>
     </ion-card-header>
     <ion-card-content>
       <!--Employee List-->
@@ -135,7 +135,7 @@
                   </ion-col>
                   <!--Department-->
                   <ion-col col-2>
-                    <ion-item >{{employee.department?.name}}</ion-item>
+                    <ion-item>{{employee.department?.name}}</ion-item>
                   </ion-col>
                   <!--SalaryType-->
                   <ion-col col-2>
@@ -152,11 +152,11 @@
           </ion-item-sliding>
         </ion-list>
         <ion-item text-center>
-           <button *ngIf="page?.next_page_url!=null" ion-button default (click)="moreEmployees()">ดูเพิ่มเติม</button> 
+          <button *ngIf="page?.next_page_url!=null" ion-button default (click)="moreEmployees()">ดูเพิ่มเติม</button>
         </ion-item>
         <!-- <ion-infinite-scroll (ionInfinite)="doInfinite($event)"> -->
-          <!-- <ion-infinite-scroll-content> -->
-          <!-- </ion-infinite-scroll-content> -->
+        <!-- <ion-infinite-scroll-content> -->
+        <!-- </ion-infinite-scroll-content> -->
         <!-- </ion-infinite-scroll> -->
         <!--End Employee List-->
       </ion-grid>

@@ -7,10 +7,23 @@ page-qc-recorder-result {
         font-weight: bold;
     }
     .scroll{
-        min-height: 400px;
+        min-height: 300px;
     }
-    .month-input{
+    .line-chart{
+        height:350px !important;
+    }
+    .date-input{
         font-size:2.5rem !important;
+    }
+    .inside-segment{
+        padding-left:30px;
+        padding-right:30px;
+        margin-bottom:15px;
+        margin-top:15px;
+    }
+    .text-input-large{
+        color:map-get($colors, danger );
+        font-size:2.8rem !important;
     }
     .table-result {
         font-size: 2.2rem !important;

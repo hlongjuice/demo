@@ -1,6 +1,6 @@
 import { DateService } from './../../../services/date.service';
 import { QcShrimpResultService } from './../../../services/qc/shrimp_result.service';
-import { Component, ViewChild, ElementRef } from '@angular/core';
+import { Component, ViewChild, ElementRef, Injectable } from '@angular/core';
 import { IonicPage, NavController, NavParams, LoadingController, AlertController, ToastController, ModalController } from 'ionic-angular';
 import 'chart.js/src/chart';
 declare var Chart
@@ -20,23 +20,34 @@ export class QcRecorderResultPage {
   _loader: any
   _toast: any
   _alert: any
-  @ViewChild('qcChart')el:ElementRef
+  @ViewChild('qcChart') el: ElementRef
+  suppliers: any[];
+  supplier_id: number;
+  supplier_name: string;
   m_results: any;
   date: string;
   month: string;
   year: string;
   isHighlightVisible: boolean[];
   result_type: string;
+  supplier_result_type: string;
   /* Monthly Result */
   total_result_shrimp_weight: any;
   total_result_shrimp_dead_percent: any;
   total_result_last_five_shrimp_dead_percent: any;
   total_result_total_shrimp_dead_percent: any;
   /* Yearly Result */
-  year_receivings:any;
-  month_names:string[];
-  year_headers:number[];
-
+  year_receivings: any;
+  month_names: string[];
+  year_headers: number[];
+  yt_result_shrimp_dead_percents: number[];
+  /* By Supplier Result */
+  s_results: any;
+  s_total_result_shrimp_weight: any;
+  s_total_result_shrimp_dead_percent: any;
+  s_total_result_last_five_shrimp_dead_percent: any;
+  s_total_result_total_shrimp_dead_percent: any;
+  quarter: string;
 
   constructor(
     public navCtrl: NavController,
@@ -51,8 +62,9 @@ export class QcRecorderResultPage {
   }
 
   ngOnInit() {
-    this.year_headers=[];
-    this.month_names=this.dateService.getMonthName();
+    this.year_headers = [];
+    this.yt_result_shrimp_dead_percents = [];
+    this.month_names = this.dateService.getMonthName();
     console.log(this.month_names)
     this.result_type = '1';
     this.isHighlightVisible = [];
@@ -62,7 +74,7 @@ export class QcRecorderResultPage {
     this.date = this.dateService.getDate();
     this.qcShrimpResultService.getMonthlyResult(this.year, this.month)
       .then(result => {
-        for(let i=parseInt(this.year)-3;i<parseInt(this.year);i++){
+        for (let i = parseInt(this.year) - 2; i <= parseInt(this.year); i++) {
           this.year_headers.push(i);
         }
         console.log(result)
@@ -103,11 +115,13 @@ export class QcRecorderResultPage {
 
   /* Get Receiving */
   getReceiving() {
+    this.isHighlightVisible.fill(false)
     switch (this.result_type) {
       case '1': this.getMonthlyReceiving();
         break;
       case '2': this.getYearlyReceiving()
         break;
+      case '3': { this.date = this.dateService.getDate() }
       default: break;
     }
   }
@@ -115,7 +129,6 @@ export class QcRecorderResultPage {
   getMonthlyReceiving() {
     this.showLoader()
     let date = new Date(this.date);
-    console.log(this.date)
     this.month = (date.getMonth() + 1).toString();
     this.year = date.getFullYear().toString();
     console.log(this.month, this.year)
@@ -153,50 +166,179 @@ export class QcRecorderResultPage {
     this.qcShrimpResultService.getYearlyResult(this.year)
       .then(result => {
         console.log(result);
-        this.year_receivings=result;
+        this.year_receivings = result;
+        this.year_receivings.forEach(year => {
+          let result = year.reduce((sum, item) => { return sum + item.m_total_shrimp_dead_percent }, 0)
+          let avg = result / year.length
+          this.yt_result_shrimp_dead_percents.push(avg);
+        })
         // console.log(this.year_receivings)
+        console.log(this.yt_result_shrimp_dead_percents)
+        this.drawChart();
 
       }).catch(err => { console.log(err) })
   }
 
+  /* *****Get By Supplier Result***** */
+  /* Get Suppliers */
+  getSuppliers() {
+    let modal = this.modalCtrl.create('SupplierInputPage')
+    modal.present();
+    modal.onDidDismiss(result => {
+      if (result) {
+        this.supplier_id = result.id
+        this.supplier_name = result.name
+      }
+    })
+  }
+  /* Get Supplier Receiving */
+  getSupplierReceiving() {
+    let date = new Date(this.date);
+    console.log(this.date)
+    this.month = (date.getMonth() + 1).toString();
+    this.year = date.getFullYear().toString();
+    switch (this.supplier_result_type) {
+      case 'month': this.getSupplierResultByMonth()
+        break;
+      case 'year': this.getSupplierResultByYear()
+        break;
+      case 'quarter': this.getSupplierResultByQuarter()
+        break;
+      default: break;
+    }
+  }
+  /* Get Supplier Result */
+  getSupplierResultByMonth() {
+    this.s_results = null;
+    this.showLoader()
+    this.qcShrimpResultService.getSupplierResultByMonth(this.supplier_id, this.year, this.month)
+      .then(result => {
+        this.s_results = result;
+        console.log(this.s_results)
+        this.calculateSupplierTotalResult(result)
+        this.dismissLoader();
+      }).catch(err => { console.log(err); this.dismissLoader() })
+  }
+  /* By Year */
+  getSupplierResultByYear() {
+    this.showLoader()
+    this.s_results = null;
+    this.qcShrimpResultService.getSupplierResultByYear(this.supplier_id, this.year)
+      .then(result => {
+        this.s_results = result;
+        console.log(this.s_results)
+        this.calculateSupplierTotalResult(result)
+        this.dismissLoader()
+      }).catch(err => { console.log(err); this.dismissLoader() })
+  }
+  /* By Quarter */
+  getSupplierResultByQuarter() {
+    this.showLoader()
+    this.s_results = null;
+    this.qcShrimpResultService.getSupplierResultByQuarter(this.supplier_id, this.year, this.quarter)
+      .then(result => {
+        this.s_results = result;
+        this.calculateSupplierTotalResult(result)
+        this.dismissLoader()
+      }).catch(err => { console.log(err); this.dismissLoader() })
+  }
+  /* Calculate Total Result */
+  calculateSupplierTotalResult(results) {
+    //Calculate Total Result
+    //Shrimp Weight
+    this.s_total_result_shrimp_weight = results.reduce((sum, item) => {
+      return sum + item.total_shrimp_weight;
+    }, 0);
+    //Last Five Percent
+    this.s_total_result_last_five_shrimp_dead_percent = results.reduce((sum, item) => {
+      return sum + parseFloat(item.last_five_shrimp_dead_percent);
+    }, 0);
+    //Shrimp Dead Percent
+    this.s_total_result_shrimp_dead_percent = results.reduce((sum, item) => {
+      return sum + parseFloat(item.shrimp_dead_percent);
+    }, 0);
+    //Total Shrimp Dead Percent
+    this.s_total_result_total_shrimp_dead_percent = results.reduce((sum, item) => {
+      return sum + parseFloat(item.total_shrimp_dead_percent);
+    }, 0)
+    //Set 2 Digit
+    // console.log(this.total_result_last_five_shrimp_dead_percent,this.total_result_shrimp_dead_percent)
+    this.s_total_result_last_five_shrimp_dead_percent = this.s_total_result_last_five_shrimp_dead_percent.toFixed(2)
+    this.s_total_result_shrimp_dead_percent = this.s_total_result_shrimp_dead_percent.toFixed(2)
+    this.s_total_result_total_shrimp_dead_percent = this.s_total_result_total_shrimp_dead_percent.toFixed(2)
+  }
+
+  /* Reset Data*/
+  resetData() {
+    this.m_results = null;
+    this.s_results = null;
+    this.date = this.dateService.getDate();
+    this.total_result_shrimp_weight=0;
+    this.total_result_shrimp_dead_percent=0;
+    this.total_result_last_five_shrimp_dead_percent= 0;
+    this.total_result_total_shrimp_dead_percent= 0;
+    /* Yearly Result */
+    this.year_receivings= 0;
+    this.yt_result_shrimp_dead_percents=[];
+    /* By Supplier Result */
+    this.s_results= 0;
+    this.s_total_result_shrimp_weight= 0;
+    this.s_total_result_shrimp_dead_percent= 0;
+    this.s_total_result_last_five_shrimp_dead_percent= 0;
+    this.s_total_result_total_shrimp_dead_percent= 0;
+  }
+
+  /* *******End Get By Supplier */
+
+
   //Draw Chart
-  drawChart(){
+  drawChart() {
+    let dataInput = [];
+    let colors = ['#488aff', '#f0ad4e', '#f53d3d'];
+    this.year_receivings.forEach((year, index) => {
+      let monthInit = [];
+      let dataChart = {
+        'label': '',
+        'data': [],
+        'fill': false,
+        'backgroundColor': '',
+        'borderColor': ''
+      };
+      for (let i = 0; i < 12; i++) {
+        monthInit[i] = 0
+      }
+      monthInit.fill(0);
+      dataChart.backgroundColor = colors[index]
+      dataChart.borderColor = colors[index]
+      dataChart.label = year[0].year;
+      year.forEach(month => {
+        for (let i = 0; i < 12; i++) {
+          if (month.month == i + 1) {
+            monthInit[i] = month.m_total_shrimp_dead_percent
+            i = 12;
+          }
+        }
+      })
+      dataChart.data = monthInit
+      dataInput.push(dataChart);
+    })
+    console.log(dataInput);
     let ctx = this.el.nativeElement
     new Chart(ctx, {
       type: 'line',
       data: {
-        labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
-        datasets: [{
-            label: '# of Votes',
-            data: [12, 19, 3, 5, 2, 3],
-            backgroundColor: [
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)',
-                'rgba(75, 192, 192, 0.2)',
-                'rgba(153, 102, 255, 0.2)',
-                'rgba(255, 159, 64, 0.2)'
-            ],
-            borderColor: [
-                'rgba(255,99,132,1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)',
-                'rgba(153, 102, 255, 1)',
-                'rgba(255, 159, 64, 1)'
-            ],
-            borderWidth: 1
-        }]
-    },
-    options: {
+        'labels': this.month_names,
+        'datasets': dataInput
+      },
+      options: {
         scales: {
-            yAxes: [{
-                ticks: {
-                    beginAtZero:true
-                }
-            }]
+          yAxes: [{
+            ticks: {
+              beginAtZero: true
+            }
+          }]
         }
-    }
+      }
     });
 
   }

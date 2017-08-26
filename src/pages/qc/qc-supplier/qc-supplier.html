@@ -35,6 +35,11 @@
     </ion-card-header>
     <ion-card-content>
       <ion-grid>
+        <ion-row>
+          <ion-col col-12>
+            <ion-searchbar (ionInput)="searchSupplier($event)"></ion-searchbar>
+          </ion-col>
+        </ion-row>
         <ion-row class="table-header">
           <!-- Table Header -->
           <ion-col col-6>
