@@ -32,26 +32,26 @@ export class MyApp {
   /*Page*/
   // rootPage=HomePage;
   rootPage = LoginPage;
-  productionEmployeePage=ProductionEmployeePage;
+  productionEmployeePage = ProductionEmployeePage;
   productionPage = ProductionPage;
-  productionWorkFormPage=ProductionWorkFormPage;
-  productionResultPage=ProductionResultPage;
-  productionSettingPage=ProductionSettingPage;
+  productionWorkFormPage = ProductionWorkFormPage;
+  productionResultPage = ProductionResultPage;
+  productionSettingPage = ProductionSettingPage;
   /*Human Resource Page*/
-  humanResourcePage=HumanResourcePage;
-  carAccessControlPage=CarAccessControlPage
-  carManagePage=CarManagePage;
-  carRequestPage=CarRequestPage;
-  carResponsePage=CarResponsePage;
-  carResponseHistoryPage=CarResponseHistoryPage
-  employeePage=EmployeePage;
+  humanResourcePage = HumanResourcePage;
+  carAccessControlPage = CarAccessControlPage
+  carManagePage = CarManagePage;
+  carRequestPage = CarRequestPage;
+  carResponsePage = CarResponsePage;
+  carResponseHistoryPage = CarResponseHistoryPage
+  employeePage = EmployeePage;
   homePage = HomePage;
-  loginPage=LoginPage;
+  loginPage = LoginPage;
   /*End Page*/
   /* QC */
-  qcShrimpRecorderPage=QcShrimpRecorderPage
-  qcSupplierPage=QcSupplierPage
-  qcRecorderResultPage=QcRecorderResultPage
+  qcShrimpRecorderPage = QcShrimpRecorderPage
+  qcSupplierPage = QcSupplierPage
+  qcRecorderResultPage = QcRecorderResultPage
   /* End QC */
   private authState: boolean;
   @ViewChild('nav') nav: NavController;
@@ -73,18 +73,22 @@ export class MyApp {
   }
   ngOnInit() {
     // this.screenOrientation.lock(this.screenOrientation.ORIENTATIONS.LANDSCAPE);
-    this.authState=this.authService.getAuthState();
+    this.authState = this.authService.getAuthState();
     console.log(this.menuCtrl.getMenus());
-    this.menuCtrl.enable(false,'masterMenu');
-    this.menuCtrl.enable(false,'productionMenu');
-    this.menuCtrl.enable(false,'humanResourceMenu');
+    this.menuCtrl.enable(false, 'masterMenu');
+    this.menuCtrl.enable(false, 'productionMenu');
+    this.menuCtrl.enable(false, 'humanResourceMenu');
   }
   openPage(page: any) {
     this.nav.setRoot(page);
     this.menuCtrl.close();
   }
   logout() {
-    this.nav.setRoot(this.loginPage);
-    console.log('Log Out');
+    this.authService.logout()
+      .then(result => {
+        console.log(result)
+        this.nav.setRoot(this.loginPage);
+        console.log('Log Out');
+      })
   }
 }

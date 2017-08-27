@@ -281,7 +281,6 @@ export class QcRecorderResultPage {
     this.year_receivings= 0;
     this.yt_result_shrimp_dead_percents=[];
     /* By Supplier Result */
-    this.s_results= 0;
     this.s_total_result_shrimp_weight= 0;
     this.s_total_result_shrimp_dead_percent= 0;
     this.s_total_result_last_five_shrimp_dead_percent= 0;

@@ -15,7 +15,7 @@ export class AuthService {
     private accessToken: string;
     constructor(
         private http: Http,
-        public webUrl: WebUrlService
+        public webUrl: WebUrlService,
     ) {
         console.log('AuthController');
         this.url = this.webUrl.getUrl();
@@ -27,7 +27,7 @@ export class AuthService {
     ngOnInit() {
         console.log('In OnInit')
         if (this.accessToken == null) {
-             console.log('In OnInit in IF')
+            console.log('In OnInit in IF')
             console.log('AuthController');
             this.url = this.webUrl.getUrl();
             this.oauthUrl = this.url + '/oauth/token';
@@ -63,6 +63,7 @@ export class AuthService {
                             "Accept": "application/json",
                             "Authorization": "Bearer " + access_token,
                         });
+                        console.log(response.json());
 
                         /*Store Access Token to Global*/
                         this.accessToken = access_token;
@@ -89,11 +90,29 @@ export class AuthService {
     }
 
     logout(): Promise<boolean> {
+        let headers = new Headers({
+            "Accept": "application/json",
+            "Authorization": "Bearer " + this.accessToken,
+        });
+        let tokens = {
+            'access_token': this.accessToken
+        }
+        let user = {
+            'user_id': this.user.id
+        }
+        let logoutUrl = this.url + '/api/auth/custom_logout'
         return new Promise((resolve, reject) => {
-            this.user = null;
-            this.authState = false;
-            this.accessToken = "";
-            resolve(true);
+            this.http.post(logoutUrl, user, { headers: headers })
+                .subscribe(
+                result => {
+                    console.log('inLogout', result.json())
+                    this.user = null;
+                    this.authState = false;
+                    this.accessToken = "";
+                    resolve(result.json());
+                },
+                err => { console.log(err) }
+                )
         })
 
     }
@@ -110,8 +129,8 @@ export class AuthService {
     }
     /*Get Token*/
     getToken(): Promise<string> {
-        return new Promise((resovle, reject) => {
-            resovle(this.accessToken);
+        return new Promise((resolve, reject) => {
+            resolve(this.accessToken);
         })
     }
     /*Get Header*/

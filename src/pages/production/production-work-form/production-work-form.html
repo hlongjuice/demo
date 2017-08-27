@@ -9,12 +9,15 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title text-center>
-      <!--<ion-item>-->
-      <ion-icon item-start><i class="fa fa-file-text-o" aria-hidden="true"></i></ion-icon>
-      บันทึกการทำงาน
-      <!--</ion-item> -->
-    </ion-title>
+    <ion-item no-lines color="primary">
+      <ion-title text-center>
+        <!--<ion-item>-->
+        <ion-icon item-start><i class="fa fa-file-text-o" aria-hidden="true"></i></ion-icon>
+        บันทึกการทำงาน
+        <!--</ion-item> -->
+      </ion-title>
+      <button ion-button item-end default color="info" (click)="getLastInsert()">ข้อมูลล่าสุด</button>
+    </ion-item>
   </ion-navbar>
 </ion-header>
 
@@ -67,7 +70,7 @@
             <ion-col col-2>
               <ion-item class="item-input">
                 <ion-label stacked>กิจกรรม</ion-label>
-                <ion-select required name="activity_id" placeholder="เลือกกิจกรรม" ngModel>
+                <ion-select required name="activity_id" placeholder="เลือกกิจกรรม" [(ngModel)]="activity_id">
                   <ion-option *ngFor="let activity of activityInput" [value]="activity.id">{{activity.name}}</ion-option>
                 </ion-select>
               </ion-item>
@@ -76,7 +79,7 @@
             <ion-col col-2>
               <ion-item class="item-input">
                 <ion-label stacked>ชนิดกุ้ง</ion-label>
-                <ion-select required name="shrimp_type_id" placeholder="เลือกชนิด" ngModel>
+                <ion-select required name="shrimp_type_id" placeholder="เลือกชนิด" [(ngModel)]="shrimp_type_id">
                   <ion-option *ngFor="let shrimpType of shrimpTypeInput" [value]="shrimpType.id">{{shrimpType.name}}</ion-option>
                 </ion-select>
               </ion-item>
@@ -85,7 +88,7 @@
             <ion-col col-2>
               <ion-item class="item-input">
                 <ion-label stacked>ขนาดกุ้ง</ion-label>
-                <ion-select required name="shrimp_size_id" placeholder="เลือกขนาด" ngModel>
+                <ion-select required name="shrimp_size_id" placeholder="เลือกขนาด" [(ngModel)]="shrimp_size_id">
                   <ion-option *ngFor="let shrimpSize of shrimpSizeInput" [value]="shrimpSize.id">{{shrimpSize.name}}</ion-option>
                 </ion-select>
               </ion-item>

@@ -31,22 +31,24 @@ export class ProductionWorkService {
     }
 
     /*Add New Work*/
-    addWork(formInput: NgForm, time_period: string): Promise<any> {
+    addWork(formInput: NgForm): Promise<any> {
         let addWorkUrl = this.url + '/api/production/work';
-        let productionWork = new ProductionWorkModel();
         let user_id;
-        productionWork.date = formInput.value.date;
-        productionWork.time_period = time_period;
-        productionWork.em_id = formInput.value.em_id;
-        productionWork.activity_id = formInput.value.activity_id;
-        productionWork.shrimp_size_id = formInput.value.shrimp_size_id;
-        productionWork.shrimp_type_id = formInput.value.shrimp_type_id;
-        productionWork.weight = formInput.value.weight;
-        productionWork.user_id = this.userID;
+        let inputs={
+            'date':formInput.value.date,
+            'time_start':formInput.value.startTime,
+            'time_end':formInput.value.endTime,
+            'em_id':formInput.value.em_id,
+            'activity_id':formInput.value.activity_id,
+            'shrimp_size_id':formInput.value.shrimp_size_id,
+            'shrimp_type_id':formInput.value.shrimp_type_id,
+            'weight':formInput.value.weight,
+            'user_id':this.userID
+        }
 
         return new Promise((resolve, reject) => {
             // this.http.post()
-            this.http.post(addWorkUrl, productionWork, { headers: this.headers })
+            this.http.post(addWorkUrl, inputs, { headers: this.headers })
                 .subscribe(
                 result => {
                     resolve(result.json())
@@ -125,6 +127,18 @@ export class ProductionWorkService {
         let deleteWorkUrl=this.url+'/api/production/work/delete/'+id;
         return new Promise((resolve,reject)=>{
             this.http.get(deleteWorkUrl,{headers:this.headers})
+            .subscribe(
+                result=>{resolve(result.json())},
+                err=>{reject(err)}
+            )
+        })
+    }
+
+    /* Last Insert */
+    lastInsert():Promise<any>{
+        let lastUrl=this.url+'/api/production/work/last_insert'
+        return new Promise((resolve,reject)=>{
+            this.http.get(lastUrl,{headers:this.headers})
             .subscribe(
                 result=>{resolve(result.json())},
                 err=>{reject(err)}

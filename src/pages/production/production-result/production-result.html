@@ -41,7 +41,7 @@
               <ion-item class="item-input">
                 <ion-label>ช่วงเวลา</ion-label>
                 <ion-select name="timePeriod" (ionChange)="getWorkList(selectedTimePeriod)" [(ngModel)]="selectedTimePeriod">
-                  <ion-option *ngFor="let timePeriod of timePeriods" [value]="timePeriod">{{timePeriod.time_period}}</ion-option>
+                  <ion-option *ngFor="let timePeriod of timePeriods" [value]="timePeriod">{{timePeriod.time_start}} - {{timePeriod.time_end}}</ion-option>
                 </ion-select>
                 <ion-icon item-start color="primary" item-right><i class="fa fa-clock-o" aria-hidden="true"></i></ion-icon>
               </ion-item>

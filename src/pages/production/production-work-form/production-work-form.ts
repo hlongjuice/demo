@@ -28,6 +28,9 @@ export class ProductionWorkFormPage {
   shrimpSizeInput: any;
   shrimpTypeInput: any;
   weightInput: number;
+  activity_id:any;
+  shrimp_size_id:any;
+  shrimp_type_id:any;
   /*End Input*/
   employees: any;
   employeeGroups: any;
@@ -48,7 +51,7 @@ export class ProductionWorkFormPage {
     public productionWorkService: ProductionWorkService,
     public alertCtrl: AlertController,
     public loaderCtrl: LoadingController,
-    public toastCtrl:ToastController
+    public toastCtrl: ToastController
   ) {
     let today = new Date();
     let DD: any = today.getDate();
@@ -136,63 +139,20 @@ export class ProductionWorkFormPage {
 
   /*Add Work*/
   addWork(workForm: NgForm) {
-    let loader=this.loaderCtrl.create({content:'กำลังเพิ่มข้อมูล...'})
-    let toast=this.toastCtrl.create({message:'บันทึกเรียบร้อย',duration:1500,position:'top'})
-    let alert=this.alertCtrl.create({title:'ไม่สามารถเพิ่มข้อมูลได้'})
+    let loader = this.loaderCtrl.create({ content: 'กำลังเพิ่มข้อมูล...' })
+    let toast = this.toastCtrl.create({ message: 'บันทึกเรียบร้อย', duration: 1500, position: 'top' })
+    let alert = this.alertCtrl.create({ title: 'ไม่สามารถเพิ่มข้อมูลได้' })
     loader.present()
     console.log(workForm);
-    /*  let alertError = this.alertCtrl.create({
-        title: 'ข้อมูลไม่ครับถ้วน'
-      })
-      let confirmButton = this.alertCtrl.create({
-        title: 'ยืนยันการบันทึก',
-        buttons: [
-          {
-            text: 'ยกเลิก',
-            role: 'cancel',
-            handler: () => {
-              console.log(workForm);
-              if (!workForm.value.em_id || !workForm.value.shrimp_type_id
-                || !workForm.value.shrimp_size_id || !workForm.value.weight) {
-                console.log('something Empty');
-                alertError.present();
-              }
-            },
-            cssClass: 'alertDanger'
-          },
-          {
-            text: 'ยืนยัน',
-            handler: () => {
-              console.log('Confirm clicked');
-              if (!workForm.value.em_id || !workForm.value.shrimp_type_id
-                || !workForm.value.shrimp_size_id || !workForm.value.weight) {
-                console.log('something Empty');
-                alertError.present();
-              }
-              else {
-                let time_period: string = workForm.value.startTime + ' - ' + workForm.value.endTime;
-                this.productionWorkService.addWork(workForm, time_period)
-                  .then(result => {
-                    this.weightInput = 0;
-                    console.log(result)
-                  })
-                  .catch(err => { console.log(err) });
-              }
-            },
-            cssClass: 'alertConfirm'
-          }
-        ]
-      })
-      confirmButton.present();*/
-    let time_period: string = workForm.value.startTime + ' - ' + workForm.value.endTime;
-    this.productionWorkService.addWork(workForm, time_period)
+    // let time_period: string = workForm.value.startTime + ' - ' + workForm.value.endTime;
+    this.productionWorkService.addWork(workForm)
       .then(result => {
         this.weightInput = null;
         console.log(result)
         loader.dismiss();
         toast.present();
       })
-      .catch(err => { console.log(err);loader.dismiss();alert.present() });
+      .catch(err => { console.log(err); loader.dismiss(); alert.present() });
   }
   /*Set Highliht*/
   setHighlight(i) {
@@ -203,6 +163,19 @@ export class ProductionWorkFormPage {
     this.isHighlightVisible.fill(false);
     this.isGroupHighlightVisible.fill(false);
     this.isGroupHighlightVisible[i] = true;
+  }
+
+  getLastInsert() {
+    this.productionWorkService.lastInsert()
+      .then(result => {
+        this.dateInput=result.production_date_time.production_date.date;
+        this.startTimeInput=result.production_date_time.time_start;
+        this.endTimeInput=result.production_date_time.time_end;
+        this.activity_id=result.p_activity_id;
+        this.shrimp_size_id=result.p_shrimp_size_id;
+        this.shrimp_type_id=result.p_shrimp_type_id;
+        console.log(result)
+      }).catch(err => { console.log(err) })
   }
 
 }
