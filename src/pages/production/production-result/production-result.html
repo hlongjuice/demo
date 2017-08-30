@@ -37,11 +37,11 @@
               </ion-item>
             </ion-col>
             <!--Time Periods-->
-            <ion-col col-4>
+            <ion-col col-5>
               <ion-item class="item-input">
                 <ion-label>ช่วงเวลา</ion-label>
-                <ion-select name="timePeriod" (ionChange)="getWorkList(selectedTimePeriod)" [(ngModel)]="selectedTimePeriod">
-                  <ion-option *ngFor="let timePeriod of timePeriods" [value]="timePeriod">{{timePeriod.time_start}} - {{timePeriod.time_end}}</ion-option>
+                <ion-select  item-end name="timePeriod" (ionChange)="getWorkList(timePeriod)" [(ngModel)]="timePeriod">
+                  <ion-option *ngFor="let timePeriod of timePeriods" [value]="timePeriod.id">{{timePeriod.time_start}} - {{timePeriod.time_end}}</ion-option>
                 </ion-select>
                 <ion-icon item-start color="primary" item-right><i class="fa fa-clock-o" aria-hidden="true"></i></ion-icon>
               </ion-item>
@@ -81,8 +81,14 @@
                   ขนาด
                 </ion-item>
               </ion-col>
+              <!-- Group -->
+              <ion-col col-1>
+                <ion-item>
+                  กลุ่ม
+                </ion-item>
+              </ion-col>
               <!--Amount Weight-->
-              <ion-col col-3>
+              <ion-col col-2>
                 <ion-item>
                   น้ำหนักรวม (กก.)
                 </ion-item>
@@ -125,8 +131,13 @@
                       {{work.production_shrimp_size.name}}
                     </ion-item>
                   </ion-col>
+                  <ion-col col-1>
+                    <ion-item>
+                      {{work.p_group_id}}
+                    </ion-item>
+                  </ion-col>
                   <!--Amount Weight-->
-                  <ion-col col-3>
+                  <ion-col col-2>
                     <ion-item>
                       {{work.amountWeight}}
                     </ion-item>

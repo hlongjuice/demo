@@ -28,9 +28,9 @@ export class ProductionWorkFormPage {
   shrimpSizeInput: any;
   shrimpTypeInput: any;
   weightInput: number;
-  activity_id:any;
-  shrimp_size_id:any;
-  shrimp_type_id:any;
+  activity_id: any;
+  shrimp_size_id: any;
+  shrimp_type_id: any;
   /*End Input*/
   employees: any;
   employeeGroups: any;
@@ -142,6 +142,7 @@ export class ProductionWorkFormPage {
     let loader = this.loaderCtrl.create({ content: 'กำลังเพิ่มข้อมูล...' })
     let toast = this.toastCtrl.create({ message: 'บันทึกเรียบร้อย', duration: 1500, position: 'top' })
     let alert = this.alertCtrl.create({ title: 'ไม่สามารถเพิ่มข้อมูลได้' })
+    workForm.value.selectedGroup=this.selectedGroup;
     loader.present()
     console.log(workForm);
     // let time_period: string = workForm.value.startTime + ' - ' + workForm.value.endTime;
@@ -166,16 +167,28 @@ export class ProductionWorkFormPage {
   }
 
   getLastInsert() {
+    let loader=this.loaderCtrl.create({content:'กำลังโหลดข้อมูล...'})
+    let alert=this.alertCtrl.create({title:'ไม่พบข้อมูลล่าสุด'})
+    loader.present();
     this.productionWorkService.lastInsert()
       .then(result => {
-        this.dateInput=result.production_date_time.production_date.date;
-        this.startTimeInput=result.production_date_time.time_start;
-        this.endTimeInput=result.production_date_time.time_end;
-        this.activity_id=result.p_activity_id;
-        this.shrimp_size_id=result.p_shrimp_size_id;
-        this.shrimp_type_id=result.p_shrimp_type_id;
+        // console.log(JSON.stringify(result))
+        // console.log(result)
+        if (Object.keys(result).length) {
+          this.dateInput = result.production_date_time.production_date.date;
+          this.startTimeInput = result.production_date_time.time_start;
+          this.endTimeInput = result.production_date_time.time_end;
+          this.activity_id = result.p_activity_id;
+          this.shrimp_size_id = result.p_shrimp_size_id;
+          this.shrimp_type_id = result.p_shrimp_type_id;
+          loader.dismiss();
+        }
+        else{
+          alert.present();
+          loader.dismiss();
+        }
         console.log(result)
-      }).catch(err => { console.log(err) })
+      }).catch(err => { console.log(err);loader.dismiss();alert.present(); })
   }
 
 }

@@ -2,6 +2,7 @@ import { ProductionWorkService } from './../../../../services/production/work.se
 import { Http } from '@angular/http';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
+import * as moment from 'moment';
 
 /**
  * Generated class for the ProductionResultDetailsPage page.
@@ -24,22 +25,30 @@ export class ProductionResultDetailsPage {
   employees: any[];
   em_weight_list: any;
   em_amount_weight: any;
+  em_avg_weight: any;
   date: Date;
-  time_period: string;
-  average_weight:any;
-  isHighlightVisible:boolean[];
+  time_start: any;
+  time_end: any;
+  minute_range: any;
+  average_weight: any;
+  isHighlightVisible: boolean[];
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
     public productionWorkService: ProductionWorkService,
     public alertCtrl: AlertController) {
   }
   ngOnInit() {
-    this.isHighlightVisible=[];
+    this.isHighlightVisible = [];
     this.employees = [];
     this.work = this.navParams.get('work');
     console.log(this.work);
-    this.time_period = this.navParams.get('timePeriod');
-    this.date = this.navParams.get('date');
+    // this.time_period=this.navParams.get('timePeriod')
+    this.time_start = this.navParams.get('time_start')
+    this.time_end = this.navParams.get('time_end')
+    let start = moment(this.time_start,'HH:mm')
+    let end=moment(this.time_end,'HH:mm')
+    this.minute_range = end.diff(start, 'minutes')
+    console.log(this.minute_range)
 
     this.productionWorkService.getWorkDetials(this.work.id)
       .then(result => {
@@ -48,7 +57,7 @@ export class ProductionResultDetailsPage {
         this.em_ids = Object.keys(result);
         /*Set Employee Details*/
         this.em_ids.forEach(em_id => {
-          let employee:any= {
+          let employee: any = {
             em_id: "",
             amout_weight: 0
           };
@@ -58,7 +67,7 @@ export class ProductionResultDetailsPage {
           this.em_work_list[em_id].forEach(weight_list => {
             employee.amout_weight += parseFloat(weight_list.weight);
           });
-          employee.amout_weight=employee.amout_weight.toFixed(2);
+          employee.amout_weight = employee.amout_weight.toFixed(2);
           this.employees.push(employee);
           console.log(this.employees);
 
@@ -67,16 +76,18 @@ export class ProductionResultDetailsPage {
   }
 
   /*Get Details*/
-  getDetails(em_id,i) {
+  getDetails(em_id, i) {
     this.isHighlightVisible.fill(false);
-    this.isHighlightVisible[i]=true;
+    this.isHighlightVisible[i] = true;
     this.selected_em_id = em_id;
-    this.em_amount_weight =0;
+    this.em_amount_weight = 0;
     this.em_weight_list = this.em_work_list[em_id];
     this.em_weight_list.forEach(em_weight => {
-      this.em_amount_weight+= parseFloat(em_weight.weight);
+      this.em_amount_weight += parseFloat(em_weight.weight);
     })
-    this.em_amount_weight=this.em_amount_weight.toFixed(2);
+    this.em_amount_weight = this.em_amount_weight.toFixed(2);
+    this.em_avg_weight = (this.em_amount_weight/this.minute_range)*60
+    this.em_avg_weight=parseFloat(this.em_avg_weight).toFixed(2)
   }
   /*Delete Em Weight*/
   deleteWeight(weight_id, weight_index) {

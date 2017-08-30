@@ -27,6 +27,8 @@ export class QcAddReceivingPage {
   shrimp_uf: string;
   car_release: string;
   user: any;
+  isSubmit: boolean;
+  car_waiting_time:number;
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
@@ -41,6 +43,8 @@ export class QcAddReceivingPage {
   }
 
   ngOnInit() {
+    // this.car_waiting_time=0;
+    this.isSubmit = false;
     this.waterTemps = [{
       water_temp: null
     }];
@@ -53,6 +57,9 @@ export class QcAddReceivingPage {
 
   /* Add Receiving */
   addReceiving(formInputs) {
+    if(formInputs.car_waiting_time==null){
+      formInputs.car_waiting_time=0;
+    }
     formInputs.user_id = this.user.id;
     formInputs.shrimp_uf = this.shrimp_uf;
     formInputs.water_temp = this.waterTemps;
@@ -62,15 +69,19 @@ export class QcAddReceivingPage {
       this.showLoader()
       this.qcShrimpReceivingService.addReceiving(formInputs)
         .then(result => {
+          this.isSubmit = true;
           this.dismissLoader()
-          // this.viewCtrl.dismiss(result)
+          // this.viewCtrl.dismiss({'result':result,'submit':this.isSubmit})
           this.showToast('เพิ่มข้อมูลสำเร็จ')
           console.log(result)
         }).catch(err => { console.log(err); this.dismissLoader(); this.showAlert('ไม่สามารถเพิ่มข้อมูลได้') })
-    }else{
+    } else {
       this.showAlert('ยังไม่ได้ระบุอุณหภูมิ')
     }
-
+  }
+  /* Dismiss */
+  dismiss() {
+    this.viewCtrl.dismiss(this.isSubmit);
   }
 
   /* Get Suppliers */
@@ -119,7 +130,7 @@ export class QcAddReceivingPage {
   }
   /* Toast */
   showToast(textInput) {
-    this._toast = this.toastCtrl.create({ message: textInput, duration: 2000,position:'top' })
+    this._toast = this.toastCtrl.create({ message: textInput, duration: 2000, position: 'top' })
     this._toast.present()
   }
 

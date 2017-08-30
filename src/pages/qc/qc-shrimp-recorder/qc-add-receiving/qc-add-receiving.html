@@ -8,6 +8,7 @@
 
   <ion-navbar>
     <ion-item no-lines>
+      <button color="danger" item-start default ion-button (click)="dismiss()">ปิด</button>
       <ion-title>เพิ่มการบันทึกกุ้งเป็น</ion-title>
       <button [disabled]="!receivingForm.form.valid" item-end default type="submit" color="success" ion-button (click)="addReceiving(receivingForm.value)">บันทึก</button>
     </ion-item>
@@ -46,7 +47,7 @@
         <ion-col col-3>
           <ion-item>
             <ion-label color="primary">บ่อ</ion-label>
-            <ion-input required type="text"  text-right name="sp_pond" ngModel></ion-input>
+            <ion-input required type="text" text-right name="sp_pond" ngModel></ion-input>
           </ion-item>
         </ion-col>
         <!-- Supplier Source ID -->
@@ -71,7 +72,7 @@
                 <ion-col no-padding col-9>
                   <ion-item>
                     <ion-label color="primary">อุณหภูมิน้ำ</ion-label>
-                    <ion-input required type="number" maxlength="4"  text-right [ngModelOptions]="{standalone:true}" [(ngModel)]="waterTemp.water_temp"></ion-input>
+                    <ion-input required type="number" maxlength="4" text-right [ngModelOptions]="{standalone:true}" [(ngModel)]="waterTemp.water_temp"></ion-input>
                     <div ion-text item-end>°C</div>
                   </ion-item>
                 </ion-col>
@@ -165,7 +166,7 @@
             <div ion-text item-end>กรัม</div>
           </ion-item>
         </ion-col>
-        
+
         <!-- Car Release -->
         <ion-col col-12>
           <ion-item margin-top color="primary" text-center>
@@ -182,7 +183,7 @@
         <ion-col col-6>
           <ion-item>
             <ion-label color="primary">เวลารอลง</ion-label>
-            <ion-input text-right type="number" required name="car_waiting_time" [(ngModel)]="car_waiting_time"></ion-input>
+            <ion-input text-right type="number" name="car_waiting_time" [(ngModel)]="car_waiting_time"></ion-input>
             <div ion-text item-end>นาที</div>
           </ion-item>
         </ion-col>

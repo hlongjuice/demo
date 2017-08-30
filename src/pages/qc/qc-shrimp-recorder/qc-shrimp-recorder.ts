@@ -25,7 +25,7 @@ export class QcShrimpRecorderPage {
   recorders: any[];
   date: string
   // test:any;
-  @ViewChild('test') el:ElementRef
+  @ViewChild('test') el: ElementRef
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
@@ -40,7 +40,7 @@ export class QcShrimpRecorderPage {
     eventCtrl.subscribe('receiving:update', () => {
       this.getReceiving()
     })
-    eventCtrl.subscribe('receiving:delete',()=>{
+    eventCtrl.subscribe('receiving:delete', () => {
       this.getReceiving();
     })
   }
@@ -77,11 +77,12 @@ export class QcShrimpRecorderPage {
 
   /* Add New Receiving */
   addNewReceiving() {
-    let modal = this.modalCtrl.create(this.qcAddReceivingPage, { 'user': this.user })
+    let modal = this.modalCtrl.create(this.qcAddReceivingPage, { 'user': this.user },{enableBackdropDismiss:false})
     modal.present();
     modal.onDidDismiss(result => {
-      if (result) {
-        this.getReceiving()
+      console.log(result)
+      if (result==true) {
+          this.getReceiving()
       }
     })
     // this.navCtrl.push(this.qcAddReceivingPage, { 'user': this.user })
@@ -134,25 +135,28 @@ export class QcShrimpRecorderPage {
   }
 
   /* Delete Supplier */
-  deleteSupplierReceiving(recorder){
+  deleteSupplierReceiving(recorder) {
+    let loader=this.loaderCtrl.create({content:'กำลังลบข้อมูล'});
     console.log(recorder)
-    let alert =this.alertCtrl.create({
-      title:'ยืนยันการลบ',
-      buttons:[
+    let alert = this.alertCtrl.create({
+      title: 'ยืนยันการลบ',
+      buttons: [
         {
-          text:'ยกเลิก',
-          role:'cancel',
-          cssClass:'alertCancel'
-        },{
-          text:'ยืนยัน',
-          handler:()=>{
+          text: 'ยกเลิก',
+          role: 'cancel',
+          cssClass: 'alertCancel'
+        }, {
+          text: 'ยืนยัน',
+          handler: () => {
+            loader.present();
             this.shrimpReceivingService.deleteSupplierReceiving(recorder.id)
-            .then(result=>{
-              this.getReceiving();
-              console.log(result);
-            }).catch(err=>{console.log(err);this.showAlert('ไม่สามารถลบข้อมูลได้')})
+              .then(result => {
+                loader.dismiss();
+                this.getReceiving();
+                console.log(result);
+              }).catch(err => { console.log(err); this.showAlert('ไม่สามารถลบข้อมูลได้') })
           },
-          cssClass:'alertConfirm'
+          cssClass: 'alertConfirm'
         }
       ]
     })

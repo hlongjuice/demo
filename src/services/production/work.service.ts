@@ -43,8 +43,10 @@ export class ProductionWorkService {
             'shrimp_size_id':formInput.value.shrimp_size_id,
             'shrimp_type_id':formInput.value.shrimp_type_id,
             'weight':formInput.value.weight,
-            'user_id':this.userID
+            'user_id':this.userID,
+            'group_id':formInput.value.selectedGroup
         }
+        console.log(inputs)
 
         return new Promise((resolve, reject) => {
             // this.http.post()

@@ -23,6 +23,16 @@ export class QcRecorderDetailsPage {
   shrimp_uf: any;
   waterTemps: any[];
   user: any;
+  weight:any;
+  /* Defect */
+  df_s_dead_percent: any;
+  df_s_semi_soft_percent: any;
+  df_s_soft_shell: any;
+  df_s_scar: any;
+  df_s_bk_line: any;
+  df_s_disabled: any;
+  /* end Defect */
+  real_shrimp_dead_percent: any;
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
@@ -40,7 +50,7 @@ export class QcRecorderDetailsPage {
     this.details = this.navParams.data.details;
     this.supplier_details = this.navParams.data.supplier_details
     this.user = this.navParams.data.user;
-    // this.waterTemps=this.details.water_temp;
+    this.convertResultToPercent(this.details)
     this.details.water_temp.forEach(item => {
       let temp = {
         'water_temp': item.value
@@ -67,6 +77,25 @@ export class QcRecorderDetailsPage {
   /* Remove Water Temp */
   removeWaterTemp(index) {
     this.waterTemps.splice(index, 1)
+  }
+
+  /* Convert Result to Percent */
+  convertResultToPercent(details) {
+    this.df_s_dead_percent=this.toDfPercent(details.df_shrimp_dead)
+    this.df_s_semi_soft_percent=this.toDfPercent(details.df_shrimp_semi_soft)
+    this.df_s_soft_shell=this.toDfPercent( details.df_shrimp_soft_shell)
+    this.df_s_scar=this.toDfPercent(details.df_shrimp_scar)
+    this.df_s_bk_line=this.toDfPercent(details.df_shrimp_bk_line)
+    this.df_s_disabled=this.toDfPercent(details.df_shrimp_disabled)
+
+    this.real_shrimp_dead_percent=this.toRealShrimpDeadPercent(details.real_shrimp_dead)
+  }
+  toDfPercent(input){
+    return (input/2000)*100
+  }
+  toRealShrimpDeadPercent(input){
+    if(this.weight!=0)
+    return (input/this.weight)*100
   }
 
   /* Set UF*/

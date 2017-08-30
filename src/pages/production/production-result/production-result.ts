@@ -23,7 +23,6 @@ export class ProductionResultPage {
   productionResultDetailsPage = ProductionResultDetailsPage;
   /*EndPage*/
   dateHistory;
-  selectedTimePeriod: any;
   timePeriods: any;
   works: any;
   selectedTime: any;
@@ -31,6 +30,8 @@ export class ProductionResultPage {
   amountWeight: number[];
   averageWeight: number[];
   isHighlightVisible: boolean[];
+  time_start:any;
+  time_end:any;
 
 
   constructor(public navCtrl: NavController,
@@ -45,7 +46,6 @@ export class ProductionResultPage {
   ngOnInit() {
     let time=[];
     this.timePeriods=[];
-    // console.log(this.NaturalSort)
     this.isHighlightVisible = [];
     this.productionWorkService.getTimePeriod(this.dateHistory)
       .then(result => {
@@ -72,9 +72,15 @@ export class ProductionResultPage {
   }
 
   /*Get Work List*/
-  getWorkList(time) {
-    let time_period_id = time.id;
-    this.selectedTime = time.time_period;
+  getWorkList(time_id) {
+  
+    let time_period_id = time_id;
+    this.timePeriods.filter(item=>{
+      if(item.id==time_id){
+        this.time_start=item.time_start;
+        this.time_end=item.time_end;
+      }
+    })
     this.productionWorkService.getWorkList(time_period_id)
       .then(
       result => {
@@ -87,7 +93,8 @@ export class ProductionResultPage {
   getWorkDetails(work) {
     this.navCtrl.push(this.productionResultDetailsPage, {
       'date': this.selectedDate,
-      'timePeriod': this.selectedTime,
+      'time_start': this.time_start,
+      'time_end':this.time_end,
       'work': work
     })
   }

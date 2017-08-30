@@ -26,6 +26,8 @@ export class QcRecorderListPage {
   receiving_id: number;
   user: any;
   recorder: any
+  isHighlightVisible:boolean[];
+  isSplitShow:boolean[];
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
@@ -39,6 +41,10 @@ export class QcRecorderListPage {
   }
 
   ngOnInit() {
+    this.isHighlightVisible=[];
+    this.isHighlightVisible[0]=true;
+    this.isSplitShow=[];
+    this.isSplitShow[0]=true;
     this.recorder = this.navParams.data.recorder;
     this.lists = this.navParams.data.recorder.shrimp_receiving;
     this.supplier = this.navParams.data.supplier
@@ -101,6 +107,16 @@ export class QcRecorderListPage {
       ]
     })
     alert.present();
+  }
+
+  /* Set Highlight */
+  setHighlight(i) {
+    this.isHighlightVisible.fill(false);
+    this.isHighlightVisible[i] = true;
+    this.isSplitShow.fill(false)
+    this.isSplitShow[i]=true;
+    console.log(this.isHighlightVisible);
+     console.log(this.isSplitShow);
   }
   /* Loader */
   showLoader() {
