@@ -1,10 +1,8 @@
-import { QcRecorderListPage } from './qc-recorder-list/qc-recorder-list';
 import { DateService } from './../../../services/date.service';
 import { QcShrimpReceivingService } from './../../../services/qc/shrimp_receiving.service';
 import { AuthService } from './../../../services/auth.service';
 import { Component, ViewChild, ElementRef } from '@angular/core';
 import { IonicPage, NavController, NavParams, ModalController, LoadingController, AlertController, Events } from 'ionic-angular';
-import { QcAddReceivingPage } from "./qc-add-receiving/qc-add-receiving";
 /**
  * Generated class for the QcShrimpRecorderPage page.
  *
@@ -20,8 +18,6 @@ export class QcShrimpRecorderPage {
   _loader: any;
   _alert: any;
   user: any;
-  qcAddReceivingPage = QcAddReceivingPage
-  qcRecorderListPage = QcRecorderListPage
   recorders: any[];
   date: string
   // test:any;
@@ -77,7 +73,7 @@ export class QcShrimpRecorderPage {
 
   /* Add New Receiving */
   addNewReceiving() {
-    let modal = this.modalCtrl.create(this.qcAddReceivingPage, { 'user': this.user },{enableBackdropDismiss:false})
+    let modal = this.modalCtrl.create('QcAddReceivingPage', { 'user': this.user },{enableBackdropDismiss:false})
     modal.present();
     modal.onDidDismiss(result => {
       console.log(result)
@@ -126,7 +122,7 @@ export class QcShrimpRecorderPage {
       'supplier': recorder.supplier,
       'supplier_id': recorder.supplier_id
     }
-    this.navCtrl.push(this.qcRecorderListPage, {
+    this.navCtrl.push('QcRecorderListPage', {
       'recorder': recorder,
       'supplier': supplier_details,
       'user': this.user,

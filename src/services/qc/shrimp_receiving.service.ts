@@ -1,3 +1,4 @@
+import { Events } from 'ionic-angular';
 import { Http, Headers } from "@angular/http";
 import { AuthService } from "../auth.service";
 import { WebUrlService } from "../weburl.service";
@@ -13,8 +14,10 @@ export class QcShrimpReceivingService {
     constructor(
         private http: Http,
         private authService: AuthService,
-        private webUrlService: WebUrlService
+        private webUrlService: WebUrlService,
+        private eventCtrl: Events
     ) {
+
         this.url = this.webUrlService.getUrl();
         this.authService.getUser().then(
             userID => {
@@ -27,17 +30,36 @@ export class QcShrimpReceivingService {
                     )
             }
         )
+        this.eventCtrl.subscribe('after:login', () => {
+            this.getAuth();
+        })
+    }
+
+    /* Get Auth */
+    getAuth() {
+        console.log('In Get Auth')
+        this.authService.getUser().then(
+            userID => {
+                this.userID = userID.id
+                this.authService.getHeader()
+                    .then(
+                    headers => {
+                        this.headers = headers
+                        console.log(this.headers)
+                    }
+                    )
+            }
+        )
     }
 
     // Add Receiving
     addReceiving(formInputs):Promise<any>{
-        console.log(formInputs)
         let addUrl=this.url+'/api/qc/add_receiving';
         return new Promise((resolve,reject)=>{
             this.http.post(addUrl,formInputs,{headers:this.headers})
             .subscribe(
-                result=>{resolve(result.json())},
-                err=>{reject(err);console.log(err);console.log('err')}
+                result=>{resolve(result)},
+                err=>{reject(err)}
             )
         })
     }

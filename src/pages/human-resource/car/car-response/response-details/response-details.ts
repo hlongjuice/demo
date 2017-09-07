@@ -31,6 +31,7 @@ export class ResponseDetailsPage {
   selectedDriver: any;
   user: any;
   selectedStatus: string;
+  passengers:any[];
 
   response: any;
   requests: any[];
@@ -47,6 +48,7 @@ export class ResponseDetailsPage {
   }
 
   ngOnInit() {
+    this.passengers=[];
     this.user = this.navParams.data.user
     console.log(this.user)
     this.selectedStatus = this.navParams.data.selectedStatus
@@ -69,6 +71,10 @@ export class ResponseDetailsPage {
     this.requests = this.response.car_request
     this.selectedDriver = this.response.driver ? this.response.driver.em_id : ''
     this.drivers = this.navParams.data.drivers
+
+    this.requests.forEach(item=>{
+      this.passengers.push.apply(this.passengers,item.passenger)
+    })
   }
   /* Get Car */
   getCars() {

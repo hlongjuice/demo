@@ -63,6 +63,7 @@ export class QcRecorderDetailsPage {
   }
 
   updateReceiving(formInputs) {
+    formInputs.qc_supplier_receiving_id=this.details.qc_supplier_receiving_id;
     formInputs.shrimp_receiving_id = this.details.id
     formInputs.water_temp = this.waterTemps
     formInputs.user_id = this.user.id
@@ -71,7 +72,10 @@ export class QcRecorderDetailsPage {
     this.qcShrimpReceivingService.updateShrimpReceiving(formInputs)
       .then(result => {
         this.viewCtrl.dismiss(result)
-      }).catch(err => { console.log(err); this.showAlert('ไม่สามารถเพิ่มข้อมูลได้') })
+      }).catch(err => { 
+        console.log(err.json()); 
+        this.showAlert(err.json()) }
+      )
   }
 
   /* Remove Water Temp */

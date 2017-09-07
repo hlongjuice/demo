@@ -113,6 +113,25 @@
           </ion-item>
         </ion-col>
       </ion-row>
+      <ion-row>
+        <ion-col col-12>
+          <ion-item>
+            <ion-label color="primary">ผู้โดยสาร</ion-label>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row *ngFor="let passenger of passengers">
+        <ion-col col-8>
+          <ion-item>
+            <ion-label color="primary"><span ion-text color="dark">{{passenger.employee?.name}} {{passenger.employee?.lastname}}</span></ion-label>
+          </ion-item>
+        </ion-col>
+        <ion-col col-4>
+          <ion-item>
+            <ion-label color="primary">ฝ่าย : <span ion-text color="dark">{{passenger.employee?.division?.name}}</span></ion-label>
+          </ion-item>
+        </ion-col>
+      </ion-row>
     </ion-grid>
   </form>
 </ion-content>

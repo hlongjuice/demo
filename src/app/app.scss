@@ -32,7 +32,55 @@ ion-select {
     max-width: 100%;
 }
 
+/* Scroll */
+.eng-scroll-header{
 
+}
+.eng-scroll-main-content{
+    .scroll-content{
+      //  overflow-y: hidden;
+    }
+}
+.eng-scroll-content{
+    min-height: 500px;
+}
+ion-scroll .scroll-content{
+    padding-left:0 !important;
+    padding-right:0 !important;
+}
+/* Back Button */
+.back-button{
+    font-size:2.5rem;
+    height: 50px;
+}
+.c-result{
+    h3 {
+        font-size: 2rem !important;
+    }
+}
+/* Card Result */
+.c-result-red {
+    border-bottom: 1px solid map-get($colors, danger);
+}
+.c-result-dark-blue {
+    border-bottom: 1px solid map-get($colors, dark-blue);
+}
+.c-result-green {
+    border-bottom: 1px solid map-get($colors, success);
+}
+.c-result-blue {
+    border-bottom: 1px solid map-get($colors, primary);
+}
+.c-result-light-blue {
+    border-bottom: 1px solid map-get($colors, info);
+}
+.c-result-orange {
+    border-bottom: 1px solid map-get($colors, warning);
+}
+.c-result-dark {
+    border-bottom: 1px solid map-get($colors, dark);
+}
+/* End Card Result */
 /*Tool Bar Title*/
 
 .toolbar-title {
@@ -292,6 +340,13 @@ div.text {
 
 .fa {
     margin-right: 10px !important;
+}
+.line-header{
+    position: absolute;
+    bottom: 0;
+    left: 10px;
+    border-bottom: 2px solid rgba(map-get($colors, primary), 0.6);
+    width: 20%;
 }
 
 

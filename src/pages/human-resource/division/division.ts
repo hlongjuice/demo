@@ -1,8 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ModalController } from 'ionic-angular';
-import { DivisionAddPage } from "./division-add/division-add";
 import { DivisionService } from "../../../services/division.service";
-import { DivisionEditPage } from "./division-edit/division-edit";
 import { NgForm } from "@angular/forms";
 import { DivisionModel } from "../../../models/human-resource/division";
 
@@ -19,8 +17,6 @@ import { DivisionModel } from "../../../models/human-resource/division";
 })
 export class DivisionPage {
 
-  divisionAddPage = DivisionAddPage;
-  divisionEditPage = DivisionEditPage;
   public divisions: DivisionModel[] = [];
 
   constructor(public navCtrl: NavController,
@@ -42,7 +38,7 @@ export class DivisionPage {
     console.log('ionViewDidLoad DivisionPage');
   }
   addDivision() {
-    let modal = this.modalCtrl.create(this.divisionAddPage);
+    let modal = this.modalCtrl.create('DivisionAddPage');
     modal.present();
     modal.onDidDismiss(
       () => {
@@ -59,7 +55,7 @@ export class DivisionPage {
 
   /*Edit Divsion*/
   editDivision(division:any) {
-    let modal = this.modalCtrl.create(this.divisionEditPage, {
+    let modal = this.modalCtrl.create('DivisionEditPage', {
       divisionID:division.id,
       divisionName: division.name
     });

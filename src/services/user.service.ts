@@ -6,7 +6,7 @@ import { UserModel } from "../models/users";
 @Injectable()
 export class UserService {
 
-    private oauthUrl = "http://localhost/stseafood/public/oauth/token";
+ /*   private oauthUrl = "http://localhost/stseafood/public/oauth/token";
     private productionUrl = 'http://localhost/stseafood/public/api/production';
     private token:Promise<string>;
     constructor(
@@ -14,9 +14,10 @@ export class UserService {
         ) {
             this.token=this.getAccessToken();
          }
+        */
 
     /*Get Access Token*/
-    getAccessToken():Promise<string> {
+   /* getAccessToken():Promise<string> {
         var headers = new Headers({
             "Content-Type": "application/json",
             "Accept": "application/json"
@@ -54,8 +55,11 @@ export class UserService {
         });
         return this.http.get(this.productionUrl, { headers: headers })
     }
+    */
     /*Test Get Http*/
+    /*
     getTest() {
         return this.http.get('http://localhost/stseafood/public/test');
     }
+    */
 }

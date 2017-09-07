@@ -169,7 +169,7 @@ export class CarResponsePage {
         'carTypes': this.carTypes,
         'user': this.user,
         'selectedStatus': this.selectedStatus
-      })
+      },{enableBackdropDismiss:false})
     modal.present();
     modal.onDidDismiss(result => {
       if (result) {
@@ -220,13 +220,14 @@ export class CarResponsePage {
       'selectedRequests': this.chkItems,
       'user': this.user,
       'selectedStatus': this.selectedStatus
-    })
+    },{enableBackdropDismiss:false})
     modal.present();
     modal.onDidDismiss(result => {
       if (result) {
         console.log(result);
         this.requests = result.data;
         this.pages = result;
+        this.chkItems=[];
       }
     })
   }

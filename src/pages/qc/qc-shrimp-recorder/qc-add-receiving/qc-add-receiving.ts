@@ -29,6 +29,8 @@ export class QcAddReceivingPage {
   user: any;
   isSubmit: boolean;
   car_waiting_time:number;
+  sp_pond:any;
+  sp_code:any;
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
@@ -49,10 +51,18 @@ export class QcAddReceivingPage {
       water_temp: null
     }];
     this.date = this.dateService.getDate();
-    this.time = this.dateService.getTime().currentTime;
     this.car_release = this.dateService.getTime().currentTime;
     this.user = this.navParams.data.user
     console.log(this.navParams);
+    if(this.navParams.data.recorder){
+      // this.supplier_id=this.navParams.data.recorder.supplier_id
+      console.log(this.navParams.data.recorder);
+      this.supplier_name=this.navParams.data.recorder.supplier.name
+      this.supplier_id=this.navParams.data.recorder.supplier_id
+      this.sp_code=this.navParams.data.recorder.code;
+      this.sp_pond=this.navParams.data.recorder.pond;
+      this.date=this.navParams.data.recorder.date;
+    }
   }
 
   /* Add Receiving */
@@ -63,18 +73,19 @@ export class QcAddReceivingPage {
     formInputs.user_id = this.user.id;
     formInputs.shrimp_uf = this.shrimp_uf;
     formInputs.water_temp = this.waterTemps;
-    if (formInputs.water_temp[0].water_temp != null) {
-      console.log(this.user.id)
-      console.log(formInputs)
+    formInputs.water_temp = this.waterTemps.filter(item=>{
+      return item.water_temp!=""
+    })
+    if (formInputs!=null&&formInputs.water_temp[0].water_temp != null) {
       this.showLoader()
       this.qcShrimpReceivingService.addReceiving(formInputs)
         .then(result => {
           this.isSubmit = true;
           this.dismissLoader()
           // this.viewCtrl.dismiss({'result':result,'submit':this.isSubmit})
-          this.showToast('เพิ่มข้อมูลสำเร็จ')
           console.log(result)
-        }).catch(err => { console.log(err); this.dismissLoader(); this.showAlert('ไม่สามารถเพิ่มข้อมูลได้') })
+          this.showToast('เพิ่มข้อมูลสำเร็จ')
+        }).catch(err => { console.log(err.json()); this.dismissLoader(); this.showAlert(err.json()) })
     } else {
       this.showAlert('ยังไม่ได้ระบุอุณหภูมิ')
     }

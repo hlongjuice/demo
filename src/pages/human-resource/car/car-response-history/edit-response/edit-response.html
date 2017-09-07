@@ -60,7 +60,6 @@
           <ion-item>
             <ion-label color="primary">ประเภทรถ</ion-label>
             <ion-select required placeholder="เลือกประเภทรถ" (ionChange)="getCars()" name="selectedCarType" [(ngModel)]="selectedCarType">
-              <ion-option value="all">ทุกประเภท</ion-option>
               <ion-option *ngFor="let carType of carTypes" [value]="carType.id">{{carType.name}}</ion-option>
             </ion-select>
           </ion-item>

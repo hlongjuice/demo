@@ -6,24 +6,27 @@ page-qc-recorder-result {
         font-size: 2.5rem !important;
         font-weight: bold;
     }
-    .scroll{
+    .scroll {
         min-height: 300px;
     }
-    .line-chart{
-        height:350px !important;
+    .line-chart {
+        position: relative;
+        margin: auto;
+        height: 250px !important;
+        width: 100% !important;
     }
-    .date-input{
-        font-size:2.5rem !important;
+    .date-input {
+        font-size: 2.5rem !important;
     }
-    .inside-segment{
-        padding-left:30px;
-        padding-right:30px;
-        margin-bottom:15px;
-        margin-top:15px;
+    .inside-segment {
+        padding-left: 30px;
+        padding-right: 30px;
+        margin-bottom: 15px;
+        margin-top: 15px;
     }
-    .text-input-large{
-        color:map-get($colors, danger );
-        font-size:2.8rem !important;
+    .text-input-large {
+        color: map-get($colors, danger);
+        font-size: 2.8rem !important;
     }
     .table-result {
         font-size: 2.2rem !important;

@@ -47,9 +47,9 @@ export class CarManagePage {
           .then(result => {
             this.cars = result;
             loader.dismiss();
-          }).catch(err => { console.log(err);alert.present();  })
+          }).catch(err => { console.log(err);loader.dismiss();alert.present();  })
       }
-      ).catch(err => { console.log(err); alert.present() });
+      ).catch(err => { console.log(err); loader.dismiss(); alert.present() });
   }
 
   /*Get Car*/
@@ -64,7 +64,7 @@ export class CarManagePage {
 
   /*Add Car*/
   addCar(){
-    let modal=this.modalCtrl.create('CarAddPage',{'carTypes':this.carTypes})
+    let modal=this.modalCtrl.create('CarAddPage',{'carTypes':this.carTypes},{enableBackdropDismiss:false})
     modal.present();
     modal.onDidDismiss(()=>{
       this.getCar()

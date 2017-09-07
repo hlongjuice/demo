@@ -56,7 +56,7 @@ export class ProductionSettingPage {
       .then(result => {
         this.isShrimpSizeLoading=false;
         this.shrimpSizes = result;
-      })
+      }).catch(err=>{console.log(err)})
   }
 
   /*Activity*/

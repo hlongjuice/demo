@@ -69,7 +69,7 @@ export class QcEditSupplierReceivingPage {
       loader.dismiss();
       this.viewCtrl.dismiss(result)
       this.showToast('การอัพเดทเสร็จสิน')
-    }).catch(err=>{console.log(err);loader.dismiss();this.showAlert('ไม่สารถอัพเดทข้อมูลได้')})
+    }).catch(err=>{console.log(err.json());loader.dismiss();this.showAlert('ไม่สารถอัพเดทข้อมูลได้')})
   }
 
   /* dismiss */

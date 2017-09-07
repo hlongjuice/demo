@@ -1,3 +1,4 @@
+import { Events } from 'ionic-angular';
 import { Http, Headers } from "@angular/http";
 import { AuthService } from "../auth.service";
 import { WebUrlService } from "../weburl.service";
@@ -12,7 +13,8 @@ export class ProductionEmployeeService {
     constructor(
         private http: Http,
         private authService: AuthService,
-        private webUrlService: WebUrlService
+        private webUrlService: WebUrlService,
+        private eventCtrl: Events
     ) {
         this.url = this.webUrlService.getUrl();
         this.authService.getUser().then(
@@ -22,10 +24,29 @@ export class ProductionEmployeeService {
                     .then(
                     headers => {
                         this.headers = headers
+                        console.log(this.headers)
                     }
-                    ).catch(err => console.log(err))
+                    )
             }
-        ).catch(err => { console.log(err) })
+        )
+        this.eventCtrl.subscribe('after:login', () => {
+            this.getAuth();
+        })
+    }
+
+    getAuth() {
+        console.log('Employee')
+        this.authService.getUser().then(
+            userID => {
+                this.userID = userID.id
+                this.authService.getHeader()
+                    .then(
+                    headers => {
+                        this.headers = headers
+                    }
+                    )
+            }
+        )
     }
 
     /*Get Employee From Group*/

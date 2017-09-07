@@ -11,7 +11,7 @@
     </button>
     <ion-title text-center>
       <!--<ion-item>-->
-      <ion-icon item-start><i class="fa fa-users" aria-hidden="true"></i></ion-icon>
+      <ion-icon item-start><i class="fa fa-exchange" aria-hidden="true"></i></ion-icon>
       ระบบบันทึกรถเข้า-ออก
       <!--</ion-item> -->
     </ion-title>
@@ -33,19 +33,22 @@
         <!-- Table Header -->
         <ion-row class="table-header">
           <!-- Driver Name -->
-          <ion-col col-4>
+          <ion-col col-3>
             <ion-item>คนขับรถ</ion-item>
           </ion-col>
           <ion-col col-3>
             <ion-item>ป้ายทะเบียน</ion-item>
           </ion-col>
-          <ion-col col-5></ion-col>
+          <ion-col col-3>
+            <ion-item>สถานที่ติดต่อ</ion-item>
+          </ion-col>
+          <ion-col col-3></ion-col>
           <div class="table-header-line"></div>
         </ion-row>
         <!-- Table Content -->
         <ion-row class="table-content" *ngFor="let car of cars">
           <!-- Driver Name -->
-          <ion-col col-4>
+          <ion-col col-3>
             <ion-item>
               {{car.driver?.name}} {{car.driver?.lastname}}
             </ion-item>
@@ -54,7 +57,10 @@
           <ion-col col-3>
             <ion-item>{{car.car?.plate_number}}</ion-item>
           </ion-col>
-          <ion-col col-5>
+          <ion-col col-3>
+            <ion-item>{{car?.destination}}</ion-item>
+          </ion-col>
+          <ion-col col-3>
             <ion-row>
               <ion-col col-4>
                 <button margin-right *ngIf="selectedStatus!=1" (click)="cancelStatus(car)" margin-bottom ion-button color="danger">ยกเลิกสถานะ</button>

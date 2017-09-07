@@ -48,6 +48,7 @@ export class CarAccessControlPage {
       /* Get Car Departure */
       this.carAccessService.getCars(this.selectedStatus)
         .then(result => {
+          console.log(result)
           this.cars = result.data
           this.pages = result;
         }).catch(err => { console.log(err); })
@@ -109,6 +110,7 @@ export class CarAccessControlPage {
     this.showLoader()
     this.carAccessService.getCars(this.selectedStatus)
       .then(result => {
+        console.log(result)
         this.cars = result.data
         this.pages = result;
         this.dismissLoader()

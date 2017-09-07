@@ -44,7 +44,7 @@ export class ProductionResultDetailsPage {
     console.log(this.work);
     // this.time_period=this.navParams.get('timePeriod')
     this.time_start = this.navParams.get('time_start')
-    this.time_end = this.navParams.get('time_end')
+    this.time_end = this.work.p_time_end
     let start = moment(this.time_start,'HH:mm')
     let end=moment(this.time_end,'HH:mm')
     this.minute_range = end.diff(start, 'minutes')

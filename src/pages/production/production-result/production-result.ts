@@ -1,8 +1,8 @@
-import { ProductionResultDetailsPage } from './production-result-details/production-result-details';
+import { AuthService } from './../../../services/auth.service';
 import { ProductionWorkService } from './../../../services/production/work.service';
 import { DateService } from './../../../services/date.service';
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController, LoadingController, ModalController } from 'ionic-angular';
 declare var naturalSort:any;
 
 /**
@@ -20,7 +20,6 @@ export class ProductionResultPage {
 
   /*Page*/;
   
-  productionResultDetailsPage = ProductionResultDetailsPage;
   /*EndPage*/
   dateHistory;
   timePeriods: any;
@@ -32,26 +31,33 @@ export class ProductionResultPage {
   isHighlightVisible: boolean[];
   time_start:any;
   time_end:any;
+  timePeriodID:any;
 
 
   constructor(public navCtrl: NavController,
+    public authService:AuthService,
     public navParams: NavParams,
     public dateService: DateService,
     public productionWorkService: ProductionWorkService,
+    public modalCtrl:ModalController,
+    public loaderCtrl:LoadingController,
     public alertCtrl: AlertController) {
     let currentDate = this.dateService.getCurrentDateTime()
     this.dateHistory = currentDate.YY + '-' + currentDate.MM + '-' + currentDate.DD;
   }
 
   ngOnInit() {
+    let loader=this.loaderCtrl.create({content:'กำลังโหลดข้อมูล...'})
+    loader.present();
     let time=[];
     this.timePeriods=[];
     this.isHighlightVisible = [];
     this.productionWorkService.getTimePeriod(this.dateHistory)
       .then(result => {
         this.timePeriods=result.production_date_time;
+        loader.dismiss();
       })
-      .catch(err => { console.log(err) });
+      .catch(err => { console.log(err);loader.dismiss(); });
     console.log(this.dateHistory);
   }
 
@@ -72,29 +78,30 @@ export class ProductionResultPage {
   }
 
   /*Get Work List*/
-  getWorkList(time_id) {
-  
-    let time_period_id = time_id;
+  getWorkList() {
+    let loader=this.loaderCtrl.create({content:'กำลังโหลดข้อมูล...'})
+    loader.present();
+    let time_period_id = this.timePeriodID;
     this.timePeriods.filter(item=>{
-      if(item.id==time_id){
+      if(item.id==this.timePeriodID){
         this.time_start=item.time_start;
-        this.time_end=item.time_end;
       }
     })
     this.productionWorkService.getWorkList(time_period_id)
       .then(
       result => {
+        this.isHighlightVisible[0]=true;
         this.works = result.production_work;
+        loader.dismiss();
         console.log(this.works);
       }
-      ).catch(err => { console.log(err) })
+      ).catch(err => { console.log(err);loader.dismiss(); })
   }
   /*Get Details*/
   getWorkDetails(work) {
-    this.navCtrl.push(this.productionResultDetailsPage, {
+    this.navCtrl.push('ProductionResultDetailsPage', {
       'date': this.selectedDate,
       'time_start': this.time_start,
-      'time_end':this.time_end,
       'work': work
     })
   }
@@ -102,6 +109,20 @@ export class ProductionResultPage {
     this.isHighlightVisible.fill(false);
     this.isHighlightVisible[i] = true;
     console.log(this.isHighlightVisible);
+  }
+  /* Edit Work */
+  editWork(work,index){
+    let modal =this.modalCtrl.create('PEditResultPage',{
+      'time_start':this.time_start,
+      'work':work,
+      'date':this.selectedDate
+    },{enableBackdropDismiss:false})
+    modal.present();
+    modal.onDidDismiss(result=>{
+      if(result){
+        this.getWorkList();
+      }
+    })
   }
   /*Delete Work*/
   deleteWork(id, index) {

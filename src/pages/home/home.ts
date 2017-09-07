@@ -1,9 +1,3 @@
-import { QcShrimpRecorderPage } from './../qc/qc-shrimp-recorder/qc-shrimp-recorder';
-import { CarResponsePage } from './../human-resource/car/car-response/car-response';
-import { CarRequestPage } from './../human-resource/car/car-request/car-request';
-import { EmployeePage } from './../human-resource/employee/employee';
-import { HumanResourcePage } from './../human-resource/human-resource';
-import { ProductionResultPage } from './../production/production-result/production-result';
 import { Component } from '@angular/core';
 import { NavController, MenuController } from 'ionic-angular';
 import { AuthService } from "../../services/auth.service";
@@ -17,11 +11,6 @@ import { AuthService } from "../../services/auth.service";
 export class HomePage {
 
   homePage = HomePage;
-  productionResultPage = ProductionResultPage;
-  employeePage = EmployeePage;
-  carRequestPage = CarRequestPage
-  carResponsePage = CarResponsePage
-  qcShrimpRecorderPage = QcShrimpRecorderPage
   public name: any;
   constructor(
     private authService: AuthService,
@@ -50,13 +39,16 @@ export class HomePage {
     this.menuCtrl.enable(false, 'productionMenu');
     this.menuCtrl.enable(false, 'humanResourceMenu');
     this.menuCtrl.enable(false, 'qcMenu');
+    this.menuCtrl.enable(false,'engineerMenu')
 
-    if (page == this.productionResultPage) {
+    if (page == 'ProductionResultPage') {
       this.menuCtrl.enable(true, 'productionMenu');
-    } else if (page == this.carResponsePage) {
+    } else if (page == 'CarResponsePage') {
       this.menuCtrl.enable(true, 'humanResourceMenu');
-    }else if(page==this.qcShrimpRecorderPage){
+    }else if(page=='QcShrimpRecorderPage'){
       this.menuCtrl.enable(true,'qcMenu');
+    }else if(page=='EngineerPage'){
+      this.menuCtrl.enable(true,'engineerMenu')
     }
     this.navCtrl.setRoot(page);
     this.menuCtrl.close();

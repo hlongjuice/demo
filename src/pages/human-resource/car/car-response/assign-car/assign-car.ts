@@ -31,7 +31,9 @@ export class AssignCarPage {
   approveDate: string;
   approveTime: string;
   destination: string;
+  details
   user: any;
+  passengers:any[];
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
     public modalCtrl: ModalController,
@@ -45,6 +47,7 @@ export class AssignCarPage {
   }
 
   ngOnInit() {
+    this.passengers=[];
     this.approveDate = this.dateService.getDate();
     this.approveTime = this.dateService.getTime().currentTime;
     this.selectedRequests = [];
@@ -66,6 +69,13 @@ export class AssignCarPage {
     console.log(this.requests);
     /* Set Destination */
     this.destination = this.requests[0].destination;
+    this.details=this.requests[0].destination;
+    this.requests.forEach(item=>{
+      // let passenger
+      this.passengers.push.apply(this.passengers,item.passenger)
+    })
+    console.log(this.passengers)
+    
     /* Get user */
     this.user = this.navParams.data.user;
     /* Get Seleted Status */

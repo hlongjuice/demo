@@ -3,13 +3,11 @@ import { AuthService } from './../../../services/auth.service';
 import { RankService } from './../../../services/rank.service';
 import { EmployeeModel } from './../../../models/human-resource/employee';
 import { DepartmentService } from './../../../services/department.service';
-import { PopupDivisionDepartmentPage } from './popup-division-department/popup-division-department';
 
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ModalController, AlertController, PopoverController, LoadingController } from 'ionic-angular';
 import { DivisionService } from "../../../services/division.service";
 import { EmployeeService } from "../../../services/employee.service";
-import { EmployeeEditPage } from "./employee-edit/employee-edit";
 
 /**
  * Generated class for the EmployeePage page.
@@ -23,9 +21,6 @@ import { EmployeeEditPage } from "./employee-edit/employee-edit";
   templateUrl: 'employee.html',
 })
 export class EmployeePage {
-
-  employeeEditPage = EmployeeEditPage
-  popUpDivisionDepartmentPage = PopupDivisionDepartmentPage
   employees: any[];
   allEmployee: any[];
   monthlyEmployee: any[];
@@ -222,7 +217,7 @@ export class EmployeePage {
   /*Edit Employee*/
   editEmployee(event, index) {
 
-    let editPop = this.editPopOver.create(this.employeeEditPage, {
+    let editPop = this.editPopOver.create('EmployeeEditPage', {
       'em_id': this.employees[index].em_id,
       'name': this.employees[index].name,
       'lastname': this.employees[index].lastname,
@@ -245,7 +240,7 @@ export class EmployeePage {
   /*Change Division Department*/
   changeDivisionDepartment() {
     let popUp = this.editPopOver.create(
-      this.popUpDivisionDepartmentPage,
+      'PopUpDivisionDepartmentPage',
       {
         'divisions': this.divisions,
         'departments': this.departments,

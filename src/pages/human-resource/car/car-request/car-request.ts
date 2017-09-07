@@ -52,49 +52,54 @@ export class CarRequestPage {
       content: 'กำลังโหลดข้อมูล...'
     })
     loader.present();
-    /* Get Employee */
-    this.authService.getUser()
-      .then(result => {
-        this.user = result
-        this.carRequestService.getCarRequest(this.user.id)
-          .then(result => {
-            this.allRequests = result.data
-            this.employeeService.getAllEmployeeWithOutPage()
-              .then(result => {
-                this.allEmployees = result;
-                /* Get Division */
-                this.divisionService.getDivision()
-                  .then(result => {
-                    this.divisions = result
-                    this.carManageService.getCarType()
-                      .then(result => {
-                        this.carTypes = result
-                        loader.dismiss();
-                      })
-                  })
-                  .catch(err => { loader.dismiss(); console.log(err) })
-              }).catch(err => { loader.dismiss(); console.log(err) })
-          }).catch(err => { loader.dismiss(); console.log(err) })
-      }).catch(err => { loader.dismiss(); console.log(err) })
+    Promise.all([
+      /* Get User */
+      this.authService.getUser()
+        .then(result => {
+          this.user = result
+          return this.carRequestService.getCarRequest(this.user.id)
+            .then(result => {
+              this.allRequests = result.data
+            }).catch(err => { console.log(err) })
+        }),
+      /* Get All Employee */
+      this.employeeService.getAllEmployeeWithOutPage()
+        .then(result => {
+          this.allEmployees = result
+        }).catch(err => { console.log(err) }),
+      /* Division */
+      this.divisionService.getDivision()
+        .then(result => {
+          this.divisions = result
+        }).catch(err => { console.log(err) }),
+      /* Car Type */
+      this.carManageService.getCarType()
+        .then(result => {
+          this.carTypes = result
+        }).catch(err => { console.log(err) })
+    ]).then(()=>{
+      loader.dismiss()
+    }).catch(err=>{console.log(err);loader.dismiss()})
   }
 
   /* Get Car Request */
-  getCarRequest():Promise<any> {
+  getCarRequest(): Promise<any> {
     return new Promise((resolve, reject) => {
       this.carRequestService.getCarRequest(this.user.id)
         .then(result => {
           this.allRequests = result.data;
           resolve(result);
-        }).catch(err => { console.log(err); reject(err)})
+        }).catch(err => { console.log(err); reject(err) })
     })
   }
 
   /*Get Details*/
   getDetails(index) {
     // console.log(this.allRequests[index]);
-    let modal=this.modalCtrl.create('RequestDetailsPage',{
-      'requestDetails':this.allRequests[index]})
-      modal.present();
+    let modal = this.modalCtrl.create('RequestDetailsPage', {
+      'requestDetails': this.allRequests[index]
+    })
+    modal.present();
   }
 
   /*Add Request*/
@@ -105,7 +110,8 @@ export class CarRequestPage {
         'divisions': this.divisions,
         'carTypes': this.carTypes,
         'user': this.user
-      });
+      },{enableBackdropDismiss:false}
+    );
     addModal.present();
     addModal.onDidDismiss(result => {
       if (result) {
@@ -160,10 +166,10 @@ export class CarRequestPage {
           this.carRequestService.deleteRequest(this.chkRequest)
             .then(result => {
               console.log('After Confirm')
-              this.getCarRequest().then(()=>{
+              this.getCarRequest().then(() => {
                 loader.dismiss();//dismiss after delete complete
-              }).catch(err=>{console.log(err); loader.dismiss()})
-            }).catch(err=>{console.log(err); loader.dismiss()})
+              }).catch(err => { console.log(err); loader.dismiss() })
+            }).catch(err => { console.log(err); loader.dismiss() })
         },
         cssClass: 'alertConfirm'
       }]

@@ -1,8 +1,11 @@
+import { Storage } from '@ionic/storage';
+import { Events } from 'ionic-angular';
 import { Injectable } from '@angular/core';
 import { Http, Response, Headers } from '@angular/http';
 import { UserModel } from "../models/users";
 import { Observable } from "rxjs/Observable";
 import { WebUrlService } from "./weburl.service";
+
 
 @Injectable()
 export class AuthService {
@@ -16,6 +19,8 @@ export class AuthService {
     constructor(
         private http: Http,
         public webUrl: WebUrlService,
+        public eventCtrl: Events,
+        public storage: Storage
     ) {
         console.log('AuthController');
         this.url = this.webUrl.getUrl();
@@ -23,18 +28,6 @@ export class AuthService {
         this.userUrl = this.url + '/api/user';
         console.log(this.oauthUrl);
         this.authState = false;
-    }
-    ngOnInit() {
-        console.log('In OnInit')
-        if (this.accessToken == null) {
-            console.log('In OnInit in IF')
-            console.log('AuthController');
-            this.url = this.webUrl.getUrl();
-            this.oauthUrl = this.url + '/oauth/token';
-            this.userUrl = this.url + '/api/user';
-            console.log(this.oauthUrl);
-            this.authState = false;
-        }
     }
     /*Log In*/
     login(usernameInput: string, passwordInput: string): Promise<any> {
@@ -63,8 +56,6 @@ export class AuthService {
                             "Accept": "application/json",
                             "Authorization": "Bearer " + access_token,
                         });
-                        console.log(response.json());
-
                         /*Store Access Token to Global*/
                         this.accessToken = access_token;
 
@@ -76,6 +67,9 @@ export class AuthService {
                                 userModel.id = user.json().id;
                                 this.user = userModel;
                                 this.authState = true;
+                                this.eventCtrl.publish('after:login');
+                                this.storage.set('token', this.accessToken);
+                                console.log('after:login')
                                 resolve(this.user);
                             }
                             )
@@ -108,10 +102,40 @@ export class AuthService {
                     console.log('inLogout', result.json())
                     this.user = null;
                     this.authState = false;
-                    this.accessToken = "";
+                    this.accessToken = null;
+                    this.storage.remove('token');
+                    // this.eventCtrl.publish('logout');
                     resolve(result.json());
                 },
                 err => { console.log(err) }
+                )
+        })
+
+    }
+
+    setAuth(token) {
+        let userModel = new UserModel();
+        var headers = new Headers({
+            "Accept": "application/json",
+            "Authorization": "Bearer " + token,
+        });
+        return new Promise((resolve, reject) => {
+            /*Store Access Token to Global*/
+            this.accessToken = token;
+
+            this.http.get(this.userUrl, { headers: headers })
+                .subscribe(
+                user => {
+                    userModel.name = user.json().name;
+                    userModel.email = user.json().email;
+                    userModel.id = user.json().id;
+                    this.user = userModel;
+                    this.authState = true;
+                    this.eventCtrl.publish('after:login');
+                    console.log('after:login')
+                    resolve(this.user);
+                },
+                err=>{reject(err)}
                 )
         })
 
@@ -130,7 +154,11 @@ export class AuthService {
     /*Get Token*/
     getToken(): Promise<string> {
         return new Promise((resolve, reject) => {
-            resolve(this.accessToken);
+            this.storage.get('token')
+                .then(token => {
+                    this.accessToken = token
+                    resolve(this.accessToken);
+                })
         })
     }
     /*Get Header*/
@@ -140,6 +168,8 @@ export class AuthService {
                 "Accept": "application/json",
                 "Authorization": "Bearer " + this.accessToken,
             });
+            console.log('Show Header')
+            console.log('In Get Header')
             resolve(headers);
         })
 

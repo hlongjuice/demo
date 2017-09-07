@@ -32,7 +32,7 @@
             <ion-col col-4>
               <ion-item class="item-input">
                 <ion-label>วันที่</ion-label>
-                <ion-datetime (ionChange)="getTimePeriod(dateHistory)" displayFormat="DD/MM/YYYY" [(ngModel)]="dateHistory" name="date"></ion-datetime>
+                <ion-datetime class="date-input-large" (ionChange)="getTimePeriod(dateHistory)" displayFormat="DD/MM/YYYY" [(ngModel)]="dateHistory" name="date"></ion-datetime>
                 <ion-icon item-start color="primary" item-right><i class="fa fa-calendar" aria-hidden="true"></i></ion-icon>
               </ion-item>
             </ion-col>
@@ -40,8 +40,8 @@
             <ion-col col-5>
               <ion-item class="item-input">
                 <ion-label>ช่วงเวลา</ion-label>
-                <ion-select  item-end name="timePeriod" (ionChange)="getWorkList(timePeriod)" [(ngModel)]="timePeriod">
-                  <ion-option *ngFor="let timePeriod of timePeriods" [value]="timePeriod.id">{{timePeriod.time_start}} - {{timePeriod.time_end}}</ion-option>
+                <ion-select class="date-input-large" item-end name="timePeriodID" (ionChange)="getWorkList()" [(ngModel)]="timePeriodID">
+                  <ion-option *ngFor="let timePeriod of timePeriods" [value]="timePeriod.id">{{timePeriod.time_start}}</ion-option>
                 </ion-select>
                 <ion-icon item-start color="primary" item-right><i class="fa fa-clock-o" aria-hidden="true"></i></ion-icon>
               </ion-item>
@@ -55,54 +55,27 @@
   <!--Detiail-->
   <ion-card>
     <ion-card-header>
-      รายละเอียด
+      <ion-item>
+        <h1 ion-text color="primary">รายละเอียด</h1>
+        <div item-content class="line-header"></div>
+      </ion-item>
     </ion-card-header>
     <ion-card-content>
       <ion-grid>
         <!--Table Header-->
-        <ion-item no-padding>
-          <ion-grid no-padding>
-            <ion-row class="table-header">
-              <!--Activity-->
-              <ion-col col-2>
-                <ion-item>
-                  งาน
-                </ion-item>
-              </ion-col>
-              <!--Shrimp Type-->
-              <ion-col col-2>
-                <ion-item>
-                  ชนิด
-                </ion-item>
-              </ion-col>
-              <!--Shrimp Size-->
-              <ion-col col-2>
-                <ion-item>
-                  ขนาด
-                </ion-item>
-              </ion-col>
-              <!-- Group -->
-              <ion-col col-1>
-                <ion-item>
-                  กลุ่ม
-                </ion-item>
-              </ion-col>
-              <!--Amount Weight-->
-              <ion-col col-2>
-                <ion-item>
-                  น้ำหนักรวม (กก.)
-                </ion-item>
-              </ion-col>
-              <!--Averrage Weight-->
-              <ion-col col-3>
-                <ion-item>
-                  <h2 ion-text color="danger">น้ำหนักเฉลี่ย (กก.)</h2>
-                </ion-item>
-              </ion-col>
-              <div class="table-header-line">
-              </div>
-            </ion-row>
-          </ion-grid>
+        <ion-item class="table-header" padding>
+          <ion-label>เวลา</ion-label>
+          <ion-label item-content>งาน</ion-label>
+          <ion-label item-content>ชนิด</ion-label>
+          <ion-label item-content>ขนาด</ion-label>
+          <ion-label item-content>กลุ่ม</ion-label>
+          <ion-label item-content>น้ำหนักรวม(กก.)</ion-label>
+          <ion-label item-end>น้ำหนักเฉลี่ย(กก.)</ion-label>
+          <div item-start class="pull-item-header"></div>
+          <div item-content class="table-header-line"></div>
+          <button ion-button item-end default color="light" clear >
+              <i class="fa fa-chevron-right" aria-hidden="true"></i>
+          </button>
         </ion-item>
 
 
@@ -110,51 +83,22 @@
 
         <ion-list (click)="setHighlight(i)" class="table-content" *ngFor="let work of works; let i=index">
           <ion-item-sliding #item>
-            <ion-item [ngClass]="{'highlight':isHighlightVisible[i]}" no-padding>
-              <ion-grid no-padding>
-                <ion-row>
-                  <!--Activity-->
-                  <ion-col col-2>
-                    <ion-item>
-                      {{work.production_activity.name}}
-                    </ion-item>
-                  </ion-col>
-                  <!--Shrimp Type-->
-                  <ion-col col-2>
-                    <ion-item>
-                      {{work.production_shrimp_type.name}}
-                    </ion-item>
-                  </ion-col>
-                  <!--Shrimp Size-->
-                  <ion-col col-2>
-                    <ion-item>
-                      {{work.production_shrimp_size.name}}
-                    </ion-item>
-                  </ion-col>
-                  <ion-col col-1>
-                    <ion-item>
-                      {{work.p_group_id}}
-                    </ion-item>
-                  </ion-col>
-                  <!--Amount Weight-->
-                  <ion-col col-2>
-                    <ion-item>
-                      {{work.amountWeight}}
-                    </ion-item>
-                  </ion-col>
-                  <!--Averrage Weight-->
-                  <ion-col col-3>
-                    <ion-item detail-push (click)="getWorkDetails(work)">
-                      <h2 ion-text color="danger">{{work.averageWeight}}</h2>
-                    </ion-item>
-                  </ion-col>
-                </ion-row>
-              </ion-grid>
+            <ion-item [ngClass]="{'highlight':isHighlightVisible[i]}" padding>
+              <div item-start class="pull-item"></div>
+              <ion-label>{{time_start}} - {{work.p_time_end}}</ion-label>
+              <ion-label item-content> {{work.production_activity.name}}</ion-label>
+              <ion-label item-content> {{work.production_shrimp_type.name}}</ion-label>
+              <ion-label item-content> {{work.production_shrimp_size.name}}</ion-label>
+              <ion-label item-content> {{work.p_group_id}}</ion-label>
+              <ion-label item-content> {{work.amountWeight}}</ion-label>
+              <ion-label ion-button clear (click)="getWorkDetails(work)"  item-end color="danger" class="text-large">{{work.averageWeight}}</ion-label>
+              <button ion-button item-end default color="info" (click)="getWorkDetails(work)" clear>
+                  <i class="fa fa-chevron-right" aria-hidden="true"></i>
+              </button>
             </ion-item>
             <ion-item-options side="left">
-              <button (click)="deleteWork(work.id,i)" ion-button color="danger">
-                <ion-icon item-start><i class="fa fa-trash" aria-hidden="true"></i></ion-icon>
-                ลบ</button>
+              <button (click)="deleteWork(work.id,i)" ion-button color="danger">ลบ</button>
+              <button ion-button color="warning" (click)="editWork(work,i)">แก้ไข</button>
             </ion-item-options>
           </ion-item-sliding>
           <div class="table-content-line"></div>

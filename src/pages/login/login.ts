@@ -1,5 +1,7 @@
+import { Events } from 'ionic-angular';
+import { Storage } from '@ionic/storage';
 import { Component } from '@angular/core';
-import { IonicPage, NavController,MenuController, LoadingController, AlertController } from 'ionic-angular';
+import { IonicPage, NavController, MenuController, LoadingController, AlertController, App } from 'ionic-angular';
 import { NgForm } from "@angular/forms";
 import { AuthService } from "../../services/auth.service";
 import { HomePage } from "../home/home";
@@ -18,12 +20,21 @@ import { HomePage } from "../home/home";
 export class LoginPage {
 
   homePage = HomePage;
+  token:any;
   constructor(
     private menuCtrl: MenuController,
     private auth: AuthService,
     private loadingCtrl: LoadingController,
     private navCtrl: NavController,
-    private alertCtrl: AlertController) {
+    private appCtrl:App,
+    private alertCtrl: AlertController,
+    private storage:Storage,
+    private eventCtrl:Events
+  ) {
+  }
+
+  ngOnInit(){
+
   }
 
   ionViewWillEnter() {
@@ -47,6 +58,7 @@ export class LoginPage {
           (data) => {
             loader.dismiss();
             this.navCtrl.setRoot(this.homePage);
+            // this.appCtrl.getRootNav().setRoot(this.homePage);
           }
           )
           .catch(err => {

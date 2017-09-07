@@ -1,3 +1,4 @@
+import { Events } from 'ionic-angular';
 import { Http, Headers } from "@angular/http";
 import { AuthService } from "../auth.service";
 import { WebUrlService } from "../weburl.service";
@@ -13,8 +14,10 @@ export class QcShrimpResultService {
     constructor(
         private http: Http,
         private authService: AuthService,
-        private webUrlService: WebUrlService
+        private webUrlService: WebUrlService,
+        private eventCtrl: Events
     ) {
+
         this.url = this.webUrlService.getUrl();
         this.authService.getUser().then(
             userID => {
@@ -23,6 +26,26 @@ export class QcShrimpResultService {
                     .then(
                     headers => {
                         this.headers = headers
+                    }
+                    )
+            }
+        )
+        this.eventCtrl.subscribe('after:login', () => {
+            this.getAuth();
+        })
+    }
+
+    /* Get Auth */
+    getAuth() {
+        console.log('In Get Auth')
+        this.authService.getUser().then(
+            userID => {
+                this.userID = userID.id
+                this.authService.getHeader()
+                    .then(
+                    headers => {
+                        this.headers = headers
+                        console.log(this.headers)
                     }
                     )
             }
@@ -98,11 +121,12 @@ export class QcShrimpResultService {
         })
     }
         /* Supplier Result By Month */
-    getSupplierResultByQuarter(supplier_id,year,quarter):Promise<any>{
+    getSupplierResultByQuarter(supplier_id,year,start_month,end_month):Promise<any>{
         let inputs={
             'supplier_id':supplier_id,
             'year':year,
-            'quarter':quarter
+            'start_month':start_month,
+            'end_month':end_month
         }
         console.log(inputs)
         let getByMonthUrl=this.url+'/api/qc/result/supplier/quarter';

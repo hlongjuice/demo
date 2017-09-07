@@ -95,10 +95,14 @@ export class AddRequestPage {
     let modal = this.modalCtrl.create('PassengerListPage', {
       'passengers': this.passengers
     })
+    console.log('Modal Present')
     modal.present();
+    console.log('after Present')
     modal.onDidDismiss(result => {
       if (result) {
-        //  this.selectedPassengers[index]=result.name+' '+result.lastname;
+        console.log('dismiss')
+        this.passengerInputs[index].employee = result.name + ' ' + result.lastname;
+        this.passengerInputs[index].employeeID= result.em_id;
       }
     })
   }
@@ -162,6 +166,11 @@ export class AddRequestPage {
       }).catch(err=>{console.log(err); loader.dismiss()})
     })
     .catch(err=>{console.log(err); loader.dismiss()})
+  }
+
+  /* Dismiss */
+  dismiss(){
+    this.viewCtrl.dismiss();
   }
 
 }

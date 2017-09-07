@@ -11,7 +11,7 @@
     </button>
     <ion-title text-center>
       <!--<ion-item>-->
-      <ion-icon item-start><i class="fa fa-users" aria-hidden="true"></i></ion-icon>
+      <ion-icon item-start><i class="fa fa-pencil-square-o" aria-hidden="true"></i></ion-icon>
       รายการขอรถ
       <!--</ion-item> -->
     </ion-title>
@@ -20,6 +20,7 @@
 
 
 <ion-content padding>
+  <!-- Segment -->
   <ion-card>
     <ion-card-header>
       <ion-segment (ionChange)="getCarRequests()" [(ngModel)]="selectedStatus" name="selectedStatus">

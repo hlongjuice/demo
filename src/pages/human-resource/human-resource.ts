@@ -1,7 +1,5 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { DivisionPage } from "./division/division";
-import { EmployeePage } from "./employee/employee";
 
 /**
  * Generated class for the HumanResourcePage page.
@@ -16,20 +14,15 @@ import { EmployeePage } from "./employee/employee";
 })
 export class HumanResourcePage {
 
-  divisionPage=DivisionPage;
-  employeePage=EmployeePage
   constructor(public navCtrl: NavController, public navParams: NavParams) {
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad HumanResourcePage');
-  }
 
   openDivisionPage(){
-    this.navCtrl.push(this.divisionPage);
+    this.navCtrl.push('DivisionPage');
   }
   openEmployeePage(){
-    this.navCtrl.push(this.employeePage);
+    this.navCtrl.push('EmployeePage');
   }
 
 }

@@ -139,7 +139,7 @@ export class ProductionWorkFormPage {
 
   /*Add Work*/
   addWork(workForm: NgForm) {
-    let loader = this.loaderCtrl.create({ content: 'กำลังเพิ่มข้อมูล...' })
+    let loader = this.loaderCtrl.create({ content: 'กำลังเพิ่มข้อมูล...' ,dismissOnPageChange:true})
     let toast = this.toastCtrl.create({ message: 'บันทึกเรียบร้อย', duration: 1500, position: 'top' })
     let alert = this.alertCtrl.create({ title: 'ไม่สามารถเพิ่มข้อมูลได้' })
     workForm.value.selectedGroup=this.selectedGroup;
@@ -177,7 +177,7 @@ export class ProductionWorkFormPage {
         if (Object.keys(result).length) {
           this.dateInput = result.production_date_time.production_date.date;
           this.startTimeInput = result.production_date_time.time_start;
-          this.endTimeInput = result.production_date_time.time_end;
+          this.endTimeInput = result.p_time_end;
           this.activity_id = result.p_activity_id;
           this.shrimp_size_id = result.p_shrimp_size_id;
           this.shrimp_type_id = result.p_shrimp_type_id;

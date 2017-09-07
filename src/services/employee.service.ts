@@ -1,4 +1,4 @@
-import { AlertController } from 'ionic-angular';
+import { AlertController, Events } from 'ionic-angular';
 import { Injectable } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { WebUrlService } from "./weburl.service";
@@ -15,13 +15,14 @@ export class EmployeeService {
     public userID: number;
     public employees: EmployeeModel[] = [];
     constructor(
-        private webUrl: WebUrlService,
         private http: Http,
         private authService: AuthService,
-        private transfer: Transfer
+        private transfer: Transfer,
+        private webUrl: WebUrlService,
+        private eventCtrl: Events
     ) {
+
         this.url = this.webUrl.getUrl();
-        /*Get User ID*/
         this.authService.getUser().then(
             userID => {
                 this.userID = userID.id
@@ -29,6 +30,26 @@ export class EmployeeService {
                     .then(
                     headers => {
                         this.headers = headers
+                    }
+                    )
+            }
+        )
+        this.eventCtrl.subscribe('after:login', () => {
+            this.getAuth();
+        })
+    }
+
+    /* Get Auth */
+    getAuth() {
+        console.log('In Get Auth')
+        this.authService.getUser().then(
+            userID => {
+                this.userID = userID.id
+                this.authService.getHeader()
+                    .then(
+                    headers => {
+                        this.headers = headers
+                        console.log(this.headers)
                     }
                     )
             }
