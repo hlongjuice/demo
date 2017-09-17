@@ -41,14 +41,16 @@ export class HomePage {
     this.menuCtrl.enable(false, 'qcMenu');
     this.menuCtrl.enable(false,'engineerMenu')
 
-    if (page == 'ProductionResultPage') {
+    if (page == 'MainProductionPage') {
       this.menuCtrl.enable(true, 'productionMenu');
-    } else if (page == 'CarResponsePage') {
+    } else if (page == 'MainHrPage') {
       this.menuCtrl.enable(true, 'humanResourceMenu');
-    }else if(page=='QcShrimpRecorderPage'){
+    }else if(page=='MainQcPage'){
       this.menuCtrl.enable(true,'qcMenu');
-    }else if(page=='EngineerPage'){
+    }else if(page=='MainEngineerPage'){
       this.menuCtrl.enable(true,'engineerMenu')
+    }else if(page=='RepairInvoicePage'){
+      this.menuCtrl.enable(true,'masterMenu')
     }
     this.navCtrl.setRoot(page);
     this.menuCtrl.close();

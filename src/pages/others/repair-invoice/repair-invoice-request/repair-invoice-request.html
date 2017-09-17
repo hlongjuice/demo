@@ -48,20 +48,20 @@
           <ion-label>เวลา</ion-label>
           <ion-label>เครื่องจักร</ion-label>
           <ion-label>สถาณะ</ion-label>
-          <button item-content ion-button default clear disabled>แก้ไข</button>
+          <!-- <button item-content ion-button default clear disabled>แก้ไข</button> -->
           <button item-end ion-button default clear disabled>ลบ</button>
         </ion-item>
         <ion-scroll class="eng-scroll-content" scrollY="true">
           <ion-card-content no-padding>
             <ion-item *ngFor="let recorder of recorders" text-center class="table-content">
-              <button ion-button item-start default color="primary" (click)="showDetails(recorder)">ลายละเอียด</button>
+              <button ion-button item-start default color="primary" (click)="editRecord(recorder)">ลายละเอียด</button>
               <ion-label>
                   <ion-datetime disabled displayFormat="DD/MM/YYYY" [(ngModel)]="recorder.date"></ion-datetime>
               </ion-label>
               <ion-label>{{recorder?.time}}</ion-label>
               <ion-label>{{recorder?.item}}</ion-label>
               <ion-label [color]="recorder?.status?.color">{{recorder?.status?.name}}</ion-label>
-              <button item-content ion-button default color="warning" (click)="editRecord(recorder)">แก้ไข</button>
+              <!-- <button item-content ion-button default color="warning" (click)="editRecord(recorder)">แก้ไข</button> -->
               <button item-end ion-button default color="danger" (click)="deleteRecord(recorder)">ลบ</button>
             </ion-item>
           </ion-card-content>

@@ -46,11 +46,13 @@ export class RepairInvoiceRequestAddPage {
     this.date=this.dateService.getDate();
     this.real_time_record=this.dateService.getTime().currentTime
     this.user=this.navParams.data.user;
+    console.log(this.navParams.data)
   }
 
   //Add Supply
   addRequest(formInputs){
     formInputs.division_id=this.user.details.division_id;
+    console.log(this.user);
     formInputs.sender_id=this.user.id;
     this._submit_status=false
     console.log(formInputs);
