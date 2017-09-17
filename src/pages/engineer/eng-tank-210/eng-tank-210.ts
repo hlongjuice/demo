@@ -24,6 +24,8 @@ export class EngTank_210Page {
   month: any;
   year: any;
   recorders: any;
+  time_records:any[];
+  daily_used:any;
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
@@ -37,6 +39,7 @@ export class EngTank_210Page {
   }
 
   ngOnInit() {
+    this.daily_used=[];
     this.date = this.dateService.getDate();
     this.month = this.dateService.getCurrentDateTime().MM;
     this.year = this.dateService.getCurrentDateTime().YY;
@@ -47,15 +50,17 @@ export class EngTank_210Page {
   getRecords() {
     this.showLoader()
     this.engTank210Service.getRecordByDate(this.date)
-      .then(result => {
+      .then((result:any) => {
         console.log(result)
-        this.recorders = result;
+        this.recorders = result.data;
+        this.daily_used=result;
         this.dismissLoader()
       }).catch(err => {
         console.log(err)
         this.showAlert(err)
         this.dismissLoader();
       })
+      
   }
 
   //Add Supply

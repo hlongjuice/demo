@@ -24,6 +24,7 @@ export class EngWaterMeterPage {
   month: any;
   year: any;
   recorders: any;
+  daily_used:any;
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
@@ -47,9 +48,10 @@ export class EngWaterMeterPage {
   getRecords() {
     this.showLoader()
     this.engWaterMeterService.getRecordByDate(this.date)
-      .then(result => {
+      .then((result:any) => {
         console.log(result)
-        this.recorders = result;
+        this.recorders = result.data;
+        this.daily_used=result;
         this.dismissLoader()
       }).catch(err => {
         console.log(err)

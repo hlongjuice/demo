@@ -21,6 +21,7 @@
 
 <ion-content padding>
   <ion-grid>
+    <!-- Row 1 -->
     <ion-row class="c-result">
       <!-- Water Supply Outside -->
       <ion-col col-4>
@@ -58,6 +59,9 @@
           </ion-card-content>
         </ion-card>
       </ion-col>
+    </ion-row>
+    <!-- Row 2 -->
+    <ion-row class="c-result">
       <!-- Water Meter -->
       <ion-col col-4>
         <ion-card (click)="openPage('EngWaterMeterPage')">
@@ -94,6 +98,9 @@
           </ion-card-content>
         </ion-card>
       </ion-col>
+    </ion-row>
+    <!-- Row 3 -->
+    <ion-row class="c-result">
       <!-- Condens -->
       <ion-col col-4>
         <ion-card (click)="openPage('EngCondensPage')">
@@ -130,12 +137,78 @@
           </ion-card-content>
         </ion-card>
       </ion-col>
+    </ion-row>
+    <!-- Row 4 -->
+    <ion-row class="c-result">
       <!-- Defrost Time -->
       <ion-col col-4>
         <ion-card (click)="openPage('EngDefrostTimePage')">
           <ion-card-content>
             <div>
               <h3 ion-text color="primary">ตาราง Defrost</h3>
+              <div class="c-result-blue" ion-text text-right>
+              </div>
+            </div>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+      <!-- Cold Storage -->
+      <ion-col col-4>
+        <ion-card (click)="openPage('EngColdStoragePage')">
+          <ion-card-content>
+            <div>
+              <h3 ion-text color="primary">อุณหภูมิห้องเย็น</h3>
+              <div class="c-result-blue" ion-text text-right>
+              </div>
+            </div>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+      <!-- Water Cooler -->
+      <ion-col col-4>
+        <ion-card (click)="openPage('EngWaterCoolerPage')">
+          <ion-card-content>
+            <div>
+              <h3 ion-text color="primary">เครื่องทำน้ำเย็น</h3>
+              <div class="c-result-blue" ion-text text-right>
+              </div>
+            </div>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+    <!-- Row 5 -->
+    <ion-row class="c-result">
+      <!-- Ice Maker -->
+      <ion-col col-4>
+        <ion-card (click)="openPage('EngIceMakerPage')">
+          <ion-card-content>
+            <div>
+              <h3 ion-text color="primary">เครื่องทำน้ำแข็ง</h3>
+              <div class="c-result-blue" ion-text text-right>
+              </div>
+            </div>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+      <!-- Boiler -->
+      <ion-col col-4>
+        <ion-card (click)="openPage('EngBoilerPage')">
+          <ion-card-content>
+            <div>
+              <h3 ion-text color="primary">Boiler</h3>
+              <div class="c-result-blue" ion-text text-right>
+              </div>
+            </div>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+      <!-- Water Filtration -->
+      <ion-col col-4>
+        <ion-card (click)="openPage('EngWaterFiltrationPage')">
+          <ion-card-content>
+            <div>
+              <h3 ion-text color="primary">โรงกรองน้ำ</h3>
               <div class="c-result-blue" ion-text text-right>
               </div>
             </div>

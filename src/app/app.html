@@ -70,6 +70,16 @@
                 <ion-icon color="primary" item-start ><i class="fa fa-file-text-o" aria-hidden="true"></i></ion-icon>
                 บันทึกการทำงาน
             </button>
+            <!--Expiration-->
+            <button ion-item (click)="openPage('PdExpirationPage')">
+                            <ion-icon color="primary" item-start ><i class="fa fa-file-text-o" aria-hidden="true"></i></ion-icon>
+                            ระบบกำหนดวันหมดอายุ
+                        </button>
+            <!--Product-->
+            <button ion-item (click)="openPage('PdProductPage')">
+                    <ion-icon color="primary" item-start ><i class="fa fa-file-text-o" aria-hidden="true"></i></ion-icon>
+                    สินค้า
+                </button>
             <!--Employee Group-->
             <button ion-item (click)="openPage('ProductionEmployeePage')">
                 <ion-icon color="primary" item-start ><i class="fa fa-users" aria-hidden="true"></i></ion-icon>
@@ -197,10 +207,15 @@
                     <ion-icon color="primary" item-start><i class="fa fa-home" aria-hidden="true"></i></ion-icon>
                     หน้าหลัก
                 </button>
+            <!--Engineer Result Menu-->
+            <button ion-item (click)="openPage('EngResultsPage')">
+                    <ion-icon color="primary" item-start><i class="fa fa-pie-chart" aria-hidden="true"></i></ion-icon>
+                    รายงานสรุปผล 
+                </button>
             <!--Engineer Main Menu-->
             <button ion-item (click)="openPage('EngineerPage')">
-                                <ion-icon color="primary" item-start><i class="fa fa-home" aria-hidden="true"></i></ion-icon>
-                                หน้าหลักฝ่ายวิศวกรรม
+                                <ion-icon color="primary" item-start><i class="fa fa-pencil-square-o" aria-hidden="true"></i></ion-icon>
+                                ระบบบันทึกต่างๆ
                             </button>
         </ion-list>
         <div padding-left padding-right>

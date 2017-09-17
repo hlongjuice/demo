@@ -1,3 +1,13 @@
+import { RepairInvoiceService } from './../services/other/repair-invoice.service';
+import { ProductionExpService } from './../services/production/expiration.service';
+import { ProductionProductService } from './../services/production/product.service';
+import { EngWaterUsageService } from './../services/eng/water_usage.service';
+import { EngColdStorageResultService } from './../services/eng/cold-storage-result.service';
+import { EngWaterFiltrationService } from './../services/eng/water-filtration.service';
+import { EngBoilerService } from './../services/eng/boiler.service';
+import { EngIceMakerService } from './../services/eng/ice-maker.service';
+import { EngWaterCoolerService } from './../services/eng/water_cooler.service';
+import { EngColdStorageService } from './../services/eng/cold-storage.service';
 import { EngDefrostTimeService } from './../services/eng/defrost-time.service';
 import { EngChlorineLabService } from './../services/eng/chlorine-lab.service';
 import { EngChlorineService } from './../services/eng/chlorine.service';
@@ -57,6 +67,7 @@ import { ProductionShrimpSizeService } from "../services/production/shrimp-size.
 import { ProductionEmployeeService } from "../services/production/employee.service";
 import { ProductionWorkService } from "../services/production/work.service";
 import { CarRequestService } from "../services/human-resource/car/car-request.service";
+import { Camera, CameraOptions } from '@ionic-native/camera';
 
 
 
@@ -101,6 +112,7 @@ import { CarRequestService } from "../services/human-resource/car/car-request.se
     FilePath,
     ImagePicker,
     ScreenOrientation,
+    Camera,
 
     /*Service*/
     EmployeeService,
@@ -114,6 +126,8 @@ import { CarRequestService } from "../services/human-resource/car/car-request.se
     NextPageService,
     CarDriverService,
     SupplierService,
+    /* Other */
+    RepairInvoiceService,
     /* Engineer */
     EngWsOutsideService,
     EngTank210Service,
@@ -125,12 +139,21 @@ import { CarRequestService } from "../services/human-resource/car/car-request.se
     EngChlorineService,
     EngChlorineLabService,
     EngDefrostTimeService,
+    EngColdStorageService,
+    EngWaterCoolerService,
+    EngIceMakerService,
+    EngBoilerService,
+    EngWaterFiltrationService,
+    EngColdStorageResultService,
+    EngWaterUsageService,
     /*Production*/
     ProductionActivityService,
     ProductionShrimpTypeService,
     ProductionShrimpSizeService,
     ProductionEmployeeService,
     ProductionWorkService,
+    ProductionProductService,
+    ProductionExpService,
     /*Human Resource*/
     CarManageService,
     CarResponseService,

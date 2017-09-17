@@ -38,6 +38,56 @@
       </ion-grid>
     </ion-card-content>
   </ion-card>
+  <!-- Card Result -->
+  <ion-grid>
+    <!-- Row 1 -->
+    <ion-row class="c-result">
+      <ion-col col-12>
+        <ion-item>
+          <ion-label>สรุปการใช้งานใน 1 วัน</ion-label>
+        </ion-item>
+      </ion-col>
+      <!-- M-pwa -->
+      <ion-col col-3>
+        <ion-card>
+          <ion-card-content>
+            <div>
+              <h3 ion-text color="primary">MM-4</h3>
+              <div class="c-result-dark-blue" ion-text text-right>
+                <h1 ion-text color="dark-blue">{{daily_used?.mm_4_used| number}}</h1>
+              </div>
+            </div>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+      <!-- M-15 -->
+      <ion-col col-3>
+        <ion-card>
+          <ion-card-content>
+            <div>
+              <h3 ion-text color="primary">MM-5</h3>
+              <div class="c-result-dark-blue" ion-text text-right>
+                <h1 ion-text color="dark-blue">{{daily_used?.mm_5_used| number}}</h1>
+              </div>
+            </div>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+      <!-- M-17 -->
+      <ion-col col-3>
+        <ion-card>
+          <ion-card-content>
+            <div>
+              <h3 ion-text color="primary">MM-6</h3>
+              <div class="c-result-dark-blue" ion-text text-right>
+                <h1 ion-text color="dark-blue">{{daily_used?.mm_6_used| number}}</h1>
+              </div>
+            </div>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
   <!-- Bottom Card -->
   <ion-card>
     <!-- Table Result -->

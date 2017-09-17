@@ -24,6 +24,7 @@ export class EngCondensPage {
   month: any;
   year: any;
   recorders: any;
+  daily_used:any;
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
@@ -37,6 +38,7 @@ export class EngCondensPage {
   }
 
   ngOnInit() {
+    this.daily_used=[];
     this.date = this.dateService.getDate();
     this.month = this.dateService.getCurrentDateTime().MM;
     this.year = this.dateService.getCurrentDateTime().YY;
@@ -47,9 +49,10 @@ export class EngCondensPage {
   getRecords() {
     this.showLoader()
     this.engCondensService.getRecordByDate(this.date)
-      .then(result => {
+      .then((result:any) => {
         console.log(result)
-        this.recorders = result;
+        this.recorders = result.data;
+        this.daily_used=result;
         this.dismissLoader()
       }).catch(err => {
         console.log(err)

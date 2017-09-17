@@ -135,7 +135,7 @@ export class AuthService {
                     console.log('after:login')
                     resolve(this.user);
                 },
-                err=>{reject(err)}
+                err => { reject(err) }
                 )
         })
 
@@ -172,7 +172,26 @@ export class AuthService {
             console.log('In Get Header')
             resolve(headers);
         })
+    }
 
+    //Get User Details
+    getUserDetails() {
+        let headersInput: any;
+        return new Promise((resolve, reject) => {
+            this.getHeader()
+                .then(header => {
+                    let url = this.url + '/api/auth/get_user_details/' + this.user.id
+                    this.http.get(url, { headers: header })
+                        .subscribe(
+                        result => {
+                            resolve(result.json())
+                        },
+                        err => {
+                            reject(err.json())
+                        }
+                        )
+                })
+        })
     }
 
 }

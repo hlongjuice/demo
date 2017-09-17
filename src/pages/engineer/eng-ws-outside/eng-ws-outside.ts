@@ -24,6 +24,7 @@ export class EngWsOutsidePage {
   month: any;
   year: any;
   recorders: any;
+  daily_used: any;
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
@@ -37,6 +38,7 @@ export class EngWsOutsidePage {
   }
 
   ngOnInit() {
+    this.daily_used = [];
     this.date = this.dateService.getDate();
     this.month = this.dateService.getCurrentDateTime().MM;
     this.year = this.dateService.getCurrentDateTime().YY;
@@ -47,9 +49,10 @@ export class EngWsOutsidePage {
   getSupply() {
     this.showLoader()
     this.engWsOutSideService.getSupplyByDate(this.date)
-      .then(result => {
+      .then((result: any) => {
         console.log(result)
-        this.recorders = result;
+        this.recorders = result.data;
+        this.daily_used = result;
         this.dismissLoader()
       }).catch(err => {
         this.showAlert(err.text())
@@ -84,7 +87,7 @@ export class EngWsOutsidePage {
   //Delete Supply
   deleteSupply(recorder) {
     let confirm = this.alertCtrl.create({
-      title:'ยืนยันการลบ',
+      title: 'ยืนยันการลบ',
       buttons: [
         {
           text: 'ยกเลอก',
@@ -100,9 +103,9 @@ export class EngWsOutsidePage {
                 this.dismissLoader();
                 this.getSupply();
                 this.showToast('ลบข้อมูลเสร็จสิ้น')
-              }).catch(err => { this.dismissLoader();this.showAlert(err);  })
+              }).catch(err => { this.dismissLoader(); this.showAlert(err); })
           },
-          cssClass:'alertConfirm'
+          cssClass: 'alertConfirm'
         }
       ]
     })

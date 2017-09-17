@@ -46,7 +46,7 @@ export class EngDefrostTimePage {
   //Get Supply
   getRecords() {
     this.showLoader()
-    this.engDefrostTimeService.getRecordByDate(this.date)
+    this.engDefrostTimeService.getRecord()
       .then(result => {
         console.log(result)
         this.recorders = result;
