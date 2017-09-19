@@ -36,11 +36,10 @@ export class RepairInvoiceRequestEditPage {
 
   ngOnInit(){
     this.time_records=[];
-    for(let i=1;i<=24;i++){
-      this.time_records.push(i+':00')
-    }
     this._submit_status=false;
     this.recorder=this.navParams.data.recorder;
+    console.log(this.recorder)
+    console.log(this.navParams.data)
   }
 
   //Update Supply

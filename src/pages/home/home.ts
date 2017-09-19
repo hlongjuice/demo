@@ -39,7 +39,8 @@ export class HomePage {
     this.menuCtrl.enable(false, 'productionMenu');
     this.menuCtrl.enable(false, 'humanResourceMenu');
     this.menuCtrl.enable(false, 'qcMenu');
-    this.menuCtrl.enable(false,'engineerMenu')
+    this.menuCtrl.enable(false,'engineerMenu');
+    this.menuCtrl.enable(false,'onlyHomeMenu');
 
     if (page == 'MainProductionPage') {
       this.menuCtrl.enable(true, 'productionMenu');
@@ -50,7 +51,7 @@ export class HomePage {
     }else if(page=='MainEngineerPage'){
       this.menuCtrl.enable(true,'engineerMenu')
     }else if(page=='RepairInvoicePage'){
-      this.menuCtrl.enable(true,'masterMenu')
+      this.menuCtrl.enable(true,'onlyHomeMenu')
     }
     this.navCtrl.setRoot(page);
     this.menuCtrl.close();

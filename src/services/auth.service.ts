@@ -180,17 +180,24 @@ export class AuthService {
         return new Promise((resolve, reject) => {
             this.getHeader()
                 .then(header => {
-                    let url = this.url + '/api/auth/get_user_details/' + this.user.id
-                    this.http.get(url, { headers: header })
-                        .subscribe(
-                        result => {
-                            resolve(result.json())
-                        },
-                        err => {
-                            reject(err.json())
+                    if(this.user.id){
+                        let url = this.url + '/api/auth/get_user_details/' + this.user.id
+                        this.http.get(url, { headers: header })
+                            .subscribe(
+                            result => {
+                                resolve(result.json())
+                            },
+                            err => {
+                                reject(err.json())
+                            }
+                            )
+                    }else{
+                        let err={
+                            error:'Please Login Again'
                         }
-                        )
-                })
+                        reject(err)
+                    }
+                }).catch((err:any)=>{reject(err)})
         })
     }
 

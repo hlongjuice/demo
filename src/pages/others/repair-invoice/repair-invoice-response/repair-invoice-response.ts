@@ -1,21 +1,21 @@
-import { AuthService } from './../../../../services/auth.service';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, LoadingController, AlertController, ToastController, ModalController } from 'ionic-angular';
-import { DateService } from "../../../../services/date.service";
-import { RepairInvoiceService } from "../../../../services/other/repair-invoice.service";
+import { RepairInvoiceService } from '../../../../services/other/repair-invoice.service';
+import { DateService } from '../../../../services/date.service';
+import { AuthService } from '../../../../services/auth.service';
 
 /**
- * Generated class for the RepairInvoiceRequestPage page.
+ * Generated class for the RepairInvoiceResponsePage page.
  *
  * See http://ionicframework.com/docs/components/#navigation for more info
  * on Ionic pages and navigation.
  */
 @IonicPage()
 @Component({
-  selector: 'page-repair-invoice-request',
-  templateUrl: 'repair-invoice-request.html',
+  selector: 'page-repair-invoice-response',
+  templateUrl: 'repair-invoice-response.html',
 })
-export class RepairInvoiceRequestPage {
+export class RepairInvoiceResponsePage {
 
   _loader: any;
   _alert: any;
@@ -28,6 +28,8 @@ export class RepairInvoiceRequestPage {
   time_records: any[];
   daily_used: any;
   user:any;
+  statusTabs:any;
+  status:any;
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
@@ -42,61 +44,56 @@ export class RepairInvoiceRequestPage {
   }
 
   ngOnInit() {
+    this.status=this.repairInvoiceService.getStatus();
     this.user=null;
-    let loader=this.loaderCtrl.create({content:'กำลังโหลดข้อมูล...'})
-    loader.present();
+    // let loader=this.loaderCtrl.create({content:'กำลังโหลดข้อมูล...'})
+    // loader.present();
+    this.showLoader()
     this.authService.getUserDetails()
     .then(result=>{
+      this.dismissLoader()
       this.user=result;
-      loader.dismiss();
       console.log(this.user)
-    }).catch(err=>{console.log(err);loader.dismiss();this.showAlert(err.text())})
+      // loader.dismiss();
+    }).catch(err=>{
+      console.log('Yo!!!!')
+      // loader.dismiss();
+      this.dismissLoader()
+      this.showAlert(err)})
+
     this.daily_used = [];
     this.date = this.dateService.getDate();
     this.month = this.dateService.getCurrentDateTime().MM;
     this.year = this.dateService.getCurrentDateTime().YY;
-    this.getRecords();
+    // this.getRecords();
   }
 
-  //Show Details
-  showDetails(recorder){
-
-  }
   //Get Supply
   getRecords() {
-    this.showLoader()
-    this.repairInvoiceService.getRecordByDate(this.date)
+    console.log(this.date,this.statusTabs);
+    let loader=this.loaderCtrl.create({content:"กำลังโหลดข้อมูล..."})
+    // loader.present();
+    this.repairInvoiceService.getResponseByDate(this.date,this.statusTabs)
       .then((result: any) => {
         console.log(result)
         this.recorders = result;
-        this.dismissLoader()
+        // loader.dismiss();
       }).catch(err => {
         console.log(err)
-        this.showAlert(err.text())
-        this.dismissLoader();
+        this.showAlert(err)
+        // loader.dismiss();
       })
 
   }
 
-  //Add Supply
-  addRecord() {
-    let modal = this.modalCtrl.create('RepairInvoiceRequestAddPage', {
-      'user':this.user
-    }, { enableBackdropDismiss: false })
-    modal.present()
-    modal.onDidDismiss(result => {
-      if (result) {
-        this.getRecords();
-      }
-    })
-  }
 
-  //Edit Supply
-  editRecord(recorder_input) {
+  //Approve Request
+  showDetails(recorder_input) {
     let recorder = Object.create(recorder_input);
     console.log(recorder)
-    let modal = this.modalCtrl.create('RepairInvoiceRequestEditPage', {
-      'recorder': recorder
+    let modal = this.modalCtrl.create('RepairInvoiceResponseEditPage', {
+      'recorder': recorder,
+      'user':this.user
     }, { enableBackdropDismiss: false })
     modal.present();
     modal.onDidDismiss(result => {
@@ -104,34 +101,6 @@ export class RepairInvoiceRequestPage {
         this.getRecords();
       }
     })
-  }
-  //Delete Supply
-  deleteRecord(recorder) {
-    console.log(recorder)
-    let confirm = this.alertCtrl.create({
-      title: 'ยืนยันการลบ',
-      buttons: [
-        {
-          text: 'ยกเลอก',
-          role: 'cancel',
-          cssClass: 'alertCancel'
-        },
-        {
-          text: 'ยืนยัน',
-          handler: () => {
-            this.showLoader();
-            this.repairInvoiceService.deleteRequest(recorder.id)
-              .then(result => {
-                this.dismissLoader();
-                this.getRecords();
-                this.showToast('ลบข้อมูลเสร็จสิ้น')
-              }).catch(err => { this.dismissLoader(); this.showAlert(err); })
-          },
-          cssClass: 'alertConfirm'
-        }
-      ]
-    })
-    confirm.present();
   }
   //Loader
   showLoader() {
@@ -152,6 +121,5 @@ export class RepairInvoiceRequestPage {
     this._toast = this.toastCtrl.create({ message: textInput, duration: 2000, position: 'top' })
     this._toast.present()
   }
-
 
 }

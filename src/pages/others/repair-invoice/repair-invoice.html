@@ -5,12 +5,18 @@
   Ionic pages and navigation.
 -->
 <ion-header>
-
-  <ion-navbar>
-    <ion-title>repair-invoice</ion-title>
-  </ion-navbar>
-
-</ion-header>
+    <ion-navbar color="primary">
+      <button ion-button menuToggle>
+        <ion-icon name="menu"></ion-icon>
+      </button>
+      <ion-title text-center>
+        <!--<ion-item>-->
+        <!-- <ion-icon item-start><i class="fa fa-users" aria-hidden="true"></i></ion-icon> -->
+        ระบบแจ้งซ่อม
+        <!--</ion-item> -->
+      </ion-title>
+    </ion-navbar>
+  </ion-header>
 
 
 <ion-content padding>
@@ -18,7 +24,14 @@
     <ion-row>
       <ion-col col-6>
         <ion-item (click)="openPage('RepairInvoiceRequestPage')">
-          <ion-label class="text-large">ระบบแจ้งซ่อม</ion-label>
+          <ion-label class="text-large">แจ้งซ่อม</ion-label>
+          <ion-icon></ion-icon>
+        </ion-item>
+      </ion-col>
+    <!-- Request List -->
+    <ion-col col-6>
+        <ion-item (click)="openPage('RepairInvoiceResponsePage')">
+          <ion-label class="text-large">รายการแจ้งซ่อม</ion-label>
           <ion-icon></ion-icon>
         </ion-item>
       </ion-col>

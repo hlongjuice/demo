@@ -218,4 +218,24 @@
         </div>
     </ion-content>
 </ion-menu>
+<!-- Only Home Menu -->
+<ion-menu side="left" id="onlyHomeMenu" class="menu" [content]="nav">
+    <ion-header>
+        <ion-toolbar color="dark">
+            <ion-title text-center>ฝ่ายวิศวกรรม</ion-title>
+        </ion-toolbar>
+    </ion-header>
+    <ion-content>
+        <ion-list padding-top inset>
+            <!--Home-->
+            <button ion-item (click)="openPage(homePage)">
+                        <ion-icon color="primary" item-start><i class="fa fa-home" aria-hidden="true"></i></ion-icon>
+                        หน้าหลัก
+                    </button>
+        </ion-list>
+        <div padding-left padding-right>
+            <button [hidden]="authState" ion-button block color="danger" (click)="logout()">ออกจากระบบ</button>
+        </div>
+    </ion-content>
+</ion-menu>
 <ion-nav #nav [root]="rootPage"></ion-nav>

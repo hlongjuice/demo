@@ -49,6 +49,20 @@ export class RepairInvoiceService {
                 )
         })
     }
+    //Get Response By Date  
+    getResponseByDate(date,status_id){
+        let inputs={
+            'date':date,
+            'status_id':status_id
+        }
+        let getUrl=this.url+'/api/other/repair_invoice/get_response_by_date'
+        return new Promise((resolve,reject)=>{
+            this.http.post(getUrl,inputs,{headers:this.headers})
+            .subscribe(
+                result=>{resolve(result.json())}),
+                err=>{reject(err.json())}
+        })
+    }
 
     //Add Request
     addRequest(formInputs): Promise<any> {
@@ -118,5 +132,15 @@ export class RepairInvoiceService {
                 err => { reject(err.json()) }
                 )
         })
+    }
+
+    //Invoice Status
+    getStatus(){
+        let status={
+            'waiting':1,
+            'approved':2,
+            'reject':3
+        }
+        return status;
     }
 }
