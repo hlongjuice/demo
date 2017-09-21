@@ -16,6 +16,7 @@ export class AuthService {
     private user: UserModel;
     private authState: boolean;
     private accessToken: string;
+    private userDetails:any;
     constructor(
         private http: Http,
         public webUrl: WebUrlService,
@@ -71,7 +72,7 @@ export class AuthService {
                                 this.storage.set('token', this.accessToken);
                                 console.log('after:login')
                                 resolve(this.user);
-                            }
+                            },err=>{console.log('errr')}
                             )
                     },
                     (err) => {
@@ -174,30 +175,31 @@ export class AuthService {
         })
     }
 
-    //Get User Details
-    getUserDetails() {
-        let headersInput: any;
-        return new Promise((resolve, reject) => {
+    getUserDetails(){
+        let myHeaders:any;
+        let user_id=null;
+        if(this.user){
+            user_id=this.user.id
+        }
+        let detailsUrl=this.url+'/api/auth/get_user_details/'+user_id;
+        return new Promise((resolve,reject)=>{
             this.getHeader()
-                .then(header => {
-                    if(this.user.id){
-                        let url = this.url + '/api/auth/get_user_details/' + this.user.id
-                        this.http.get(url, { headers: header })
-                            .subscribe(
-                            result => {
-                                resolve(result.json())
-                            },
-                            err => {
-                                reject(err.json())
-                            }
-                            )
-                    }else{
-                        let err={
-                            error:'Please Login Again'
-                        }
-                        reject(err)
+            .then(result=>{
+                myHeaders=result
+                this.http.get(detailsUrl,{headers:myHeaders})
+                .subscribe(
+                    result=>{
+                        resolve(result.json())
+                    },
+                    err=>{
+                        reject(err.json())
                     }
-                }).catch((err:any)=>{reject(err)})
+                )
+                
+            }).catch(err=>{
+                reject(err)
+                console.log(err)
+            })
         })
     }
 

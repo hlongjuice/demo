@@ -6,6 +6,10 @@
           <ion-title>เพิ่มบันทึก</ion-title>
           <button [disabled]="!formInputs.form.valid" ion-button item-end default color="success" (click)="addRequest(formInputs.value)">บันทึก</button>
         </ion-item>
+        <ion-item no-lines text-center>
+          <ion-label>ผู้ส่ง {{user?.name}} {{user?.lastname}}</ion-label>
+          <ion-label>ฝ่าย {{user?.division.name}}</ion-label>
+        </ion-item>
       </ion-navbar>
     
     </ion-header>
@@ -29,6 +33,15 @@
                 <ion-datetime required displayFormat="HH:mm" name="time" [(ngModel)]="time"></ion-datetime>                
               </ion-item>
             </ion-col>
+            <!-- To Receiver -->
+            <ion-col col-6>
+                <ion-item>
+                  <ion-label color="primary">ถึง</ion-label>
+                  <ion-select name="selected_receiver" [(ngModel)]="selected_receiver">
+                    <ion-option *ngFor="let repair_receiver of repair_receivers; " [value]="repair_receiver">{{repair_receiver?.name}}</ion-option>
+                    </ion-select>             
+                </ion-item>
+              </ion-col>
             <!-- Item -->
             <ion-col col-6>
               <ion-item>

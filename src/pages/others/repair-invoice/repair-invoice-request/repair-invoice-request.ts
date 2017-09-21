@@ -43,19 +43,16 @@ export class RepairInvoiceRequestPage {
 
   ngOnInit() {
     this.user=null;
-    let loader=this.loaderCtrl.create({content:'กำลังโหลดข้อมูล...'})
-    loader.present();
     this.authService.getUserDetails()
     .then(result=>{
       this.user=result;
-      loader.dismiss();
       console.log(this.user)
-    }).catch(err=>{console.log(err);loader.dismiss();this.showAlert(err.text())})
+      this.getRecords();
+    }).catch(err=>{console.log(err);})
     this.daily_used = [];
     this.date = this.dateService.getDate();
     this.month = this.dateService.getCurrentDateTime().MM;
     this.year = this.dateService.getCurrentDateTime().YY;
-    this.getRecords();
   }
 
   //Show Details

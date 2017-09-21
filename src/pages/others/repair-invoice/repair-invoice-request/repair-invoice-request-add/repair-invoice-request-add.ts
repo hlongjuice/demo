@@ -26,6 +26,8 @@ export class RepairInvoiceRequestAddPage {
   real_time_record:any;
   time_records:any[];
   user:any;
+  repair_receivers:any;
+  selected_receiver:any;
   /* End Date Time */
   constructor(
     public navCtrl: NavController, 
@@ -46,12 +48,15 @@ export class RepairInvoiceRequestAddPage {
     this.date=this.dateService.getDate();
     this.real_time_record=this.dateService.getTime().currentTime
     this.user=this.navParams.data.user;
+    this.repair_receivers=this.repairInvoiceService.getReceiver();
     console.log(this.navParams.data)
   }
 
   //Add Supply
   addRequest(formInputs){
-    formInputs.division_id=this.user.details.division_id;
+    console.log(this.selected_receiver.id);
+    formInputs.repair_receiver_id=this.selected_receiver.id;
+    formInputs.division_id=this.user.division_id;
     console.log(this.user);
     formInputs.sender_id=this.user.id;
     this._submit_status=false

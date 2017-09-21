@@ -9,7 +9,12 @@
       <button *ngIf="recorder?.status_id!=statuses?.approved" ion-button item-end default color="success" (click)="approveRequest()">อนุมัติ</button>
       <button *ngIf="recorder?.status_id==statuses?.approved" ion-button item-end default color="warning" (click)="canCelApproved()">ยกเลิกการอนุมัติ</button>
     </ion-item>
-    <ion-item no-lines text-right>
+    <ion-item no-lines text-center>
+      <ion-label [color]="recorder?.status?.color">สถานะการอนุมัติ {{recorder?.status?.name}}</ion-label>
+      <ion-label>ผุ้อนุมัติ : <span ion-item *ngIf="recorder?.status_id==statuses?.approved">{{recorder?.approver?.name}} {{recorder?.approver?.lastname}}</span></ion-label>
+    </ion-item>
+    <ion-item no-lines text-center>
+      <ion-label>ผู้ใช้งาน {{user.name}} {{user.lastname}}</ion-label>
     </ion-item>
   </ion-navbar>
 
@@ -33,17 +38,7 @@
             <ion-label color="primary">เวลา</ion-label>
             <ion-datetime disabled required displayFormat="HH:mm" name="time" [(ngModel)]="recorder.time"></ion-datetime>
           </ion-item>
-        </ion-col>
-        <!-- Approver -->
-        <ion-col col-6>
-          <ion-item *ngIf="approver_name">
-            <ion-label color="success">ผู้อนุมัติ</ion-label>
-            <ion-input disabled required type="text" text-right name="approver_name" [(ngModel)]="approver_name"> </ion-input>
-          </ion-item>
-        </ion-col>
-        <ion-col col-6>
-          
-        </ion-col>
+        </ion-col>          
         <!-- Sender -->
         <ion-col col-6>
           <ion-item>

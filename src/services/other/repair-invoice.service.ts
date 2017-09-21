@@ -143,4 +143,13 @@ export class RepairInvoiceService {
         }
         return status;
     }
+    //Receiver 
+    getReceiver(){
+        let receiver=[
+            {id:1,name:'ช่างซ่อม'},
+            {id:2,name:'ช่างเครื่อง'},
+            {id:3,name:'ขนส่ง'}
+        ]
+        return receiver;
+    }
 }

@@ -17,12 +17,6 @@ export class HomePage {
     public navCtrl: NavController,
     public menuCtrl: MenuController
   ) {
-    /*  let username='hlongjuice';
-      let password='hlong@123';
-      this.authService.login(username,password)
-      .then(
-        result=>{console.log(result)}
-      ).catch(err=>{console.log(err)})*/
   }
 
   ngOnInit() {
@@ -33,6 +27,7 @@ export class HomePage {
     this.menuCtrl.enable(false, 'humanResourceMenu');
     this.menuCtrl.enable(false);
     this.menuCtrl.swipeEnable(false);
+    console.log('Yo!!');
   }
   openPage(page) {
     this.menuCtrl.enable(false, 'masterMenu');

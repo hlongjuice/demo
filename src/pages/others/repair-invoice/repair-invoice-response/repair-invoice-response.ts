@@ -46,42 +46,35 @@ export class RepairInvoiceResponsePage {
   ngOnInit() {
     this.status=this.repairInvoiceService.getStatus();
     this.user=null;
-    // let loader=this.loaderCtrl.create({content:'กำลังโหลดข้อมูล...'})
-    // loader.present();
-    this.showLoader()
     this.authService.getUserDetails()
     .then(result=>{
-      this.dismissLoader()
       this.user=result;
-      console.log(this.user)
-      // loader.dismiss();
+      console.log(this.user);
+      this.getRecords();
     }).catch(err=>{
-      console.log('Yo!!!!')
-      // loader.dismiss();
-      this.dismissLoader()
-      this.showAlert(err)})
+      console.log(err)
+    })
 
     this.daily_used = [];
     this.date = this.dateService.getDate();
     this.month = this.dateService.getCurrentDateTime().MM;
     this.year = this.dateService.getCurrentDateTime().YY;
-    // this.getRecords();
   }
 
   //Get Supply
   getRecords() {
     console.log(this.date,this.statusTabs);
     let loader=this.loaderCtrl.create({content:"กำลังโหลดข้อมูล..."})
-    // loader.present();
+    loader.present();
     this.repairInvoiceService.getResponseByDate(this.date,this.statusTabs)
       .then((result: any) => {
         console.log(result)
         this.recorders = result;
-        // loader.dismiss();
+        loader.dismiss();
       }).catch(err => {
         console.log(err)
         this.showAlert(err)
-        // loader.dismiss();
+        loader.dismiss();
       })
 
   }
