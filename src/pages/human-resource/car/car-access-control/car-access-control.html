@@ -32,17 +32,20 @@
       <ion-grid>
         <!-- Table Header -->
         <ion-row class="table-header">
+          <ion-col col-12>
+              <ion-searchbar (ionInput)="searchCars($event)"></ion-searchbar>
+          </ion-col>
           <!-- Driver Name -->
           <ion-col col-3>
             <ion-item>คนขับรถ</ion-item>
           </ion-col>
-          <ion-col col-3>
+          <ion-col col-2>
             <ion-item>ป้ายทะเบียน</ion-item>
           </ion-col>
           <ion-col col-3>
             <ion-item>สถานที่ติดต่อ</ion-item>
           </ion-col>
-          <ion-col col-3></ion-col>
+          <ion-col col-4></ion-col>
           <div class="table-header-line"></div>
         </ion-row>
         <!-- Table Content -->
@@ -54,25 +57,22 @@
             </ion-item>
           </ion-col>
           <!-- Plate Number -->
-          <ion-col col-3>
+          <ion-col col-2>
             <ion-item>{{car.car?.plate_number}}</ion-item>
           </ion-col>
           <ion-col col-3>
             <ion-item>{{car?.destination}}</ion-item>
           </ion-col>
-          <ion-col col-3>
-            <ion-row>
-              <ion-col col-4>
-                <button margin-right *ngIf="selectedStatus!=1" (click)="cancelStatus(car)" margin-bottom ion-button color="danger">ยกเลิกสถานะ</button>
-              </ion-col>
-              <ion-col col-4 offset-4>
+          <ion-col col-4>
+            <ion-item>
+                <button margin-right *ngIf="selectedStatus!=1" (click)="cancelStatus(car)" margin-bottom ion-button color="danger" default>ยกเลิกสถานะ</button>
                 <!-- Departure Button -->
-                <button margin-bottom *ngIf="selectedStatus==1" (click)="submitDeparture(car)" ion-button color="primary">บันทึกการใช้</button>
+                <button margin-bottom *ngIf="selectedStatus==1" (click)="submitDeparture(car)" ion-button color="primary" default>บันทึกการใช้</button>
                 <!-- Arrival Button  -->
-                <button margin-bottom *ngIf="selectedStatus==2" (click)="submitArrival(car)" ion-button color="primary">บันทึกาารใช้</button>
-                <button margin-bottom *ngIf="selectedStatus==3" (click)="editCarAccess(car)" ion-button color="warning">แก้ไขข้อมูล</button>
-              </ion-col>
-            </ion-row>
+                <button margin-bottom *ngIf="selectedStatus==2" (click)="editCarDeparture(car)" ion-button color="warning" default>แก้ไขขาออก</button>
+                <button margin-bottom *ngIf="selectedStatus==2" (click)="submitArrival(car)" ion-button color="primary" default>บันทึกรถขาเข้า</button>
+                <button margin-bottom *ngIf="selectedStatus==3" (click)="editCarAccess(car)" ion-button color="warning" default>แก้ไขข้อมูล</button>
+            </ion-item>
           </ion-col>
           <div class="table-content-line"></div>
         </ion-row>

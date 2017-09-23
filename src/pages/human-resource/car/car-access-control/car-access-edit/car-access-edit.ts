@@ -31,6 +31,7 @@ export class CarAccessEditPage {
   gas_station:string;
   gas_fill:number;
   gas_total_price:number;
+  date:any;
 
   car_usage: any;
 
@@ -61,6 +62,7 @@ export class CarAccessEditPage {
     this.gas_fill=this.car_usage.gas_fill;
     this.gas_total_price=this.car_usage.gas_total_price;
     this.gas_station=this.car_usage.gas_station;
+    this.date=this.navParams.data.date;
 
     console.log(this.car_response)
   }
@@ -80,7 +82,7 @@ export class CarAccessEditPage {
       , formInputs.date_arrival, formInputs.time_arrival, formInputs.mile_end
       , formInputs.gas_fill, gas_unit_price, formInputs.gas_total_price, formInputs.gas_station, this.user.id)
       .then(result => {
-        this.carAccessService.getCars(this._status_id)
+        this.carAccessService.getCars(this._status_id,this.date)
           .then(result => {
             this.dismissLoader();
             this.viewCtrl.dismiss(result)

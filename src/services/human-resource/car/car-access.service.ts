@@ -96,11 +96,11 @@ export class CarAccessService {
     updateCarAccess(response_id, date_departure, time_departure, mile_start, date_arrival, time_arrival, mile_end, gas_fill, gas_unit_price, gas_total_price, gas_station, user_id) {
         let carDetails = {
             'response_id': response_id,
-            'date_departure':date_departure,
-            'time_departure':time_departure,
+            'date_departure': date_departure,
+            'time_departure': time_departure,
             'date_arrival': date_arrival,
             'time_arrival': time_arrival,
-            'mile_start':mile_start,
+            'mile_start': mile_start,
             'mile_end': mile_end,
             'user_id': user_id,
             'gas_fill': gas_fill,
@@ -117,27 +117,102 @@ export class CarAccessService {
                 )
         })
     }
-    /* Cancel Status */
-    cancelStatus(response_id):Promise<any>{
-        let cancelUrl=this.url+'/api/human_resource/car/car_access/cancel_status/'+response_id;
-        return new Promise((resolve,reject)=>{
-            this.http.get(cancelUrl,{headers:this.headers})
-            .subscribe(
-                result=>{resolve(result.json())},
-                err=>{reject(err.json())}
-            )
-        })
-
-    }
-    /* Get Cars*/
-    getCars(status_id): Promise<any> {
-        let getDepartureUrl = this.url + '/api/human_resource/car/car_access/get_cars/' + status_id;
+    //Update Departure
+    updateDeparture(formInputs): Promise<any> {
+        let updateUrl = this.url + '/api/human_resource/car/car_access/update_departure'
         return new Promise((resolve, reject) => {
-            this.http.get(getDepartureUrl, { headers: this.headers })
+            this.http.post(updateUrl, formInputs, { headers: this.headers })
                 .subscribe(
                 result => { resolve(result.json()) },
                 err => { reject(err) }
                 )
         })
+    }
+
+    /* Cancel Status */
+    cancelStatus(response_id): Promise<any> {
+        let cancelUrl = this.url + '/api/human_resource/car/car_access/cancel_status/' + response_id;
+        return new Promise((resolve, reject) => {
+            this.http.get(cancelUrl, { headers: this.headers })
+                .subscribe(
+                result => { resolve(result.json()) },
+                err => { reject(err.json()) }
+                )
+        })
+
+    }
+    /* Get Cars*/
+    getCars(status_id, date): Promise<any> {
+        let inputs = {
+            'status_id': status_id,
+            'date': date
+        }
+        let getDepartureUrl = this.url + '/api/human_resource/car/car_access/get_cars';
+        return new Promise((resolve, reject) => {
+            this.http.post(getDepartureUrl, inputs, { headers: this.headers })
+                .subscribe(
+                result => { resolve(result.json()) },
+                err => { reject(err) }
+                )
+        })
+    }
+
+    //Get Car Arrival By Date
+    getCarArrivalByDate(date, status): Promise<any> {
+        let inputs = {
+            'date': date,
+            'gas_fill_status': status
+        }
+        let getUrl = this.url + '/api/human_resource/car/car_access/get_car_arrival_by_date';
+        return new Promise((resolve, reject) => {
+            this.http.post(getUrl, inputs, { headers: this.headers })
+                .subscribe(
+                result => { resolve(result.json()) },
+                err => { reject(err) }
+                )
+        })
+    }
+    //add Gas Fill
+    addGasFill(formInputs): Promise<any> {
+        let fillUrl = this.url + '/api/human_resource/car/car_access/add_gas_fill';
+        return new Promise((resolve, reject) => {
+            this.http.post(fillUrl, formInputs, { headers: this.headers })
+                .subscribe(
+                result => { resolve(result.json()) },
+                err => { reject(err) }
+                )
+        })
+    }
+    //Update Gas Fill
+    updateGasFill(formInputs):Promise<any>{
+        let fillUrl = this.url + '/api/human_resource/car/car_access/update_gas_fill';
+        return new Promise((resolve, reject) => {
+            this.http.post(fillUrl, formInputs, { headers: this.headers })
+                .subscribe(
+                result => { resolve(result.json()) },
+                err => { reject(err) }
+                )
+        })
+    }
+    //Delete Gas Fill
+    deleteGasFill(id):Promise<any>{
+        let deleteUrl=this.url+'/api/human_resource/car/car_access/delete_gas_fill/'+id;
+        return new Promise((resolve,reject)=>{
+            this.http.get(deleteUrl,{headers:this.headers})
+            .subscribe(
+                result=>{resolve(result.json())},
+                err=>{reject(err)}
+            )
+        })
+    }
+
+    getStatuses() {
+        let statuses = {
+            before_departure: 1,
+            before_arrival: 2,
+            arrival: 3,
+            usage: 4
+        }
+        return statuses;
     }
 }

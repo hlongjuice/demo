@@ -1,3 +1,4 @@
+import { AuthService } from './../../../../../services/auth.service';
 import { CarResponseService } from './../../../../../services/human-resource/car/car-response.service';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ViewController, ModalController, LoadingController, ToastController, AlertController } from 'ionic-angular';
@@ -32,7 +33,7 @@ export class ResponseDetailsPage {
   user: any;
   selectedStatus: string;
   passengers:any[];
-
+  user_types:any;
   response: any;
   requests: any[];
   constructor(
@@ -43,7 +44,8 @@ export class ResponseDetailsPage {
     public carResponseService: CarResponseService,
     public loaderCtrl: LoadingController,
     public toastCtrl: ToastController,
-    public alertCtrl: AlertController
+    public alertCtrl: AlertController,
+    public authService:AuthService
   ) {
   }
 
@@ -71,6 +73,7 @@ export class ResponseDetailsPage {
     this.requests = this.response.car_request
     this.selectedDriver = this.response.driver ? this.response.driver.em_id : ''
     this.drivers = this.navParams.data.drivers
+    this.user_types=this.authService.getUserTypes();
 
     this.requests.forEach(item=>{
       this.passengers.push.apply(this.passengers,item.passenger)

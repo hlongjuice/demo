@@ -96,4 +96,14 @@ export class DivisionService {
             )
         })
     }
+
+    getDivisionID(){
+        let divisions={
+            'production':9,
+            'engineer':6,
+            'hr':7,
+            'qc':11
+        }
+        return divisions;
+    }
 }

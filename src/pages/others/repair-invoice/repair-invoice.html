@@ -20,7 +20,7 @@
 
 
 <ion-content padding>
-  <ion-grid>
+  <ion-grid *ngIf="user">
     <ion-row>
       <ion-col col-6>
         <ion-item (click)="openPage('RepairInvoiceRequestPage')">
@@ -28,8 +28,8 @@
           <ion-icon></ion-icon>
         </ion-item>
       </ion-col>
-    <!-- Request List -->
-    <ion-col col-6>
+    <!-- Request List Only User who has repair approve-->
+    <ion-col col-6 *ngIf="user?.repair_approve==1">
         <ion-item (click)="openPage('RepairInvoiceResponsePage')">
           <ion-label class="text-large">รายการแจ้งซ่อม</ion-label>
           <ion-icon></ion-icon>

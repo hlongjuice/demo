@@ -28,7 +28,12 @@
             <button (click)="addRequest()" ion-button color="primary">ขอใช้รถ</button>
           </ion-col>
           <ion-col col-6>
-            <!-- <button [disabled]="chkStatus.indexOf(true)==-1" (click)="deleteRequest()" ion-button color="danger">ลบข้อมูล</button> -->
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col col-4>
+            <div ion-text>เลือกวันที่</div>
+            <ion-datetime (ionChange)="getCarRequest()" displayFormat="DD/MM/YYYY" [(ngModel)]="date"></ion-datetime>
           </ion-col>
         </ion-row>
       </ion-grid>
@@ -85,6 +90,7 @@
             </ion-item>
           </ion-col>
           <ion-col col-2>
+            <button margin-bottom *ngIf="request?.status_id==1" (click)="editRequest(request)" ion-button color="warning">แก้ไข</button>
             <button margin-bottom *ngIf="request.status.id==1" (click)="singleDelete(request.id,i)" ion-button color="danger">ลบ</button>
           </ion-col>
           <div class="table-content-line"></div>

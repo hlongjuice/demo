@@ -25,6 +25,7 @@ export class CarDeparturePage {
   user: any;
   date_departure:string;
   time_departure:string;
+  date:any;
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
@@ -44,6 +45,7 @@ export class CarDeparturePage {
     this.time_departure=this.dateService.getTime().currentTime;
     this.car_response = this.navParams.data.car_response
     this.user = this.navParams.data.user
+    this.date=this.navParams.data.date;
   }
 
   /* Submit Departure */
@@ -52,7 +54,7 @@ export class CarDeparturePage {
     this.carAccessService.addCarDeparture(this.car_response.car_id, this.car_response.id
       , formInputs.date_departure, formInputs.time_departure, formInputs.mile_start, this.user.id)
       .then(result => {
-        this.carAccessService.getCars(this._status_id)
+        this.carAccessService.getCars(this._status_id,this.date)
           .then(result => {
             this.dismissLoader();
             this.viewCtrl.dismiss(result)

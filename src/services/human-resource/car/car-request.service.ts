@@ -53,10 +53,15 @@ export class CarRequestService {
     /*End Contructor*/
 
     /*Get Car Request*/
-    getCarRequest(user_id): Promise<any> {
-        let getCarUrl = this.url + '/api/human_resource/car/car_request/' + user_id;
+    getCarRequest(user_id,date): Promise<any> {
+        let inputs={
+            'date':date,
+            'user_id':user_id
+        }
+
+        let getCarUrl = this.url + '/api/human_resource/car/car_request';
         return new Promise((resolve, reject) => {
-            this.http.get(getCarUrl, { headers: this.headers })
+            this.http.post(getCarUrl,inputs, { headers: this.headers })
                 .subscribe(
                 result => {
                     resolve(result.json())
@@ -95,7 +100,7 @@ export class CarRequestService {
     }
 
     /*Update Car Request*/
-    updateCarRequest(date, car_type_id, division_id, em_id, rank_id, destination, details, user_id):Promise<any> {
+ /*   updateCarRequest(date, car_type_id, division_id, em_id, rank_id, destination, details, user_id):Promise<any> {
         let car_request = {
             'date': date,
             'car_type_id': car_type_id,
@@ -112,6 +117,17 @@ export class CarRequestService {
             .subscribe(
                 result=>{resolve(result.json())},
                 err=>{reject(err)}
+            )
+        })
+    }*/
+    /* Update Car Request */
+    updateCarRequest(formInputs):Promise<any>{
+        let updateUrl=this.url+'/api/human_resource/car/car_request/update';
+        return new Promise((resolve,reject)=>{
+            this.http.post(updateUrl,formInputs,{headers:this.headers})
+            .subscribe(
+                result=>{resolve(result.json())},
+                err=>{reject(err.json())}
             )
         })
     }

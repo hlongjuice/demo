@@ -40,6 +40,7 @@ export class AddRequestPage {
   selectedPassengers: any[];
   user:any;
   row: number;
+  date:any;
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
@@ -66,6 +67,7 @@ export class AddRequestPage {
     this.carTypes=this.navParams.data.carTypes;
     this.user=this.navParams.data.user;
     this.passengerInputs=[];
+    this.date=this.navParams.data.date;
   }
 
   /* Get Employee who can request */
@@ -152,6 +154,7 @@ export class AddRequestPage {
     let loader=this.loader.create({
       content:'กำลังส่งคำขอ...'
     })
+    console.log(this.passengerInputs);
     loader.present();
     this.carRequestService.addCarRequest(inputs.startDate,inputs.startTime,inputs.endDate,inputs.endTime,
     inputs.selectedCarType,inputs.selectedDivision,inputs.requestEmployeeID,
@@ -159,7 +162,8 @@ export class AddRequestPage {
     inputs.details,this.user.id,this.passengerInputs,this.passengerNumber)
     .then(result=>{
       console.log(result)
-      this.carRequestService.getCarRequest(this.user.id)
+      console.log(this.date);
+      this.carRequestService.getCarRequest(this.user.id,this.date)
       .then(result=>{
           loader.dismiss();
          this.viewCtrl.dismiss(result);

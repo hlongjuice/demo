@@ -67,7 +67,7 @@ export class CarResponsePage {
 
     Promise.all([
       /* Get User */
-      this.authService.getUser()
+      this.authService.getUserDetails()
         .then(result => {
           this.user = result;
         }).catch(err => { console.log(err) }),

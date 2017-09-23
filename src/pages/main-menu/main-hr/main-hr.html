@@ -34,6 +34,8 @@
           </ion-card-content>
         </ion-card>
       </ion-col>
+    </ion-row>
+    <ion-row class="c-result">
       <!-- Car Request -->
       <ion-col col-4>
         <ion-card (click)="openPage('CarRequestPage')">
@@ -52,6 +54,18 @@
           <ion-card-content>
             <div>
               <h3 ion-text color="primary">ระบบบันทึกรถเข้า-ออก</h3>
+              <div class="c-result-blue" ion-text text-right>
+              </div>
+            </div>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+      <!-- Car Access Gas Fill-->
+      <ion-col col-4>
+        <ion-card (click)="openPage('CarAccessUsagePage')">
+          <ion-card-content>
+            <div>
+              <h3 ion-text color="primary">ระบบบันทึกการเติมน้ำมัน</h3>
               <div class="c-result-blue" ion-text text-right>
               </div>
             </div>

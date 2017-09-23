@@ -1,3 +1,4 @@
+import { AuthService } from './../../../services/auth.service';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
@@ -14,13 +15,19 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class RepairInvoicePage {
 
+  user:any;
   constructor(
     public navCtrl: NavController, 
-    public navParams: NavParams) {
+    public navParams: NavParams,
+    public authService:AuthService
+  ) {
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad RepairInvoicePage');
+  ngOnInit(){
+    this.authService.getUserDetails()
+    .then(result=>{
+      this.user=result
+    })
   }
   openPage(page){
     this.navCtrl.setRoot(page);

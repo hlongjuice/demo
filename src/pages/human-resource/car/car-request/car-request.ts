@@ -29,6 +29,7 @@ export class CarRequestPage {
   allRequests: any;
   chkRequest: any[];
   isHighlightVisible: any[]
+  date:any;
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
@@ -45,6 +46,7 @@ export class CarRequestPage {
   }
 
   ngOnInit() {
+    this.date=this.dateService.getDate();
     this.chkStatus = [];
     this.chkRequest = [];
     this.isHighlightVisible = [];
@@ -57,7 +59,7 @@ export class CarRequestPage {
       this.authService.getUser()
         .then(result => {
           this.user = result
-          return this.carRequestService.getCarRequest(this.user.id)
+          return this.carRequestService.getCarRequest(this.user.id,this.date)
             .then(result => {
               this.allRequests = result.data
             }).catch(err => { console.log(err) })
@@ -84,11 +86,13 @@ export class CarRequestPage {
 
   /* Get Car Request */
   getCarRequest(): Promise<any> {
+    console.log(this.date)
     return new Promise((resolve, reject) => {
-      this.carRequestService.getCarRequest(this.user.id)
+      this.carRequestService.getCarRequest(this.user.id,this.date)
         .then(result => {
           this.allRequests = result.data;
           resolve(result);
+          console.log(result)
         }).catch(err => { console.log(err); reject(err) })
     })
   }
@@ -109,7 +113,8 @@ export class CarRequestPage {
         'employees': this.allEmployees,
         'divisions': this.divisions,
         'carTypes': this.carTypes,
-        'user': this.user
+        'user': this.user,
+        'date':this.date
       },{enableBackdropDismiss:false}
     );
     addModal.present();
@@ -175,6 +180,24 @@ export class CarRequestPage {
       }]
     })
     alert.present();
+  }
+
+  //Edit Request
+  editRequest(request){
+    let modal =this.modalCtrl.create('EditRequestPage',{
+      'request':request,
+      'employees': this.allEmployees,
+      'divisions': this.divisions,
+      'carTypes': this.carTypes,
+      'user': this.user,
+      'date':this.date
+    },{enableBackdropDismiss:false})
+    modal.present();
+    modal.onDidDismiss(result=>{
+      if(result){
+        this.getCarRequest();
+      }
+    })
   }
 
 

@@ -10,8 +10,10 @@
     <ion-item no-lines>
       <button item-start default (click)="dismiss()" ion-button color="danger">ปิด</button>
       <ion-title>รายการจัดรถ</ion-title>
-      <button *ngIf="selectedStatus=='2'" item-end default [disabled]="!assignForm.form.valid" (click)="approveRequest(assignForm.value)"
-        ion-button color="success">อนุมัติการขอ</button>
+      <div item-end *ngIf="user?.car_approve==1 || user?.type_id==user_types?.admin">
+        <button *ngIf="selectedStatus=='2'" item-end default [disabled]="!assignForm.form.valid" (click)="approveRequest(assignForm.value)"
+          ion-button color="success">อนุมัติการขอ</button>
+      </div>
     </ion-item>
     <ion-item *ngIf="selectedStatus=='2'" text-center no-lines>
       <ion-label>จัดรถโดย : <span ion-text color="primary">{{carAssigner}}</span> </ion-label>

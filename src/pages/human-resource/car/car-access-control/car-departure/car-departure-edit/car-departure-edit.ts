@@ -1,33 +1,34 @@
-import { DateService } from './../../../../../services/date.service';
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ToastController, AlertController, LoadingController, ViewController } from 'ionic-angular';
-import { CarResponseService } from "../../../../../services/human-resource/car/car-response.service";
-import { CarAccessService } from "../../../../../services/human-resource/car/car-access.service";
+import { IonicPage, NavController, NavParams, ViewController, LoadingController, AlertController, ToastController } from 'ionic-angular';
+import { CarAccessService } from '../../../../../../services/human-resource/car/car-access.service';
+import { CarResponseService } from '../../../../../../services/human-resource/car/car-response.service';
+import { DateService } from '../../../../../../services/date.service';
 
 /**
- * Generated class for the CarArrivalPage page.
+ * Generated class for the CarDepartureEditPage page.
  *
  * See http://ionicframework.com/docs/components/#navigation for more info
  * on Ionic pages and navigation.
  */
 @IonicPage()
 @Component({
-  selector: 'page-car-arrival',
-  templateUrl: 'car-arrival.html',
+  selector: 'page-car-departure-edit',
+  templateUrl: 'car-departure-edit.html',
 })
-export class CarArrivalPage {
+export class CarDepartureEditPage {
 
   _loader: any;
   _alert: any;
   _toast: any;
   _status_id = 2;
-  car_response: any;
+  car_response:any;
   user: any;
-  date_arrival:string;
-  time_arrival:string;
-  record:any;
+  date_departure:string;
+  time_departure:string;
   date:any;
-  constructor(public navCtrl: NavController,
+  record:any;
+  constructor(
+    public navCtrl: NavController,
     public navParams: NavParams,
     public viewCtrl: ViewController,
     public loaderCtrl: LoadingController,
@@ -41,32 +42,27 @@ export class CarArrivalPage {
 
   /* ngOnInit */
   ngOnInit() {
-    this.date_arrival = this.dateService.getDate();
-    this.time_arrival = this.dateService.getTime().currentTime;
+    this.date_departure=this.dateService.getDate();
+    this.time_departure=this.dateService.getTime().currentTime;
     this.car_response = this.navParams.data.car_response
     this.user = this.navParams.data.user
-    this.record=this.car_response.car_usage;
     this.date=this.navParams.data.date;
-    console.log(this.car_response)
+    this.record=this.car_response.car_usage;
   }
 
   /* Submit Departure */
-  submitArrival(formInputs) {
-    /* Gas Unit Price */
-    let gas_unit_price=formInputs.gas_total_price/formInputs.gas_fill
-    console.log(formInputs)
+  updateDeparture(formInputs) {
+    formInputs.response_id=this.car_response.id;
     this.showLoader()
-    this.carAccessService.addCarArrival(this.car_response.id
-      , formInputs.date_arrival, formInputs.time_arrival, formInputs.mile_end
-      ,formInputs.gas_fill,gas_unit_price,formInputs.gas_total_price,formInputs.gas_station, this.user.id)
+    this.carAccessService.updateDeparture(formInputs)
       .then(result => {
         this.carAccessService.getCars(this._status_id,this.date)
           .then(result => {
             this.dismissLoader();
             this.viewCtrl.dismiss(result)
             this.showToast();
-          }).catch(err => { console.log(err); this.dismissLoader(); })
-      }).catch(err=>{console.log(err); this.dismissLoader();this.showAlert('ไม่สามารถบันทึกได้โปรดลองอีกครั้ง')})
+          }).catch(err => { console.log(err);this.dismissLoader(); })
+      }).catch(err=>{console.log(err);this.dismissLoader();this.showAlert('ไม่สามารถบันทึกได้โปรดลองอีกครั้ง')})
   }
   dismiss() {
     this.viewCtrl.dismiss();
@@ -87,7 +83,7 @@ export class CarArrivalPage {
     this._toast = this.toastCtrl.create({
       message: 'การบันสำเร็จ',
       duration: 2000,
-      position: 'top'
+      position:'top'
     });
     this._toast.present();
   }

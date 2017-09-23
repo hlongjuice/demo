@@ -105,7 +105,7 @@ export class AuthService {
                     this.authState = false;
                     this.accessToken = null;
                     this.storage.remove('token');
-                    // this.eventCtrl.publish('logout');
+                    this.eventCtrl.publish('logout');
                     resolve(result.json());
                 },
                 err => { console.log(err) }
@@ -175,6 +175,7 @@ export class AuthService {
         })
     }
 
+    //User Details
     getUserDetails(){
         let myHeaders:any;
         let user_id=null;
@@ -201,6 +202,16 @@ export class AuthService {
                 console.log(err)
             })
         })
+    }
+
+    //User Types
+    getUserTypes(){
+        let types={
+            member:'1',
+            admin:'2',
+            security:'3'
+        }
+        return types;
     }
 
 }
