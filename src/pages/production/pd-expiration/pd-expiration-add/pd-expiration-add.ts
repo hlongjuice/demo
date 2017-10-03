@@ -81,6 +81,7 @@ export class PdExpirationAddPage {
     .then(result=>{
       this._submit_status=true
       this.dismissLoader();
+      this.viewCtrl.dismiss(this._submit_status)
       this.showToast('การบันทึกเสร็จสมบูรณ์')
     }).catch(err=>{
       console.log(err)

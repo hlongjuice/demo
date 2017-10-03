@@ -27,6 +27,8 @@ export class EngColdStoragePage {
   recorders: any;
   time_records: any[];
   defrost_time:any;
+  yesterday_meter:any;
+  result_date:any;
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
@@ -42,11 +44,9 @@ export class EngColdStoragePage {
 
   ngOnInit() {
     this.defrost_time=[];
-    this.engDefrostTimeService.getRecord()
+    this.engDefrostTimeService.getRecord('all')
     .then((result:any[])=>{
-      result.forEach(item=>{
-        this.defrost_time.push(item.time_record)
-      })
+      this.defrost_time=result;
       console.log(this.defrost_time)
     })
     this.date = this.dateService.getDate();
@@ -59,9 +59,11 @@ export class EngColdStoragePage {
   getRecords() {
     this.showLoader()
     this.engColdStorageService.getRecordByDate(this.date)
-      .then(result => {
+      .then((result:any) => {
         console.log(result)
-        this.recorders = result;
+        this.recorders = result.data;
+        this.result_date=result.date;
+        this.yesterday_meter=result.yesterday_meter
         this.dismissLoader()
       }).catch(err => {
         console.log(err)
@@ -74,6 +76,7 @@ export class EngColdStoragePage {
   //Add Supply
   addRecord() {
     let modal = this.modalCtrl.create('EngColdStorageAddPage', {
+      'all_recorders':this.recorders,
       'defrost_time':this.defrost_time
     }, { enableBackdropDismiss: false })
     modal.present()
@@ -88,6 +91,7 @@ export class EngColdStoragePage {
   editRecord(recorder_input) {
     let recorder = Object.create(recorder_input);
     let modal = this.modalCtrl.create('EngColdStorageEditPage', {
+      'all_recorders':this.recorders,
       'recorder': recorder,
       'defrost_time':this.defrost_time
     }, { enableBackdropDismiss: false })
@@ -104,7 +108,7 @@ export class EngColdStoragePage {
       title: 'ยืนยันการลบ',
       buttons: [
         {
-          text: 'ยกเลอก',
+          text: 'ยกเลิก',
           role: 'cancel',
           cssClass: 'alertCancel'
         },

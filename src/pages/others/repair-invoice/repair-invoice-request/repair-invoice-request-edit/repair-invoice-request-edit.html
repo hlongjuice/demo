@@ -6,6 +6,10 @@
       <ion-title>ลายละเอียด</ion-title>
       <button [disabled]="!formInputs.form.valid" ion-button item-end default color="success" (click)="updateRequest(formInputs.value)">แก้ไข</button>
     </ion-item>
+    <ion-item no-lines text-center>
+        <ion-label>ผู้ส่ง {{recorder?.sender?.name}} {{recorder?.sender?.lastname}}</ion-label>
+        <ion-label>ฝ่าย {{recorder?.division.name}}</ion-label>
+      </ion-item>
   </ion-navbar>
 
 </ion-header>
@@ -33,8 +37,8 @@
         <ion-col col-6>
           <ion-item>
             <ion-label color="primary">ถึง</ion-label>
-            <ion-select>
-              <ion-option *ngFor="let repair_receiver of repair_receivers" [value]=()></ion-option>
+            <ion-select name="repair_receiver_id" [(ngModel)]="selectedReceiver">
+              <ion-option *ngFor="let repair_receiver of repair_receivers" [value]="repair_receiver?.id">{{repair_receiver?.name}}</ion-option>
             </ion-select>
           </ion-item>
         </ion-col>
@@ -53,13 +57,16 @@
           </ion-item>
         </ion-col>
         <!-- Image -->
-        <ion-col col-6>
+        <ion-col col-12>
           <ion-item>
             <ion-label color="primary">รูปภาพ</ion-label>
-            <button ion-button item-end default color="info" (click)="takeImage()">อัพโหลดรูปภาพ</button>
+            <button ion-button item-end default color="info" (click)="takePhoto()">อัพโหลดรูปภาพ</button>
           </ion-item>
-          <ion-item *ngIf="recorder.image">
-            <img class="repair-image" item-content [src]="recorder.image">
+          <ion-item *ngIf="old_image" text-center>
+            <img class="repair-image" [src]="old_image">
+          </ion-item>
+          <ion-item *ngIf="old_image" no-lines>
+              <button ion-button item-end default color="danger" (click)="deletePhoto()">ลบรูปภาพ</button>              
           </ion-item>
         </ion-col>
       </ion-row>

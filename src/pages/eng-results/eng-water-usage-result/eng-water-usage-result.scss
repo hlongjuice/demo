@@ -1,11 +1,11 @@
 page-eng-water-usage-result {
     .result-scroll-content{
-        min-width:3000px;
+        min-width:3200px;
         height: 150px;
         // height: auto;
     }
     .scroll-header {
-        min-width: 3000px; // overflow-y:hidden !important;
+        min-width: 3200px; // overflow-y:hidden !important;
         h2{
             border-bottom: 1px solid map-get($colors, dark );
             margin-left:5px;
@@ -13,10 +13,10 @@ page-eng-water-usage-result {
         }
     }
     .scroll-result {
-        min-width: 3000px; // overflow-y:hidden !important;
+        min-width: 3200px; // overflow-y:hidden !important;
     }
     .scroll {
-        min-width: 3000px;
+        min-width: 3200px;
         min-height: 400px;
     }
     .date-scroll{

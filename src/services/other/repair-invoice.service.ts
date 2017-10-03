@@ -50,17 +50,17 @@ export class RepairInvoiceService {
         })
     }
     //Get Response By Date  
-    getResponseByDate(date,status_id){
-        let inputs={
-            'date':date,
-            'status_id':status_id
+    getResponseByDate(date, status_id) {
+        let inputs = {
+            'date': date,
+            'status_id': status_id
         }
-        let getUrl=this.url+'/api/other/repair_invoice/get_response_by_date'
-        return new Promise((resolve,reject)=>{
-            this.http.post(getUrl,inputs,{headers:this.headers})
-            .subscribe(
-                result=>{resolve(result.json())}),
-                err=>{reject(err.json())}
+        let getUrl = this.url + '/api/other/repair_invoice/get_response_by_date'
+        return new Promise((resolve, reject) => {
+            this.http.post(getUrl, inputs, { headers: this.headers })
+                .subscribe(
+                result => { resolve(result.json()) }),
+                err => { reject(err.json()) }
         })
     }
 
@@ -90,6 +90,17 @@ export class RepairInvoiceService {
     //Delete Request
     deleteRequest(id): Promise<any> {
         let deleteUrl = this.url + '/api/other/repair_invoice/delete_request/' + id
+        return new Promise((resolve, reject) => {
+            this.http.get(deleteUrl, { headers: this.headers })
+                .subscribe(
+                result => { resolve(result.json()) },
+                err => { reject(err.json()) }
+                )
+        })
+    }
+    //Delete Photo
+    deletePhoto(id) {
+        let deleteUrl = this.url + '/api/other/repair_invoice/delete_photo/' + id
         return new Promise((resolve, reject) => {
             this.http.get(deleteUrl, { headers: this.headers })
                 .subscribe(
@@ -135,20 +146,20 @@ export class RepairInvoiceService {
     }
 
     //Invoice Status
-    getStatus(){
-        let status={
-            'waiting':1,
-            'approved':2,
-            'reject':3
+    getStatus() {
+        let status = {
+            'waiting': 1,
+            'approved': 2,
+            'reject': 3
         }
         return status;
     }
     //Receiver 
-    getReceiver(){
-        let receiver=[
-            {id:1,name:'ช่างซ่อม'},
-            {id:2,name:'ช่างเครื่อง'},
-            {id:3,name:'ขนส่ง'}
+    getReceiver() {
+        let receiver = [
+            { id: 1, name: 'ช่างซ่อม' },
+            { id: 2, name: 'ช่างเครื่อง' },
+            { id: 3, name: 'ขนส่ง' }
         ]
         return receiver;
     }

@@ -25,6 +25,8 @@ export class EngWsOutsidePage {
   year: any;
   recorders: any;
   daily_used: any;
+  yesterday_meter:any;
+  result_date:any;
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
@@ -52,6 +54,8 @@ export class EngWsOutsidePage {
       .then((result: any) => {
         console.log(result)
         this.recorders = result.data;
+        this.result_date=result.date;
+        this.yesterday_meter=result.yesterday_meter
         this.daily_used = result;
         this.dismissLoader()
       }).catch(err => {
@@ -62,7 +66,9 @@ export class EngWsOutsidePage {
 
   //Add Supply
   addSupply() {
-    let modal = this.modalCtrl.create('EngWsAddSupplyPage', null, { enableBackdropDismiss: false })
+    let modal = this.modalCtrl.create('EngWsAddSupplyPage', {
+      'all_recorders':this.recorders
+    }, { enableBackdropDismiss: false })
     modal.present()
     modal.onDidDismiss(result => {
       if (result) {
@@ -75,6 +81,7 @@ export class EngWsOutsidePage {
   editSupply(recorder_input) {
     let recorder = Object.create(recorder_input);
     let modal = this.modalCtrl.create('EngWsEditSupplyPage', {
+      'all_recorders':this.recorders,
       'recorder': recorder
     }, { enableBackdropDismiss: false })
     modal.present();
@@ -90,7 +97,7 @@ export class EngWsOutsidePage {
       title: 'ยืนยันการลบ',
       buttons: [
         {
-          text: 'ยกเลอก',
+          text: 'ยกเลิก',
           role: 'cancel',
           cssClass: 'alertCancel'
         },

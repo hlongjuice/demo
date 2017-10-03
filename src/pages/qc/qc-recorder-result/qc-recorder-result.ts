@@ -55,6 +55,11 @@ export class QcRecorderResultPage {
   s_end_month:any;
   quarter: string;
 
+
+  /* Update  */
+  yearly_all_months_result:any[];
+
+
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
@@ -68,6 +73,8 @@ export class QcRecorderResultPage {
   }
 
   ngOnInit() {
+    this.yearly_all_months_result=[];
+    // this.inMonth='test';
     this.result_card_colors = [
       {
         'cssClass': 'result-blue',
@@ -124,7 +131,7 @@ export class QcRecorderResultPage {
         }, 0)).toFixed(2)
         //Set 2 Digit
         // console.log(this.total_result_last_five_shrimp_dead_percent,this.total_result_shrimp_dead_percent)
-        //this.total_result_shrimp_soft_percen
+        //this.total_result_shrimp_soft_percent
         this.total_result_last_five_shrimp_dead_percent = this.total_result_last_five_shrimp_dead_percent.toFixed(2)
         this.total_result_shrimp_dead_percent = this.total_result_shrimp_dead_percent.toFixed(2)
         this.total_result_total_shrimp_dead_percent = this.total_result_total_shrimp_dead_percent.toFixed(2)
@@ -196,13 +203,34 @@ export class QcRecorderResultPage {
     console.log(this.year);
     this.qcShrimpResultService.getYearlyResult(this.year)
       .then(result => {
-        console.log(result);
+        console.log('Yo!!',result);
         this.year_receivings = result;
         this.year_receivings.forEach(year => {
           console.log(year.data);
           let result = year.data.reduce((sum, item) => { return sum + item.m_total_shrimp_dead_percent }, 0)
           let avg = result / year.data.length
           this.yt_result_shrimp_dead_percents.push(avg);
+
+          //Update 25-09-2017
+          let monthData=[];
+          for (let i = 0; i < 12; i++) {
+            monthData[i] = 0
+          }
+          year.data.forEach(month => {
+            for (let i = 0; i < 12; i++) {
+              if (month.month == i + 1) {
+                monthData[i] = parseFloat(month.m_total_shrimp_dead_percent)
+                i = 12;
+              }
+            }
+          })
+          let allMonthData={
+            'year':year.year,
+            'data':monthData
+          }
+          this.yearly_all_months_result.push(allMonthData);
+          console.log('RRRR',this.yearly_all_months_result);
+          
         })
         // console.log(this.year_receivings)
         console.log(this.yt_result_shrimp_dead_percents)

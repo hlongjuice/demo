@@ -1,3 +1,4 @@
+import { PasswordService } from './../services/password.service';
 import { RepairInvoiceService } from './../services/other/repair-invoice.service';
 import { ProductionExpService } from './../services/production/expiration.service';
 import { ProductionProductService } from './../services/production/product.service';
@@ -128,6 +129,7 @@ import { Camera, CameraOptions } from '@ionic-native/camera';
     SupplierService,
     /* Other */
     RepairInvoiceService,
+    PasswordService,
     /* Engineer */
     EngWsOutsideService,
     EngTank210Service,

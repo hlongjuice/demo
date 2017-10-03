@@ -25,8 +25,11 @@
         <ion-segment (ionChange)="getCarArrivalByDate()" [(ngModel)]="selectedStatus">
           <ion-segment-button value='0'>รอการบันทึก</ion-segment-button>
           <ion-segment-button value='1'>บันทึกแล้ว</ion-segment-button>
-
         </ion-segment>
+        <ion-item margin-top>
+          <div ion-text item-content>เลือกวันที่</div>
+          <ion-datetime (ionChange)="getCarArrivalByDate()" class="date-input-large" displayFormat="DD/MM/YYYY" [(ngModel)]="date"></ion-datetime>
+        </ion-item>
       </ion-card-header>
       <ion-card-content>
         <ion-list>

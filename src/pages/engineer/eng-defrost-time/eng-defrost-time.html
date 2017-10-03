@@ -26,6 +26,10 @@
                     เพิ่มการบันทึก
                   </button>
             </ion-item>
+            <ion-segment (ionChange)="getRecords()" [(ngModel)]="storageID">
+              <ion-segment-button value="1">Cold Storage 1</ion-segment-button>
+              <ion-segment-button value="2">Cold Storage 2</ion-segment-button>
+            </ion-segment>
           </ion-col>
         </ion-row>
       </ion-grid>

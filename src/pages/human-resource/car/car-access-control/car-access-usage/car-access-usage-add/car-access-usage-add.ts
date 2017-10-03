@@ -39,6 +39,7 @@ export class CarAccessUsageAddPage {
   ngOnInit() {
     this._submit_status=false;
     this.record=this.navParams.data.record;
+    this.date=this.dateService.getTime().currentTime;
   }
 
   addGasFill(formInputs){

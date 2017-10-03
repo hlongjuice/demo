@@ -29,7 +29,7 @@
         </ion-item>
       </ion-col>
     <!-- Request List Only User who has repair approve-->
-    <ion-col col-6 *ngIf="user?.repair_approve==1">
+    <ion-col col-6 *ngIf="user?.repair_approve==1 || user?.type_id==user_types?.admin">
         <ion-item (click)="openPage('RepairInvoiceResponsePage')">
           <ion-label class="text-large">รายการแจ้งซ่อม</ion-label>
           <ion-icon></ion-icon>

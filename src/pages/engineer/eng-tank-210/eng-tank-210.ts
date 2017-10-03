@@ -26,6 +26,8 @@ export class EngTank_210Page {
   recorders: any;
   time_records:any[];
   daily_used:any;
+  yesterday_meter:any;
+  result_date:any;
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
@@ -53,6 +55,8 @@ export class EngTank_210Page {
       .then((result:any) => {
         console.log(result)
         this.recorders = result.data;
+        this.result_date=result.date;
+        this.yesterday_meter=result.yesterday_meter
         this.daily_used=result;
         this.dismissLoader()
       }).catch(err => {
@@ -65,7 +69,9 @@ export class EngTank_210Page {
 
   //Add Supply
   addRecord() {
-    let modal = this.modalCtrl.create('EngTank_210AddPage', null, { enableBackdropDismiss: false })
+    let modal = this.modalCtrl.create('EngTank_210AddPage', {
+      'all_recorders':this.recorders
+    }, { enableBackdropDismiss: false })
     modal.present()
     modal.onDidDismiss(result => {
       if (result) {
@@ -78,6 +84,7 @@ export class EngTank_210Page {
   editRecord(recorder_input) {
     let recorder = Object.create(recorder_input);
     let modal = this.modalCtrl.create('EngTank_210EditPage', {
+      'all_recorders':this.recorders,
       'recorder': recorder
     }, { enableBackdropDismiss: false })
     modal.present();
@@ -93,7 +100,7 @@ export class EngTank_210Page {
       title:'ยืนยันการลบ',
       buttons: [
         {
-          text: 'ยกเลอก',
+          text: 'ยกเลิก',
           role: 'cancel',
           cssClass: 'alertCancel'
         },

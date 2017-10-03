@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, LoadingController, AlertController, ToastController, ModalController, ViewController } from 'ionic-angular';
 import { DateService } from "../../../../services/date.service";
 import { EngCondensService } from "../../../../services/eng/condens.service";
+import { FormGroup } from '@angular/forms';
 
 /**
  * Generated class for the EngCondensAddPage page.
@@ -24,6 +25,9 @@ export class EngCondensAddPage {
   date: any;
   real_time_record: any;
   time_records: any[];
+  all_recorders: any;
+  myForm:FormGroup;
+  old_date:any;
   /* End Date Time */
   constructor(
     public navCtrl: NavController,
@@ -39,6 +43,7 @@ export class EngCondensAddPage {
   }
 
   ngOnInit() {
+    console.log(this.myForm);
     // console.log(myNum.toString().indexOf('4'))
     this.time_records = [];
     for (let i = 1; i <= 24; i++) {
@@ -47,23 +52,68 @@ export class EngCondensAddPage {
     this._submit_status = false;
     this.date = this.dateService.getDate();
     this.real_time_record = this.dateService.getTime().currentTime
+    //Remove already time
+    this.all_recorders = this.navParams.data.all_recorders
+    this.all_recorders.forEach(record => {
+      let index = this.time_records.indexOf(record.time_record)
+      this.time_records.splice(index, 1)
+    })
   }
 
+    //getRecords
+    getRecords() {
+      console.log('inGet')
+      let loader=this.loaderCtrl.create({content:'กำลังโหลดข้อมูล...'})
+      loader.present();
+      this.engCondensService.getRecordByDate(this.date)
+        .then((result: any) => {
+          console.log(result)
+          this.all_recorders = result.data;
+          this.timeRecordFilter();
+          loader.dismiss();
+        }).catch(err => {
+          console.log(err)
+          this.showAlert(err)
+          loader.dismiss();
+        })
+    }
+    //Time Record Filter
+    timeRecordFilter() {
+      this.time_records = [];
+      for (let i = 1; i <= 24; i++) {
+        this.time_records.push(i + ':00')
+      }
+      //Remove already time
+      this.all_recorders.forEach(record => {
+        let index = this.time_records.indexOf(record.time_record)
+        this.time_records.splice(index, 1)
+      })
+    }
+
   //Add Supply
-  addRecord(formInputs) {
+  addRecord(formInputs,data) {
+    this.old_date=this.date;
     this._submit_status = false
     console.log(formInputs);
-    this.showLoader()
+    console.log(data)
+    let loader=this.loaderCtrl.create({content:'กำลังโหลดข้อมูล...'})
     this.engCondensService.addRecord(formInputs)
       .then(result => {
         this._submit_status = true
-        this.dismissLoader();
-        this.showToast('การบันทึกเสร็จสมบูรณ์')
+        //Update
+        data.form.reset();
+        setTimeout(()=>{
+          this.date = this.old_date
+          loader.dismiss();
+          this.showToast('การบันทึกเสร็จสมบูรณ์')
+        },50)
+        //End Update
       }).catch(err => {
         console.log(err)
-        this.dismissLoader();
+        loader.dismiss();
         this.showAlert(err)
       })
+      console.log(this.myForm);
   }
   //Dismiss
   dismiss() {

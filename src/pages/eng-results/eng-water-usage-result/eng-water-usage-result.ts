@@ -32,6 +32,8 @@ export class EngWaterUsageResultPage {
   sumRow:any;
   avgRow:any;
   isHighlightVisible: boolean[];
+  thai_month:any;
+  result_year:any;
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
@@ -76,6 +78,8 @@ export class EngWaterUsageResultPage {
         this.recorders = result.data;
         this.sumRow=result.sumRow
         this.avgRow=result.avgRow
+        this.thai_month=result.thai_month;
+        this.result_year=result.year;
         console.log(result)
         console.log(this.sumRow)
         

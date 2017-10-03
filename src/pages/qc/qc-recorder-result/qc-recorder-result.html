@@ -289,32 +289,18 @@
                 <ion-card-content no-padding>
                   <ion-grid>
                     <!-- Result -->
-                    <ion-row *ngFor="let month of month_names ;let i =index">
-                      <!-- Month Name-->
+                    <ion-row>
+                      <!-- Month -->
                       <ion-col col-3>
-                        <ion-item>
-                          {{month}}
+                        <ion-item *ngFor="let month of month_names">
+                          <ion-label>{{month}}</ion-label>
                         </ion-item>
                       </ion-col>
-                      <ion-col *ngFor="let year of year_receivings" col-3>
-                        <div *ngFor="let m_receiving of year.data">
-                          <ion-item *ngIf="m_receiving.month==i+1;else valueEmpty">
-                            <ion-label>
-                              {{m_receiving.m_total_shrimp_dead_percent}}
-                            </ion-label>
-                          </ion-item>
-                          <!-- Else -->
-                          <ng-template #valueEmpty>
-                            <ion-item>
-                              <ion-label>
-                                0
-                              </ion-label>
-                            </ion-item>
-                          </ng-template>
-                          <!-- End Else -->
-                        </div>
+                      <ion-col col-3 *ngFor="let year of yearly_all_months_result">
+                        <ion-item *ngFor="let shrimp_dead_p of year.data">
+                          <ion-label>{{shrimp_dead_p}}</ion-label>
+                        </ion-item>
                       </ion-col>
-                      <ion-col col-12 class="line"></ion-col>
                     </ion-row>
                   </ion-grid>
                 </ion-card-content>

@@ -24,6 +24,8 @@ export class EngDefrostTimeAddPage {
   date:any;
   real_time_record:any;
   time_records:any[];
+  storage_id:any;
+  all_recorders:any;
   /* End Date Time */
   constructor(
     public navCtrl: NavController, 
@@ -47,20 +49,50 @@ export class EngDefrostTimeAddPage {
     this.date=this.dateService.getDate();
     this.real_time_record=this.dateService.getTime().currentTime
   }
+    //getRecords
+    getRecords() {
+      console.log('inGet')
+      let loader=this.loaderCtrl.create({content:'กำลังโหลดข้อมูล...'})
+      loader.present();
+      this.engDefrostTimeService.getRecord(this.storage_id)
+        .then((result: any) => {
+          console.log(result)
+          this.all_recorders = result;
+          this.timeRecordFilter();
+          loader.dismiss();
+        }).catch(err => {
+          console.log(err)
+          this.showAlert(err)
+          loader.dismiss();
+        })
+    }
+    //Time Record Filter
+    timeRecordFilter() {
+      this.time_records = [];
+      for (let i = 1; i <= 24; i++) {
+        this.time_records.push(i + ':00')
+      }
+      //Remove already time
+      this.all_recorders.forEach(record => {
+        let index = this.time_records.indexOf(record.time_record)
+        this.time_records.splice(index, 1)
+      })
+    }
 
   //Add Supply
   addRecord(formInputs){
     this._submit_status=false
     console.log(formInputs);
-    this.showLoader()
+    let loader=this.loaderCtrl.create({content:'กำลังโหลดข้อมูล...'})
+    loader.present();
     this.engDefrostTimeService.addRecord(formInputs)
     .then(result=>{
       this._submit_status=true
-      this.dismissLoader();
+      loader.dismiss();
       this.showToast('การบันทึกเสร็จสมบูรณ์')
     }).catch(err=>{
       console.log(err)
-      this.dismissLoader();
+      loader.dismiss();
       this.showAlert(err)
     })
   }

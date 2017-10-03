@@ -173,7 +173,7 @@ export class PdExpImageEditPage {
       title: 'ยืนยันการลบ',
       buttons: [
         {
-          text: 'ยกเลอก',
+          text: 'ยกเลิก',
           role: 'cancel',
           cssClass: 'alertCancel'
         },

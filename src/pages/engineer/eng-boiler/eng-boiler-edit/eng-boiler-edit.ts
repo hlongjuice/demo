@@ -20,7 +20,9 @@ export class EngBoilerEditPage {
   _alert: any
   _submit_status: boolean;
   time_records: any[];
-
+  all_recorders: any;
+  count:any;
+  date:any;
   recorder: any;
   constructor(
     public navCtrl: NavController,
@@ -35,6 +37,7 @@ export class EngBoilerEditPage {
   }
 
   ngOnInit() {
+    this.count=0;
     this.time_records = [];
     for (let i = 1; i <= 24; i++) {
       this.time_records.push(i + ':00')
@@ -46,7 +49,52 @@ export class EngBoilerEditPage {
     } if (this.recorder.boiler2 == 1) {
       this.recorder.boiler2 = true;
     }
+    //Remove already time
+    this.all_recorders=this.navParams.data.all_recorders
+    this.all_recorders.forEach(record=>{
+      if(record.time_record != this.recorder.time_record){
+        let index=this.time_records.indexOf(record.time_record)
+        this.time_records.splice(index,1)
+      }
+    })
+
+    this.date = this.recorder.date;
   }
+
+    //getRecords
+    getRecords() {
+      console.log(this.date);
+      if(this.count>0){
+        console.log('In get Records')
+        this.showLoader()
+        console.log()
+        this.engBoilerService.getRecordByDate(this.date)
+          .then((result: any) => {
+            console.log(result)
+            this.all_recorders = result.data;
+            this.timeRecordFilter();
+            this.dismissLoader()
+          }).catch(err => {
+            console.log(err)
+            this.showAlert(err)
+            this.dismissLoader();
+          })
+      }
+      this.count++;
+    }
+    
+    //Time Record Filter
+    timeRecordFilter() {
+      this.time_records = [];
+      for (let i = 1; i <= 24; i++) {
+        this.time_records.push(i + ':00')
+      }
+      //Remove already time
+      this.all_recorders.forEach(record => {
+        let index = this.time_records.indexOf(record.time_record)
+        this.time_records.splice(index, 1)
+      })
+    }
 
   //Update Supply
   updateRecord(formInputs) {

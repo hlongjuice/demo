@@ -15,6 +15,32 @@
   <form #formInputs="ngForm">
     <ion-grid>
       <ion-row>
+        <!-- Sticker -->
+        <ion-col col-12>
+          <ion-item>
+            <ion-label item-start>สติ๊กเกอร์</ion-label>
+            <button ion-button item-end default color="primary" (click)="takePhoto('sticker')">
+                                  <i class="fa fa-plus-circle" aria-hidden="true"></i>
+                                  เพิ่มรูป
+                                </button>
+          </ion-item>
+          <ion-col col-12>
+            <img class="exp-image" *ngIf="stickerImage" [src]="stickerImage">
+          </ion-col>
+        </ion-col>
+        <!-- inSide -->
+        <ion-col col-12>
+          <ion-item>
+            <ion-label item-start>กล่องใน</ion-label>
+            <button ion-button item-end default color="primary" (click)="takePhoto('inside')">
+                                  <i class="fa fa-plus-circle" aria-hidden="true"></i>
+                                  เพิ่มรูป
+                                </button>
+          </ion-item>
+          <ion-col col-12>
+            <img class="exp-image" *ngIf="inSideImage" [src]="inSideImage">
+          </ion-col>
+        </ion-col>
         <!-- OutSide -->
         <ion-col col-12>
           <ion-item>
@@ -26,32 +52,6 @@
           </ion-item>
           <ion-col col-12>
             <img class="exp-image" *ngIf="outSideImage" [src]="outSideImage">
-          </ion-col>
-        </ion-col>
-        <!-- inSide -->
-        <ion-col col-12>
-          <ion-item>
-              <ion-label item-start>กล่องใน</ion-label>
-            <button ion-button item-end default color="primary" (click)="takePhoto('inside')">
-                        <i class="fa fa-plus-circle" aria-hidden="true"></i>
-                        เพิ่มรูป
-                      </button>
-          </ion-item>
-          <ion-col col-12>
-            <img class="exp-image" *ngIf="inSideImage" [src]="inSideImage">
-          </ion-col>
-        </ion-col>
-        <!-- Sticker -->
-        <ion-col col-12>
-          <ion-item>
-              <ion-label item-start>สติ๊กเกอร์</ion-label>
-            <button ion-button item-end default color="primary" (click)="takePhoto('sticker')">
-                        <i class="fa fa-plus-circle" aria-hidden="true"></i>
-                        เพิ่มรูป
-                      </button>
-          </ion-item>
-          <ion-col col-12>
-            <img class="exp-image" *ngIf="stickerImage" [src]="stickerImage">
           </ion-col>
         </ion-col>
       </ion-row>

@@ -16,6 +16,7 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 export class RepairInvoicePage {
 
   user:any;
+  user_types:any;
   constructor(
     public navCtrl: NavController, 
     public navParams: NavParams,
@@ -27,6 +28,7 @@ export class RepairInvoicePage {
     this.authService.getUserDetails()
     .then(result=>{
       this.user=result
+      this.user_types=this.authService.getUserTypes();
     })
   }
   openPage(page){

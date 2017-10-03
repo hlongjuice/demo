@@ -124,6 +124,14 @@ export class PdExpirationPage {
       this.codes = recorder.data;
     }
   }
+  //Show Image
+  showImage(image,img_title){
+    let modal = this.modalCtrl.create('PdExpImageShowPage',{
+      'img_title':img_title,
+      'image':image
+    },{enableBackdropDismiss:false})
+    modal.present();
+  }
   //Show Round
   showRounds(item, index) {
     this.isHighlightVisible.fill(false);
@@ -134,7 +142,7 @@ export class PdExpirationPage {
     console.log(item)
     this.rounds = item.rounds;
     this.mfd = item.mfd;
-    this.product_date_format = item.product.date_format;
+    this.product_date_format = item.date_format;
     this.exp_date = item.exp_date;
     this.product_code = item.code;
     this.product = item.product.name;
@@ -200,7 +208,7 @@ export class PdExpirationPage {
       title: 'ยืนยันการลบ',
       buttons: [
         {
-          text: 'ยกเลอก',
+          text: 'ยกเลิก',
           role: 'cancel',
           cssClass: 'alertCancel'
         },

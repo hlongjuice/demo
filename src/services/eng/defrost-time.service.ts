@@ -39,8 +39,8 @@ export class EngDefrostTimeService {
     }
 
     //Get Supply By Date
-    getRecord(){
-        let getUrl=this.url+'/api/eng/defrost_time/get_record'
+    getRecord(id){
+        let getUrl=this.url+'/api/eng/defrost_time/get_record/'+id
         return new Promise((resolve,reject)=>{
             this.http.get(getUrl,{headers:this.headers})
             .subscribe(

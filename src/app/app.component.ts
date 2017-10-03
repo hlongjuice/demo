@@ -1,7 +1,7 @@
 import { Storage } from '@ionic/storage';
 import { ScreenOrientation } from '@ionic-native/screen-orientation';
 import { Component, ViewChild } from '@angular/core';
-import { Platform, NavController, MenuController, Events, App } from 'ionic-angular';
+import { Platform, NavController, MenuController, Events, App, ModalController } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { Http } from '@angular/http';
@@ -33,7 +33,8 @@ export class MyApp {
     private authService: AuthService,
     public eventCtrl: Events,
     public appCtrl: App,
-    public storage:Storage
+    public storage:Storage,
+    public modalCtrl:ModalController
     // private screenOrientation: ScreenOrientation
   ) {
     this.authState = false;
@@ -84,5 +85,10 @@ export class MyApp {
         // this.nav.setRoot(this.loginPage);
         console.log('Log Out');
       })
+  }
+  
+  openModal(page){
+    let modal=this.modalCtrl.create(page);
+    modal.present();
   }
 }

@@ -43,7 +43,8 @@ export class CarAccessUsagePage {
 
   /* ngOnInit */
   ngOnInit() {
-    this.selectedStatus=0;
+    this.date=this.dateService.getDate();
+    this.selectedStatus='0';
     this.date=this.dateService.getDate();
    this.getCarArrivalByDate();
   }

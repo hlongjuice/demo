@@ -23,6 +23,9 @@ export class EngDefrostTimeEditPage {
   time_records:any[];
 
   recorder:any;
+  count:any;
+  storageID:any;
+  all_recorders:any;
   constructor(
     public navCtrl: NavController, 
     public navParams: NavParams,
@@ -36,13 +39,48 @@ export class EngDefrostTimeEditPage {
   }
 
   ngOnInit(){
+    this.all_recorders=[];
     this.time_records=[];
     for(let i=1;i<=24;i++){
       this.time_records.push(i+':00')
     }
     this._submit_status=false;
     this.recorder=this.navParams.data.recorder;
+    this.storageID=this.recorder.storage_id;
   }
+    //getRecords
+    getRecords() {
+      if(this.count>0){
+        console.log('In get Records')
+        this.showLoader()
+        console.log()
+        this.engDefrostTimeService.getRecord(this.storageID)
+          .then((result: any) => {
+            console.log(result)
+            this.all_recorders = result;
+            this.timeRecordFilter();
+            this.dismissLoader()
+          }).catch(err => {
+            console.log(err)
+            this.showAlert(err)
+            this.dismissLoader();
+          })
+      }
+      this.count++;
+    }
+    
+    //Time Record Filter
+    timeRecordFilter() {
+      this.time_records = [];
+      for (let i = 1; i <= 24; i++) {
+        this.time_records.push(i + ':00')
+      }
+      //Remove already time
+      this.all_recorders.forEach(record => {
+        let index = this.time_records.indexOf(record.time_record)
+        this.time_records.splice(index, 1)
+      })
+    }
 
   //Update Supply
   updateRecord(formInputs){

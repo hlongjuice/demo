@@ -25,7 +25,7 @@
             <ion-item>
               <div ion-text color="dark" item-content>เลือกสินค้า</div>
               <ion-select (ionChange)="showDetails(recorder)" [(ngModel)]=recorder>
-                <ion-option  *ngFor="let recorder of recorders" [value]="recorder">{{recorder?.product}}</ion-option>
+                <ion-option *ngFor="let recorder of recorders" [value]="recorder">{{recorder?.product}}</ion-option>
               </ion-select>
             </ion-item>
           </ion-col>
@@ -55,7 +55,8 @@
                 </ion-item>
                 <ion-scroll class="left-scroll-content" scrollY="true">
                   <ion-card-content no-padding>
-                    <ion-item [ngClass]="{'highlight':isHighlightVisible[i]}" (click)="showRounds(code,i)" *ngFor="let code of codes; let i=index" text-center class="table-content">
+                    <ion-item [ngClass]="{'highlight':isHighlightVisible[i]}" (click)="showRounds(code,i)" *ngFor="let code of codes; let i=index"
+                      text-center class="table-content">
                       <ion-label>{{code?.code}}</ion-label>
                     </ion-item>
                   </ion-card-content>
@@ -104,17 +105,17 @@
               <ion-list inset>
                 <ion-item text-center class="table-header eng-scroll-header">
                   <ion-label fixed>ลำดับที่</ion-label>
-                  <ion-label>กล่องนอก</ion-label>
-                  <ion-label>กล่องใน</ion-label>
                   <ion-label>สติ๊กเกอร์</ion-label>
+                  <ion-label>กล่องใน</ion-label>
+                  <ion-label>กล่องนอก</ion-label>
                   <ion-fab item-content right></ion-fab>
                 </ion-item>
                 <ion-scroll class="production-scroll-content" scrollY="true">
                   <ion-item *ngFor="let round of rounds" text-center class="table-content">
                     <ion-label fixed>{{round?.round}}</ion-label>
-                    <ion-label>{{round?.sumOutSide}}</ion-label>
-                    <ion-label>{{round?.sumInSide}}</ion-label>
                     <ion-label>{{round?.sumSticker}}</ion-label>
+                    <ion-label>{{round?.sumInSide}}</ion-label>
+                    <ion-label>{{round?.sumOutSide}}</ion-label>
                     <!-- Fab -->
                     <ion-fab item-content right>
                       <button ion-fab mini><ion-icon class="edit-button"><i class="fa fa-cog" aria-hidden="true"></i></ion-icon></button>
@@ -155,13 +156,13 @@
                     </button>
                   </ng-template>
                 </ion-item>
-                <!-- Img OutSide -->
-                <ion-list *ngIf="imgOutSide" no-padding>
+                <!-- Img Sticker -->
+                <ion-list *ngIf="imgSticker" no-padding>
                   <ion-list-header no-padding>
-                    <ion-item>กล่องนอก</ion-item>
+                    <ion-item>สติ๊กเกอร์</ion-item>
                     <div class="line-2"></div>
                   </ion-list-header>
-                  <img class="exp-image"  [src]="imgOutSide">
+                  <img  (click)="showImage(imgSticker,'สติ๊กเกอร์')" class="exp-image" [src]="imgSticker">
                 </ion-list>
                 <!-- Img Inside -->
                 <ion-list *ngIf="imgInSide" no-padding>
@@ -169,15 +170,15 @@
                     <ion-item>กล่องใน</ion-item>
                     <div class="line-2"></div>
                   </ion-list-header>
-                  <img class="exp-image"  [src]="imgInSide">
+                  <img (click)="showImage(imgInSide,'กล่องใน')" class="exp-image" [src]="imgInSide">
                 </ion-list>
-                <!-- Img Sticker -->
-                <ion-list *ngIf="imgSticker" no-padding>
+                <!-- Img OutSide -->
+                <ion-list *ngIf="imgOutSide" no-padding>
                   <ion-list-header no-padding>
-                    <ion-item>สติ๊กเกอร์</ion-item>
+                    <ion-item>กล่องนอก</ion-item>
                     <div class="line-2"></div>
                   </ion-list-header>
-                  <img class="exp-image"  [src]="imgSticker">
+                  <img (click)="showImage(imgOutSide,'กล่องนอก')" class="exp-image" [src]="imgOutSide">
                 </ion-list>
               </ion-card-content>
             </ion-scroll>

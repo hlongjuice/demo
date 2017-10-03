@@ -24,6 +24,8 @@ export class EngChlorineLabPage {
   month: any;
   year: any;
   recorders: any;
+  yesterday_meter:any
+  result_date:any;
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
@@ -47,9 +49,11 @@ export class EngChlorineLabPage {
   getRecords() {
     this.showLoader()
     this.engChlorineLabService.getRecordByDate(this.date)
-      .then(result => {
+      .then((result:any) => {
         console.log(result)
-        this.recorders = result;
+        this.recorders = result.data;
+        this.result_date=result.date;
+        this.yesterday_meter=result.yesterday_meter
         this.dismissLoader()
       }).catch(err => {
         console.log(err)
@@ -60,7 +64,9 @@ export class EngChlorineLabPage {
 
   //Add Supply
   addRecord() {
-    let modal = this.modalCtrl.create('EngChlorineLabAddPage', null, { enableBackdropDismiss: false })
+    let modal = this.modalCtrl.create('EngChlorineLabAddPage', {
+      'all_recorders':this.recorders
+    }, { enableBackdropDismiss: false })
     modal.present()
     modal.onDidDismiss(result => {
       if (result) {
@@ -73,6 +79,7 @@ export class EngChlorineLabPage {
   editRecord(recorder_input) {
     let recorder = Object.create(recorder_input);
     let modal = this.modalCtrl.create('EngChlorineLabEditPage', {
+      'all_recorders':this.recorders,
       'recorder': recorder
     }, { enableBackdropDismiss: false })
     modal.present();
@@ -88,7 +95,7 @@ export class EngChlorineLabPage {
       title:'ยืนยันการลบ',
       buttons: [
         {
-          text: 'ยกเลอก',
+          text: 'ยกเลิก',
           role: 'cancel',
           cssClass: 'alertCancel'
         },

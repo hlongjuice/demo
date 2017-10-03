@@ -26,6 +26,8 @@ export class EngBoilerPage {
   recorders: any;
   time_records:any[];
   daily_used:any;
+  yesterday_meter:any;
+  result_date:any;
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
@@ -53,6 +55,8 @@ export class EngBoilerPage {
       .then((result:any) => {
         console.log(result)
         this.recorders = result.data;
+        this.result_date=result.date;
+        this.yesterday_meter=result.yesterday_meter
         this.daily_used=result;
         this.dismissLoader()
       }).catch(err => {
@@ -65,7 +69,7 @@ export class EngBoilerPage {
 
   //Add Supply
   addRecord() {
-    let modal = this.modalCtrl.create('EngBoilerAddPage', null, { enableBackdropDismiss: false })
+    let modal = this.modalCtrl.create('EngBoilerAddPage', {'all_recorders':this.recorders}, { enableBackdropDismiss: false })
     modal.present()
     modal.onDidDismiss(result => {
       if (result) {
@@ -78,6 +82,7 @@ export class EngBoilerPage {
   editRecord(recorder_input) {
     let recorder = Object.create(recorder_input);
     let modal = this.modalCtrl.create('EngBoilerEditPage', {
+      'all_recorders':this.recorders,
       'recorder': recorder
     }, { enableBackdropDismiss: false })
     modal.present();
@@ -93,7 +98,7 @@ export class EngBoilerPage {
       title:'ยืนยันการลบ',
       buttons: [
         {
-          text: 'ยกเลอก',
+          text: 'ยกเลิก',
           role: 'cancel',
           cssClass: 'alertCancel'
         },

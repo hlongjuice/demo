@@ -24,6 +24,7 @@ export class EngDefrostTimePage {
   month: any;
   year: any;
   recorders: any;
+  storageID:any
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
@@ -37,6 +38,7 @@ export class EngDefrostTimePage {
   }
 
   ngOnInit() {
+    this.storageID='1';
     this.date = this.dateService.getDate();
     this.month = this.dateService.getCurrentDateTime().MM;
     this.year = this.dateService.getCurrentDateTime().YY;
@@ -45,8 +47,10 @@ export class EngDefrostTimePage {
 
   //Get Supply
   getRecords() {
+    console.log(this.storageID)
+    this.recorders=[];
     this.showLoader()
-    this.engDefrostTimeService.getRecord()
+    this.engDefrostTimeService.getRecord(this.storageID)
       .then(result => {
         console.log(result)
         this.recorders = result;
@@ -88,7 +92,7 @@ export class EngDefrostTimePage {
       title:'ยืนยันการลบ',
       buttons: [
         {
-          text: 'ยกเลอก',
+          text: 'ยกเลิก',
           role: 'cancel',
           cssClass: 'alertCancel'
         },
