@@ -14,7 +14,7 @@ import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angul
 })
 export class RepairInvoiceImagePage {
 
-  image: any;
+  repair_image: any;
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
     public viewCtrl:ViewController
@@ -22,7 +22,7 @@ export class RepairInvoiceImagePage {
   }
 
   ngOnInit() {
-    
+    this.repair_image="";
   }
 
 }
