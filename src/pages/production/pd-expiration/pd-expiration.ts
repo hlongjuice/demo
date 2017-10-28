@@ -72,6 +72,10 @@ export class PdExpirationPage {
     this.year = this.dateService.getCurrentDateTime().YY;
     this.getRecords();
   }
+  /* Upadte Checker */
+  updateChecker(){
+    
+  }
 
   /* Reset Data */
   resetData() {
