@@ -1,8 +1,8 @@
 <ion-header>
   <ion-navbar color="primary">
     <button ion-button menuToggle>
-            <ion-icon name="menu"></ion-icon>
-          </button>
+      <ion-icon name="menu"></ion-icon>
+    </button>
     <ion-title text-center>
       <!--<ion-item>-->
       <!-- <ion-icon item-start><i class="fa fa-users" aria-hidden="true"></i></ion-icon> -->
@@ -32,9 +32,9 @@
           <ion-col>
             <ion-item>
               <button ion-button item-end default color="primary" (click)="addRecord()">
-                    <i class="fa fa-plus-circle" aria-hidden="true"></i>
-                    เพิ่มการบันทึก
-                  </button>
+                <i class="fa fa-plus-circle" aria-hidden="true"></i>
+                เพิ่มการบันทึก
+              </button>
             </ion-item>
           </ion-col>
         </ion-row>
@@ -73,11 +73,19 @@
                 <ion-row>
                   <ion-col col-12 text-left>
                     <ion-item>
-                      <ion-label color="primary">สินค้า: <span ion-text color="dark" class="text-large">{{product}}</span></ion-label>
-                      <ion-label color="primary">Code: <span ion-text color="dark">{{product_code}}</span></ion-label>
+                      <ion-label color="primary">สินค้า:
+                        <span ion-text color="dark" class="text-large">{{product}}</span>
+                      </ion-label>
+                      <ion-label color="primary">Code:
+                        <span ion-text color="dark">{{product_code}}</span>
+                      </ion-label>
                       <!-- Fab Code -->
                       <ion-fab *ngIf="rounds.length>0" item-content right>
-                        <button ion-fab mini><ion-icon class="edit-button"><i class="fa fa-cog" aria-hidden="true"></i></ion-icon></button>
+                        <button ion-fab mini>
+                          <ion-icon class="edit-button">
+                            <i class="fa fa-cog" aria-hidden="true"></i>
+                          </ion-icon>
+                        </button>
                         <ion-fab-list side="left">
                           <button ion-button color="warning" (click)="editExp(selectedCode)">แก้ไขCode</button>
                           <button ion-button color="danger" (click)="deleteExp(selectedCode)">ลบทั้งCode</button>
@@ -118,7 +126,11 @@
                     <ion-label>{{round?.sumOutSide}}</ion-label>
                     <!-- Fab -->
                     <ion-fab item-content right>
-                      <button ion-fab mini><ion-icon class="edit-button"><i class="fa fa-cog" aria-hidden="true"></i></ion-icon></button>
+                      <button ion-fab mini>
+                        <ion-icon class="edit-button">
+                          <i class="fa fa-cog" aria-hidden="true"></i>
+                        </ion-icon>
+                      </button>
                       <ion-fab-list item-content side="left">
                         <button ion-button color="warning" (click)="editExpBuild(round,product)">แก้ไข</button>
                         <!-- <button ion-button color="danger" (click)="deleteExpBuild(round)">ลบ</button> -->
@@ -129,8 +141,8 @@
                 <!-- Add New Build -->
                 <ion-fab *ngIf="product_code" left bottom>
                   <button (click)="addExpSpecific()" ion-fab>
-                              <ion-icon name="add"></ion-icon>
-                          </button>
+                    <ion-icon name="add"></ion-icon>
+                  </button>
                 </ion-fab>
               </ion-list>
             </ion-card-content>
@@ -138,6 +150,7 @@
         </ion-col>
         <!-- Col Right Image -->
         <ion-col *ngIf="p_exp_id" col-3>
+          <!-- Image -->
           <ion-card>
             <ion-scroll class="right-scroll-content" scrollY="true">
               <ion-card-content>
@@ -146,8 +159,8 @@
                   <button *ngIf="imgOutSide!=null || imgInSide!=null || imgSticker!=null;else addImg" ion-button item-end default color="primary"
                     (click)="editImage()">
                     <i class="fa fa-cog" aria-hidden="true"></i>
-                แก้ไขรูป
-              </button>
+                    แก้ไขรูป
+                  </button>
                   <!-- Update Image -->
                   <ng-template #addImg>
                     <button ion-button item-end default color="primary" (click)="addImage()">
@@ -162,7 +175,7 @@
                     <ion-item>สติ๊กเกอร์</ion-item>
                     <div class="line-2"></div>
                   </ion-list-header>
-                  <img  (click)="showImage(imgSticker,'สติ๊กเกอร์')" class="exp-image" [src]="imgSticker">
+                  <img (click)="showImage(imgSticker,'สติ๊กเกอร์')" class="exp-image" [src]="imgSticker">
                 </ion-list>
                 <!-- Img Inside -->
                 <ion-list *ngIf="imgInSide" no-padding>
@@ -182,6 +195,25 @@
                 </ion-list>
               </ion-card-content>
             </ion-scroll>
+          </ion-card>
+          <!-- Comfirm Check -->
+          <ion-card>
+            <ion-card-content>
+              <ion-list inset no-paddding>
+                <ion-item>
+                  <button (click)="updateChecker()" ion-button item-end color="success">บันทึก</button>
+                </ion-item>
+                <ion-item>
+                  <ion-label>ผู้ตรวจสอบ PD :</ion-label>
+                  <ion-input type="text" name="pd_checker" [(ngModel)]="pd_checker">
+                  </ion-input>
+                </ion-item>
+                <ion-item>
+                  <ion-label>ผู้ตรวจสอบ QC : </ion-label>
+                  <ion-input type="text" name="qc_checker" [(ngModel)]="qc_checker"></ion-input>
+                </ion-item>
+              </ion-list>
+            </ion-card-content>
           </ion-card>
         </ion-col>
       </ion-row>
