@@ -201,15 +201,16 @@
             <ion-card-content>
               <ion-list inset no-paddding>
                 <ion-item>
-                  <button (click)="updateChecker()" ion-button item-end color="success">บันทึก</button>
+                  <label item-start>ผู้ตรวจสอบ</label>
+                  <button (click)="updateChecker(pd_checker,qc_checker)" ion-button item-end color="success">บันทึก</button>
                 </ion-item>
                 <ion-item>
-                  <ion-label>ผู้ตรวจสอบ PD :</ion-label>
+                  <ion-label>PD :</ion-label>
                   <ion-input type="text" name="pd_checker" [(ngModel)]="pd_checker">
                   </ion-input>
                 </ion-item>
                 <ion-item>
-                  <ion-label>ผู้ตรวจสอบ QC : </ion-label>
+                  <ion-label>QC : </ion-label>
                   <ion-input type="text" name="qc_checker" [(ngModel)]="qc_checker"></ion-input>
                 </ion-item>
               </ion-list>

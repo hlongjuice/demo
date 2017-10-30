@@ -55,7 +55,8 @@ export class PdExpImageAddPage {
       quality: 30,
       destinationType: this.cameraCtrl.DestinationType.DATA_URL,
       encodingType: this.cameraCtrl.EncodingType.JPEG,
-      mediaType: this.cameraCtrl.MediaType.PICTURE
+      mediaType: this.cameraCtrl.MediaType.PICTURE,
+      allowEdit:true
     }
     if (type == 'outside') {
       this.cameraCtrl.getPicture(options)

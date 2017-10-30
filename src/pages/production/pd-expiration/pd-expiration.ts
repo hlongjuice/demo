@@ -42,6 +42,10 @@ export class PdExpirationPage {
   imgInSide: any;
   imgSticker: any;
   isHighlightVisible: boolean[];
+
+  //checker
+  pd_checker:any;
+  qc_checker:any;
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
@@ -72,10 +76,6 @@ export class PdExpirationPage {
     this.year = this.dateService.getCurrentDateTime().YY;
     this.getRecords();
   }
-  /* Upadte Checker */
-  updateChecker(){
-    
-  }
 
   /* Reset Data */
   resetData() {
@@ -97,6 +97,8 @@ export class PdExpirationPage {
     this.product_id
     this.selectedCode = null;
     this.isHighlightVisible = [];
+    this.pd_checker=null;
+    this.qc_checker=null;
   }
 
   //Get Supply
@@ -151,6 +153,8 @@ export class PdExpirationPage {
     this.product_code = item.code;
     this.product = item.product.name;
     this.product_id = item.product.id;
+    this.pd_checker=item.pd_checker;
+    this.qc_checker=item.qc_checker;
 
     this.p_exp_id = item.id;
     //Check if has image
@@ -166,6 +170,28 @@ export class PdExpirationPage {
       }
     }
   }
+
+    /* Upadte Checker */
+    updateChecker(pd,qc){
+      let loader=this.loaderCtrl.create({content:'กำลังบันทึกข้อมูล...'})
+      let formInputs={
+        'id':this.p_exp_id,
+        'pd_checker':pd,
+        'qc_checker':qc
+      }
+      loader.present()
+      this.productionExpService.pdQcChecker(formInputs)
+      .then(result=>{
+        let tost=this.toastCtrl.create({message:'บันทึกเสร็จสมบูณ์',duration:1000})
+        loader.dismiss()
+        tost.present();
+      }).catch(err=>{
+        let alert=this.alertCtrl.create({message:'ไม่สามารถบันทึกข้อมูลได้'})
+        loader.dismiss();
+        alert.present();
+        console.log(err)
+      })
+    }
 
   //Add Supply
   addRecord() {

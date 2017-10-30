@@ -54,10 +54,10 @@ export class ProductionExpService {
                 )
         })
     }
-    getRecordByDate(date){
-        let getUrl = this.url + '/api/production/extension/exp/get_record_by_date/'+date;
+    getRecordByDate(date) {
+        let getUrl = this.url + '/api/production/extension/exp/get_record_by_date/' + date;
         return new Promise((resolve, reject) => {
-            this.http.get(getUrl,{ headers: this.headers })
+            this.http.get(getUrl, { headers: this.headers })
                 .subscribe(
                 result => { resolve(result.json()) },
                 err => { reject(err.json()) }
@@ -127,7 +127,7 @@ export class ProductionExpService {
     deleteExpImage(formInputs): Promise<any> {
         let deleteUrl = this.url + '/api/production/extension/exp/delete_exp_image';
         return new Promise((resolve, reject) => {
-            this.http.post(deleteUrl,formInputs, { headers: this.headers })
+            this.http.post(deleteUrl, formInputs, { headers: this.headers })
                 .subscribe(
                 result => { resolve(result.json()) },
                 err => { reject(err.json()) }
@@ -144,5 +144,19 @@ export class ProductionExpService {
                 err => { reject(err.json()) }
                 )
         })
+    }
+
+    //Exp Checker
+    pdQcChecker(formInputs):Promise<any> {
+        let url = this.url + '/api/production/extension/exp/checker';
+        console.log(formInputs);
+        return new Promise((resolve,reject)=>{
+            this.http.post(url,formInputs,{headers:this.headers})
+            .subscribe(
+                result=>{resolve(result.json())},
+                err=>{reject(err.json)}
+            )
+        })
+
     }
 }
